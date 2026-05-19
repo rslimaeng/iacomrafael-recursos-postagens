@@ -224,6 +224,44 @@
     .skill-list-item:not(.active) { color:var(--muted); }
     .skill-list-icon { font-size:13px; flex-shrink:0; }
 
+    /* ─── SCREENSHOT FRAME ─── */
+    .screenshot-frame {
+      border-radius:12px; overflow:hidden;
+      border:1px solid var(--ui-border);
+      box-shadow:0 8px 32px rgba(0,0,0,.18);
+      margin:16px 0 0;
+    }
+    .screenshot-frame-bar {
+      background:#1C1B1A; padding:10px 14px;
+      display:flex; align-items:center; gap:7px;
+      border-bottom:1px solid var(--ui-border);
+    }
+    .screenshot-frame-bar .url-text {
+      margin-left:8px; font-size:11px; color:#555; font-family:'Inter',sans-serif;
+    }
+    .screenshot-frame img { width:100%; display:block; }
+
+    /* ─── ANNOTATIONS ─── */
+    .annotations {
+      list-style:none; display:flex; flex-direction:column;
+      gap:0; margin-top:16px;
+      border:1px solid var(--cream-200); border-radius:12px; overflow:hidden;
+    }
+    .annotation {
+      display:flex; align-items:flex-start; gap:14px;
+      padding:13px 18px; background:#fff;
+      border-bottom:1px solid var(--cream-200); font-size:13.5px;
+    }
+    .annotation:last-child { border-bottom:none; }
+    .annotation .ann-num {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:22px; height:22px; min-width:22px;
+      background:var(--coral); color:#fff;
+      font-size:11px; font-weight:700; border-radius:50%;
+    }
+    .annotation .ann-text { color:var(--terra-700); line-height:1.5; }
+    .annotation .ann-text strong { color:var(--terra-900); }
+
     /* ─── UI MOCKUP (Claude interface) ─── */
     .ui-mock {
       background:var(--ui-bg); border-radius:12px; overflow:hidden;
@@ -693,6 +731,44 @@
       </div>
     </li>
 
+  </ul>
+</section>
+
+<!-- ── SCREENSHOT REAL ── -->
+<section class="section">
+  <div class="section-label">Na prática</div>
+  <h2>O setup real de quem usa Habilidades há meses</h2>
+  <p>Esta é a tela de Habilidades do <a href="https://www.instagram.com/iacomrafael/" target="_blank" style="color:var(--coral);font-weight:600">@iacomrafael</a> — 24 habilidades criadas para tarefas diferentes. É o que você vai construir com o tempo.</p>
+
+  <div class="screenshot-frame">
+    <div class="screenshot-frame-bar">
+      <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
+      <span class="url-text">claude.ai · Customize · Habilidades</span>
+    </div>
+    <img src="assets/habilidades-rafael.png" alt="Tela real de Habilidades do @iacomrafael no Claude — 24 habilidades pessoais ativas">
+  </div>
+
+  <ul class="annotations">
+    <li class="annotation">
+      <span class="ann-num">1</span>
+      <span class="ann-text"><strong>Lista de Habilidades pessoais</strong> — cada linha é uma Skill criada. O nome segue o padrão slug (com hífens). Você vê todas de uma vez e ativa/desativa individualmente.</span>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">2</span>
+      <span class="ann-text"><strong>Habilidade selecionada</strong> — ao clicar, abre o painel à direita com todos os detalhes: gatilho, descrição e o conteúdo completo do arquivo.</span>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">3</span>
+      <span class="ann-text"><strong>Gatilho: "Comando de barra + automático"</strong> — o Claude decide sozinho quando aplicar a Skill com base na descrição. Você não precisa chamá-la manualmente.</span>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">4</span>
+      <span class="ann-text"><strong>Descrição</strong> — define exatamente quando e como a Skill deve ser usada. É o gatilho em texto: quanto mais específica, mais precisa a ativação automática.</span>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">5</span>
+      <span class="ann-text"><strong>Conteúdo da Skill</strong> — o que o Claude realmente lê: título, visão geral, pré-requisitos, fluxo passo a passo. Tudo montado automaticamente quando você usa "Criar com Claude".</span>
+    </li>
   </ul>
 </section>
 
