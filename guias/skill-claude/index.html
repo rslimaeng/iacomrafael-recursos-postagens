@@ -224,6 +224,71 @@
     .skill-list-item:not(.active) { color:var(--muted); }
     .skill-list-icon { font-size:13px; flex-shrink:0; }
 
+    /* ─── LIGHTBOX ─── */
+    .lb-trigger {
+      cursor:zoom-in; display:block; position:relative; border-radius:10px; overflow:hidden;
+    }
+    .lb-trigger::after {
+      content:'🔍 clique para ampliar';
+      position:absolute; bottom:10px; right:10px;
+      background:rgba(0,0,0,.65); color:#fff;
+      font-size:11px; font-weight:600; padding:5px 10px; border-radius:6px;
+      opacity:0; transition:opacity .2s; pointer-events:none;
+    }
+    .lb-trigger:hover::after { opacity:1; }
+    .lb-overlay {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,.92); z-index:9999;
+      align-items:center; justify-content:center;
+      cursor:zoom-out; padding:20px;
+    }
+    .lb-overlay.open { display:flex; }
+    .lb-overlay img {
+      max-width:95vw; max-height:90vh;
+      border-radius:10px; box-shadow:0 20px 60px rgba(0,0,0,.5);
+      object-fit:contain;
+    }
+    .lb-close {
+      position:absolute; top:16px; right:20px;
+      color:#fff; font-size:28px; cursor:pointer;
+      background:none; border:none; line-height:1; opacity:.8;
+    }
+    .lb-close:hover { opacity:1; }
+    @media print { .lb-overlay { display:none !important; } }
+
+    /* ─── STEP SCREENSHOT ─── */
+    .step-img {
+      margin:12px 0 4px;
+      border-radius:10px; overflow:hidden;
+      border:1px solid var(--cream-200);
+      box-shadow:0 4px 16px rgba(43,31,23,.08);
+    }
+    .step-img img { width:100%; display:block; }
+    .step-img-caption {
+      font-size:11.5px; color:var(--muted); margin-top:7px;
+      font-style:italic; padding-left:2px;
+    }
+
+    /* ─── 3 FORMAS ─── */
+    .formas-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:16px; }
+    .forma-card {
+      background:#fff; border:1px solid var(--cream-200); border-radius:12px;
+      padding:18px 16px; box-shadow:0 1px 2px rgba(43,31,23,.04);
+    }
+    .forma-card.rec { border-color:var(--coral); background:var(--coral-soft); }
+    .forma-icon { font-size:22px; margin-bottom:10px; display:block; }
+    .forma-card h3 { font-size:14px; margin-bottom:6px; }
+    .forma-card p  { font-size:12.5px; color:var(--terra-700); line-height:1.5; }
+    .forma-tag {
+      display:inline-block; font-size:10px; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase;
+      padding:2px 8px; border-radius:6px; margin-bottom:8px;
+    }
+    .forma-tag.rec { background:var(--coral); color:#fff; }
+    .forma-tag.med { background:var(--ocre-soft); color:var(--ocre); }
+    .forma-tag.adv { background:var(--cream-200); color:var(--terra-700); }
+    @media (max-width:600px) { .formas-grid { grid-template-columns:1fr; } }
+
     /* ─── SCREENSHOT FRAME ─── */
     .screenshot-frame {
       border-radius:12px; overflow:hidden;
@@ -647,62 +712,63 @@
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Abra a área de Habilidades</h3>
-        <p>No menu lateral, clique em <strong>Customize</strong> (aparece em inglês mesmo em português). O submenu abre com o nome <strong>Habilidades</strong> — clique nele.</p>
+        <p>No menu lateral, clique em <strong>Customize</strong> (aparece em inglês mesmo em português). O submenu abre — clique em <strong>Habilidades</strong>.</p>
         <span class="step-path">Customize <span class="arrow">→</span> Habilidades</span>
-        <!-- UI mockup: sidebar -->
-        <div class="ui-mock">
-          <div class="ui-mock-bar">
-            <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
-            <span class="ui-url">claude.ai · Customize · Habilidades</span>
-          </div>
-          <div class="ui-mock-body">
-            <div class="ui-sidebar">
-              <div class="ui-item"><span class="icon">💬</span> New chat</div>
-              <div class="ui-item"><span class="icon">📁</span> Projects</div>
-              <div class="ui-item"><span class="icon">⚡</span> Artifacts</div>
-              <div class="ui-item active"><span class="icon">⚙️</span> Customize</div>
-              <div class="ui-connector"></div>
-              <div class="ui-item sub highlight"><span class="icon">📋</span> Habilidades ←</div>
-              <div class="ui-item sub" style="opacity:.6"><span class="icon">🔌</span> Conectores</div>
-            </div>
-            <div class="ui-content">
-              <div class="ui-section-title">Habilidades pessoais</div>
-              <div style="font-size:12px;color:var(--muted);margin-top:8px">Nenhuma habilidade ainda.<br>Clique em + para criar a sua.</div>
-            </div>
-          </div>
+
+        <div class="step-img">
+          <a class="lb-trigger" onclick="openLightbox(this)">
+            <img src="assets/step-sidebar.png" alt="Menu lateral do Claude com Customize destacado">
+          </a>
         </div>
+        <p class="step-img-caption">O menu lateral do claude.ai — "Customize" está na última posição antes das conversas recentes.</p>
+
+        <div class="step-img" style="margin-top:16px">
+          <a class="lb-trigger" onclick="openLightbox(this)">
+            <img src="assets/step-customize.png" alt="Página Personalizar o Claude mostrando Habilidades e Conectores">
+          </a>
+        </div>
+        <p class="step-img-caption">Depois de clicar em Customize, esta página aparece. Clique em <strong>Habilidades</strong> no menu lateral ou em <strong>Criar novas habilidades</strong> no centro.</p>
       </div>
     </li>
 
     <li class="step">
       <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>Inicie a criação</h3>
-        <p>Na tela de Habilidades, clique no <code>+</code> no canto superior direito. Na tela seguinte, escolha <strong>Criar habilidade</strong> e depois <strong>Criar com Claude</strong> — é a opção mais simples.</p>
-        <span class="step-path">+ <span class="arrow">→</span> Criar habilidade <span class="arrow">→</span> Criar com Claude</span>
-        <!-- UI mockup: creation options -->
-        <div class="ui-mock">
-          <div class="ui-mock-bar">
-            <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
-            <span class="ui-url">claude.ai · Habilidades · Nova habilidade</span>
-          </div>
-          <div class="ui-mock-body" style="padding:16px;display:block">
-            <div class="ui-section-title" style="margin-bottom:12px">Como você quer criar?</div>
-            <div class="ui-options">
-              <div class="ui-option-btn">
-                <span class="opt-icon">📁</span> Fazer upload de ZIP
-              </div>
-              <div class="ui-option-btn">
-                <span class="opt-icon">🔍</span> Explorar habilidades prontas
-              </div>
-              <div class="ui-option-btn primary">
-                <span class="opt-icon">✨</span> Criar com Claude
-                <span class="ui-tag rec">Recomendado</span>
-              </div>
+        <h3>Escolha como criar</h3>
+        <p>Na tela de Habilidades, clique no <code>+</code> no canto superior direito. Um menu aparece com as opções de criação.</p>
+        <span class="step-path">+ <span class="arrow">→</span> Criar habilidades <span class="arrow">→</span> escolha a forma</span>
+
+        <div class="step-img">
+          <a class="lb-trigger" onclick="openLightbox(this)">
+            <img src="assets/step-criar.png" alt="Tela de Habilidades com dropdown de criação aberto mostrando as 3 formas">
+          </a>
+        </div>
+        <p class="step-img-caption">O dropdown mostra as formas de criar. Detalhes de cada uma na seção abaixo.</p>
+
+        <!-- 3 FORMAS -->
+        <div style="margin-top:20px;margin-bottom:4px">
+          <p style="font-weight:600;font-size:15px;margin-bottom:12px">3 formas de criar uma Habilidade:</p>
+          <div class="formas-grid">
+            <div class="forma-card rec">
+              <span class="forma-tag rec">Recomendado</span>
+              <span class="forma-icon">✨</span>
+              <h3>Criar com o Claude</h3>
+              <p>Você descreve o que quer em conversa e o Claude monta o arquivo automaticamente. Sem código, sem formatação manual.</p>
+            </div>
+            <div class="forma-card">
+              <span class="forma-tag med">Intermediário</span>
+              <span class="forma-icon">✍️</span>
+              <h3>Escrever instrução</h3>
+              <p>Você escreve o conteúdo diretamente em markdown. Mais controle sobre o resultado. Bom para quem já criou algumas Skills.</p>
+            </div>
+            <div class="forma-card">
+              <span class="forma-tag adv">Avançado</span>
+              <span class="forma-icon">📁</span>
+              <h3>Fazer upload de ZIP</h3>
+              <p>Envia um arquivo com a Skill já pronta (pasta + SKILL.md). Para quem recebeu uma Skill de outra pessoa ou criou fora do Claude.</p>
             </div>
           </div>
         </div>
-        <p class="ui-caption">A opção "Criar com Claude" monta o arquivo automaticamente em conversa — você só descreve o que quer.</p>
       </div>
     </li>
 
@@ -745,8 +811,11 @@
       <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
       <span class="url-text">claude.ai · Customize · Habilidades</span>
     </div>
-    <img src="assets/habilidades-rafael.png" alt="Tela real de Habilidades do @iacomrafael no Claude — 24 habilidades pessoais ativas">
+    <a class="lb-trigger" onclick="openLightbox(this)" style="border-radius:0">
+      <img src="assets/habilidades-rafael.png" alt="Tela real de Habilidades do @iacomrafael no Claude — 24 habilidades pessoais ativas">
+    </a>
   </div>
+  <p style="font-size:12px;color:var(--muted);margin-top:8px;font-style:italic">Clique na imagem para ampliar e ler os detalhes.</p>
 
   <ul class="annotations">
     <li class="annotation">
@@ -990,6 +1059,12 @@ Formato: tópicos, nunca texto corrido</div>
 
 </div>
 
+<!-- Lightbox overlay -->
+<div id="lb-overlay" class="lb-overlay" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
 <script>
 function copyText(id, btn) {
   navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
@@ -999,6 +1074,16 @@ function copyText(id, btn) {
     setTimeout(() => { btn.innerHTML = o; btn.classList.remove('copied'); }, 2000);
   });
 }
+function openLightbox(el) {
+  const src = el.querySelector('img').src;
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-overlay').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lb-overlay').classList.remove('open');
+  document.getElementById('lb-img').src = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
 </html>
