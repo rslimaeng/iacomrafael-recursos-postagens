@@ -574,6 +574,7 @@
     <a href="#como-criar">Como criar</a>
     <a href="#elementos">5 elementos</a>
     <a href="#templates">Templates</a>
+    <a href="#descoberta" style="color:var(--coral);font-weight:600">Prompt de descoberta</a>
   </div>
 </nav>
 
@@ -650,6 +651,62 @@
       <div class="compare-label"><span class="compare-dot"></span>Com Skill ativa</div>
       <div class="compare-prompt">"Escreve o e-mail de follow-up para o cliente X."</div>
       <p class="compare-caption">O Claude já sabe o tom, o formato e o que evitar. Entrega pronto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DESCOBERTA ── -->
+<section class="section" id="descoberta">
+  <div class="section-label">Por onde começar</div>
+  <h2>Não sabe qual Skill criar primeiro?<br>Use este prompt.</h2>
+  <p>A maioria das pessoas trava aqui: sabe que quer criar uma Skill, mas não sabe qual. Este prompt resolve isso — você joga seu contexto de trabalho no Claude e ele mapeia suas tarefas, sugere Skills e te ajuda a priorizar.</p>
+
+  <div class="template-card">
+    <div class="template-header">
+      <div>
+        <div class="template-num">Prompt de Descoberta</div>
+        <div class="template-title">Mapeie suas tarefas e descubra suas primeiras Skills</div>
+        <div class="template-desc">Cole no Claude antes de criar qualquer Skill. Substitua o campo entre colchetes pelo seu contexto real.</div>
+      </div>
+      <span class="badge badge-ocre">Comece aqui</span>
+    </div>
+    <div class="template-body">
+      <div class="template-code" id="tmpl-discovery">Quero transformar parte do meu trabalho em Habilidades no Claude.
+
+Vou te explicar meu contexto, minha área e as tarefas que faço
+com frequência no dia a dia.
+
+Sua função é:
+1. Mapear quais tarefas fazem sentido virar Habilidades
+2. Identificar padrões repetitivos no meu trabalho
+3. Sugerir Habilidades úteis, práticas e reutilizáveis
+4. Explicar o objetivo de cada uma em 1 linha
+5. Priorizar quais devo criar primeiro
+6. Considerar tanto produtividade quanto qualidade de execução
+
+Foque especialmente em tarefas que:
+- eu repito com frequência
+- seguem estrutura parecida
+- exigem sempre o mesmo tipo de resposta
+- precisam manter padrão
+- tomam tempo operacional
+- dependem muito de contexto
+
+Depois de mapear, me ajude a escolher a melhor Habilidade
+para começar e me faça as perguntas necessárias para
+estruturá-la da melhor forma possível.
+
+Meu contexto e tarefas:
+[descreva sua área, cargo, ferramentas que usa e as 5-10
+tarefas que mais repete na semana]</div>
+      <button class="copy-btn" onclick="copyText('tmpl-discovery',this)">📋 Copiar prompt</button>
+    </div>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:8px;margin-bottom:0">
+    <div class="alert-icon">💡</div>
+    <div class="alert-body">
+      <strong>O que acontece depois:</strong> o Claude vai mapear suas tarefas, sugerir Habilidades com nome e objetivo e te perguntar qual quer criar primeiro. Quando você escolher uma, ele começa a fazer perguntas sobre objetivo, formato, tom e exemplos — e vai construindo o arquivo com você. Nada para escrever do zero.
     </div>
   </div>
 </section>
