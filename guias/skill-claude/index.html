@@ -179,9 +179,50 @@
       border:1px solid; margin-bottom:24px;
     }
     .alert-warning { background:var(--warning-bg); border-color:#e6c07a; }
+    .alert-info    { background:#DEE3E8; border-color:#b8c4cc; }
     .alert-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
     .alert-body { font-size:14px; line-height:1.55; }
     .alert-body strong { color:var(--warning); }
+    .alert-info .alert-body strong { color:#4A5C6A; }
+
+    /* ─── SKILL DETAIL MOCKUP ─── */
+    .skill-detail {
+      background:var(--ui-bg); border-radius:12px; overflow:hidden;
+      border:1px solid var(--ui-border); margin:14px 0;
+    }
+    .skill-detail-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px; border-bottom:1px solid var(--ui-border);
+    }
+    .skill-detail-name {
+      font-family:'JetBrains Mono',monospace; font-size:13px;
+      font-weight:500; color:var(--ui-text-active);
+    }
+    .skill-meta {
+      display:flex; gap:24px; padding:12px 18px;
+      border-bottom:1px solid var(--ui-border); flex-wrap:wrap;
+    }
+    .skill-meta-item { font-size:11px; }
+    .skill-meta-item .label { color:var(--muted); display:block; margin-bottom:2px; }
+    .skill-meta-item .value { color:var(--ui-text-active); font-weight:500; font-size:12px; }
+    .skill-meta-item .value.coral { color:var(--coral); }
+    .skill-desc-area { padding:14px 18px; }
+    .skill-desc-label { font-size:11px; color:var(--muted); margin-bottom:6px; }
+    .skill-desc-text {
+      font-size:12.5px; color:var(--ui-text); line-height:1.6;
+      border:1px solid var(--ui-border); border-radius:8px;
+      padding:12px 14px; background:#141312;
+    }
+    .skill-list-preview {
+      padding:8px 8px; display:flex; flex-direction:column; gap:1px;
+    }
+    .skill-list-item {
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px; border-radius:6px; font-size:12px;
+    }
+    .skill-list-item.active { background:#252220; color:var(--ui-text-active); }
+    .skill-list-item:not(.active) { color:var(--muted); }
+    .skill-list-icon { font-size:13px; flex-shrink:0; }
 
     /* ─── UI MOCKUP (Claude interface) ─── */
     .ui-mock {
@@ -516,12 +557,21 @@
   <h2>Crie sua primeira Skill em 5 passos</h2>
   <p>Tudo via interface do claude.ai — sem código, sem arquivo manual, sem configuração técnica.</p>
 
+  <!-- Nota sobre idioma -->
+  <div class="alert alert-info" style="margin-bottom:20px">
+    <div class="alert-icon">💬</div>
+    <div class="alert-body">
+      <strong>Atenção ao idioma da interface</strong><br>
+      Mesmo com o Claude em português, o menu lateral aparece como <strong>"Customize"</strong> (em inglês). Ao clicar, o submenu abre em português com o nome <strong>"Habilidades"</strong>. As instruções abaixo usam os dois nomes para você não se perder.
+    </div>
+  </div>
+
   <!-- PASSO 0: Config -->
-  <div class="alert alert-warning" style="margin-bottom:28px">
+  <div class="alert alert-warning" style="margin-bottom:24px">
     <div class="alert-icon">⚠️</div>
     <div class="alert-body">
       <strong>Antes de começar: 1 configuração necessária</strong><br>
-      Vá em <strong>Configurações → Capacidades</strong> e ative <strong>"Execução de código e criação de arquivos"</strong>. Sem isso, Skills não aparecem no menu.
+      Vá em <strong>Configurações → Capacidades</strong> e ative <strong>"Execução de código e criação de arquivos"</strong>. Sem isso, Habilidades não aparecem no menu.
     </div>
   </div>
 
@@ -529,55 +579,57 @@
   <div class="ui-mock">
     <div class="ui-mock-bar">
       <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
-      <span class="ui-url">claude.ai · Configurações · Capacidades</span>
+      <span class="ui-url">claude.ai · Settings / Configurações · Capabilities / Capacidades</span>
     </div>
     <div class="ui-mock-body">
       <div class="ui-sidebar">
-        <div class="ui-item"><span class="icon">💬</span> Novo chat</div>
-        <div class="ui-item"><span class="icon">📁</span> Projetos</div>
-        <div class="ui-item"><span class="icon">✨</span> Personalizar</div>
-        <div class="ui-item active"><span class="icon">⚙️</span> Configurações</div>
+        <div class="ui-item"><span class="icon">💬</span> New chat</div>
+        <div class="ui-item"><span class="icon">📁</span> Projects</div>
+        <div class="ui-item"><span class="icon">⚡</span> Artifacts</div>
+        <div class="ui-item"><span class="icon">⚙️</span> Customize</div>
+        <div class="ui-item active" style="font-size:11px;opacity:.7"><span class="icon">⚙️</span> Settings ← aqui</div>
       </div>
       <div class="ui-content">
-        <div class="ui-section-title">Capacidades</div>
+        <div class="ui-section-title">Capacidades / Capabilities</div>
         <div class="ui-toggle-row">
           <div class="ui-toggle-label">
             <strong>Execução de código e criação de arquivos</strong>
-            Necessário para Skills funcionarem
+            Code execution and file creation
           </div>
           <div class="ui-toggle on"></div>
         </div>
       </div>
     </div>
   </div>
-  <p class="screenshot-caption" style="margin-bottom:24px">Ative essa opção antes de continuar — sem ela, o menu de Skills não aparece.</p>
+  <p class="screenshot-caption" style="margin-bottom:24px">Ative essa opção antes de continuar — sem ela, o menu de Habilidades não aparece.</p>
 
   <ul class="steps">
 
     <li class="step">
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>Abra a área de Skills</h3>
-        <p>No menu lateral esquerdo do claude.ai, clique em <strong>Personalizar</strong> e depois em <strong>Skills</strong>.</p>
-        <span class="step-path">claude.ai <span class="arrow">→</span> Personalizar <span class="arrow">→</span> Skills</span>
+        <h3>Abra a área de Habilidades</h3>
+        <p>No menu lateral, clique em <strong>Customize</strong> (aparece em inglês mesmo em português). O submenu abre com o nome <strong>Habilidades</strong> — clique nele.</p>
+        <span class="step-path">Customize <span class="arrow">→</span> Habilidades</span>
         <!-- UI mockup: sidebar -->
         <div class="ui-mock">
           <div class="ui-mock-bar">
             <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
-            <span class="ui-url">claude.ai · Personalizar · Skills</span>
+            <span class="ui-url">claude.ai · Customize · Habilidades</span>
           </div>
           <div class="ui-mock-body">
             <div class="ui-sidebar">
-              <div class="ui-item"><span class="icon">💬</span> Novo chat</div>
-              <div class="ui-item"><span class="icon">📁</span> Projetos</div>
-              <div class="ui-item active"><span class="icon">✨</span> Personalizar</div>
+              <div class="ui-item"><span class="icon">💬</span> New chat</div>
+              <div class="ui-item"><span class="icon">📁</span> Projects</div>
+              <div class="ui-item"><span class="icon">⚡</span> Artifacts</div>
+              <div class="ui-item active"><span class="icon">⚙️</span> Customize</div>
               <div class="ui-connector"></div>
-              <div class="ui-item sub highlight"><span class="icon">⚡</span> Skills</div>
-              <div class="ui-item"><span class="icon">⚙️</span> Configurações</div>
+              <div class="ui-item sub highlight"><span class="icon">📋</span> Habilidades ←</div>
+              <div class="ui-item sub" style="opacity:.6"><span class="icon">🔌</span> Conectores</div>
             </div>
             <div class="ui-content">
-              <div class="ui-section-title">Suas Skills</div>
-              <div style="font-size:12px;color:var(--muted);margin-top:8px">Nenhuma Skill personalizada ainda.<br>Clique em + para criar a sua.</div>
+              <div class="ui-section-title">Habilidades pessoais</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:8px">Nenhuma habilidade ainda.<br>Clique em + para criar a sua.</div>
             </div>
           </div>
         </div>
@@ -588,13 +640,13 @@
       <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Inicie a criação</h3>
-        <p>Clique no <code>+</code> e escolha <strong>Criar Skill</strong>. Na próxima tela, selecione <strong>Criar com Claude</strong> — é a opção mais fácil.</p>
-        <span class="step-path">+ <span class="arrow">→</span> Criar Skill <span class="arrow">→</span> Criar com Claude</span>
+        <p>Na tela de Habilidades, clique no <code>+</code> no canto superior direito. Na tela seguinte, escolha <strong>Criar habilidade</strong> e depois <strong>Criar com Claude</strong> — é a opção mais simples.</p>
+        <span class="step-path">+ <span class="arrow">→</span> Criar habilidade <span class="arrow">→</span> Criar com Claude</span>
         <!-- UI mockup: creation options -->
         <div class="ui-mock">
           <div class="ui-mock-bar">
             <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
-            <span class="ui-url">claude.ai · Nova Skill</span>
+            <span class="ui-url">claude.ai · Habilidades · Nova habilidade</span>
           </div>
           <div class="ui-mock-body" style="padding:16px;display:block">
             <div class="ui-section-title" style="margin-bottom:12px">Como você quer criar?</div>
@@ -603,7 +655,7 @@
                 <span class="opt-icon">📁</span> Fazer upload de ZIP
               </div>
               <div class="ui-option-btn">
-                <span class="opt-icon">🔍</span> Explorar Skills prontas
+                <span class="opt-icon">🔍</span> Explorar habilidades prontas
               </div>
               <div class="ui-option-btn primary">
                 <span class="opt-icon">✨</span> Criar com Claude
@@ -642,6 +694,51 @@
     </li>
 
   </ul>
+</section>
+
+<!-- ── EXEMPLO REAL ── -->
+<section class="section">
+  <div class="section-label">Como fica depois de criar</div>
+  <h2>É assim que sua Habilidade aparece no Claude</h2>
+  <p>Ao criar, o Claude registra a habilidade com nome, gatilho e descrição. Veja como fica uma habilidade de comunicação recém-criada:</p>
+
+  <div class="skill-detail">
+    <div class="skill-detail-header">
+      <span class="skill-detail-name">minha-comunicacao-profissional</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="ui-toggle on" style="width:34px;height:19px"></div>
+      </div>
+    </div>
+    <div class="skill-meta">
+      <div class="skill-meta-item">
+        <span class="label">Adicionado por</span>
+        <span class="value">Você</span>
+      </div>
+      <div class="skill-meta-item">
+        <span class="label">Última atualização</span>
+        <span class="value">maio/2026</span>
+      </div>
+      <div class="skill-meta-item">
+        <span class="label">Gatilho</span>
+        <span class="value coral">Automático</span>
+      </div>
+    </div>
+    <div class="skill-desc-area">
+      <div class="skill-desc-label">Descrição — o que o Claude usa para saber quando acionar esta habilidade:</div>
+      <div class="skill-desc-text">Aplica tom direto e profissional em qualquer texto que o usuário pedir para escrever — e-mails, mensagens, resumos e relatórios. Sem introdução longa, sem "certamente", sem opções desnecessárias. Entrega pronto para copiar.</div>
+    </div>
+  </div>
+
+  <p style="font-size:13.5px;color:var(--terra-700);margin-top:16px">
+    <strong>Gatilho "Automático"</strong> significa que o Claude decide sozinho quando usar a habilidade — você não precisa acioná-la manualmente. Ele lê a descrição e aplica quando a tarefa combina.
+  </p>
+
+  <div class="alert alert-info" style="margin-top:20px;margin-bottom:0">
+    <div class="alert-icon">💡</div>
+    <div class="alert-body">
+      <strong>A descrição é o segredo</strong> — ela aparece no campo "Gatilho" e é o que o Claude usa para decidir quando aplicar. Quanto mais específica, mais certeira a ativação. Se a habilidade não estiver acionando, comece reescrevendo a descrição.
+    </div>
+  </div>
 </section>
 
 <!-- ── 5 ELEMENTOS ── -->
