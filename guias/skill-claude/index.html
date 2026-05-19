@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Como Criar Sua Primeira Skill no Claude — @iacomrafael</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --coral:#D97757; --coral-dark:#C9633E; --coral-soft:#F2D5C3;
+      --cream-50:#FAF7F2; --cream-100:#F5F1ED; --cream-200:#EBE6DD;
+      --terra-900:#2B1F17; --terra-700:#4A382C; --muted:#8A8A8A;
+      --ocre:#C9943A; --ocre-soft:#F0E2C2;
+      --success:#6B8E4E; --success-bg:#E5EDD9;
+      --warning:#D4953B; --warning-bg:#FAEFD3;
+      --ui-bg:#1C1B1A; --ui-sidebar:#141312; --ui-border:#2E2B28;
+      --ui-text:#A09890; --ui-text-active:#E8E3DD;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:'Inter',system-ui,sans-serif; font-size:16px;
+      line-height:1.65; color:var(--terra-900); background:var(--cream-100);
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .page { max-width:794px; margin:0 auto; padding:0 0 60px; }
+
+    /* ─── TYPE ─── */
+    h1,h2,h3 { font-family:'Fraunces',Georgia,serif; font-variation-settings:'SOFT' 30; }
+    h1 { font-size:clamp(30px,5vw,44px); font-weight:600; line-height:1.1; letter-spacing:-1px; }
+    h2 { font-size:26px; font-weight:600; line-height:1.2; letter-spacing:-.5px; }
+    h3 { font-size:18px; font-weight:600; line-height:1.3; }
+    p  { margin-bottom:14px; } p:last-child { margin-bottom:0; }
+    strong { font-weight:600; }
+    code {
+      font-family:'JetBrains Mono',monospace; font-size:12.5px;
+      background:var(--cream-200); padding:2px 6px; border-radius:4px;
+      color:var(--coral-dark);
+    }
+
+    /* ─── NAV (screen only) ─── */
+    .topnav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(245,241,237,.95); backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--cream-200);
+      padding:10px 48px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .topnav .brand {
+      font-family:'Fraunces',serif; font-size:16px; font-weight:600;
+      color:var(--terra-900); text-decoration:none;
+      font-variation-settings:'SOFT' 30;
+    }
+    .topnav .brand em { font-style:italic; color:var(--coral); }
+    .topnav-links { display:flex; gap:20px; }
+    .topnav-links a {
+      font-size:13px; font-weight:500; color:var(--terra-700);
+      text-decoration:none; opacity:.8;
+    }
+    .topnav-links a:hover { color:var(--coral); opacity:1; }
+
+    /* ─── HERO ─── */
+    .hero {
+      background:var(--terra-900); color:var(--cream-100);
+      padding:48px 48px 52px;
+    }
+    .hero .eyebrow {
+      font-size:11px; font-weight:700; letter-spacing:.14em;
+      text-transform:uppercase; color:var(--coral); margin-bottom:16px;
+    }
+    .hero h1 { color:var(--cream-50); margin-bottom:14px; font-variation-settings:'SOFT' 50; }
+    .hero h1 em { font-style:italic; color:var(--coral); }
+    .hero .lead {
+      font-size:17px; line-height:1.6; color:var(--cream-200);
+      max-width:520px; margin-bottom:28px;
+    }
+    .hero-wins {
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);
+      border-radius:12px; padding:18px 22px; margin-bottom:28px;
+      max-width:480px;
+    }
+    .hero-wins .wins-label {
+      font-size:11px; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--coral); margin-bottom:12px;
+    }
+    .hero-wins ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .hero-wins li {
+      font-size:14px; color:var(--cream-200);
+      display:flex; align-items:center; gap:10px;
+    }
+    .hero-wins .check {
+      width:18px; height:18px; border-radius:50%; background:var(--success);
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:10px; flex-shrink:0; color:#fff; font-weight:700;
+    }
+    .hero-meta { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    .hero-meta span { font-size:13px; color:var(--muted); }
+    .hero-meta .handle { font-weight:700; color:var(--coral); }
+    .hero-stats { display:flex; gap:22px; flex-wrap:wrap; }
+    .stat { text-align:center; }
+    .stat .val {
+      font-family:'Fraunces',serif; font-size:28px; font-weight:700;
+      color:var(--coral); line-height:1; display:block;
+    }
+    .stat .lbl { font-size:12px; color:var(--muted); }
+
+    /* ─── SECTION ─── */
+    .section { padding:36px 48px; border-bottom:1px solid var(--cream-200); }
+    .section:last-of-type { border-bottom:none; }
+    .section-label {
+      font-size:11px; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--ocre); margin-bottom:8px;
+    }
+    .section h2 { margin-bottom:6px; }
+    .section > p { color:var(--terra-700); margin-bottom:24px; }
+
+    /* ─── QUOTE ─── */
+    .quote-block {
+      font-family:'Fraunces',serif; font-style:italic;
+      font-size:20px; font-weight:400; line-height:1.5;
+      color:var(--terra-700);
+      border-left:3px solid var(--coral);
+      padding-left:20px; margin:24px 0;
+      font-variation-settings:'SOFT' 80;
+    }
+
+    /* ─── CARDS ─── */
+    .block-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+    .num-block {
+      background:#fff; border:1px solid var(--cream-200); border-radius:14px;
+      padding:20px; box-shadow:0 1px 2px rgba(43,31,23,.04);
+    }
+    .num-block .num {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:30px; height:30px; background:var(--coral); color:#fff;
+      font-family:'Fraunces',serif; font-size:15px; font-weight:700;
+      border-radius:50%; margin-bottom:12px;
+    }
+    .num-block h3 { font-size:15px; margin-bottom:7px; }
+    .num-block p  { font-size:13.5px; color:var(--terra-700); line-height:1.55; }
+
+    /* ─── BEFORE/AFTER ─── */
+    .compare {
+      display:grid; grid-template-columns:1fr 1fr; gap:0;
+      border-radius:14px; overflow:hidden;
+      border:1px solid var(--cream-200); box-shadow:0 4px 12px rgba(43,31,23,.06);
+    }
+    .compare-side { padding:22px; }
+    .compare-before { background:var(--cream-50); border-right:1px solid var(--cream-200); }
+    .compare-after  { background:#fff; }
+    .compare-label {
+      font-size:11px; font-weight:700; letter-spacing:.1em;
+      text-transform:uppercase; margin-bottom:12px;
+      display:flex; align-items:center; gap:7px;
+    }
+    .compare-before .compare-label { color:var(--muted); }
+    .compare-after  .compare-label { color:var(--success); }
+    .compare-dot { width:7px; height:7px; border-radius:50%; display:inline-block; }
+    .compare-before .compare-dot { background:var(--muted); }
+    .compare-after  .compare-dot { background:var(--success); }
+    .compare-prompt {
+      font-family:'JetBrains Mono',monospace; font-size:12px;
+      line-height:1.65; color:var(--terra-700); background:var(--cream-100);
+      padding:14px; border-radius:8px; white-space:pre-wrap;
+      border:1px solid var(--cream-200);
+    }
+    .compare-after .compare-prompt {
+      background:var(--success-bg); border-color:#c2d9b0;
+      color:var(--terra-900); font-weight:500;
+    }
+    .compare-caption { font-size:12px; color:var(--muted); margin-top:9px; font-style:italic; }
+
+    /* ─── ALERT ─── */
+    .alert {
+      display:flex; gap:14px; padding:16px 20px; border-radius:12px;
+      border:1px solid; margin-bottom:24px;
+    }
+    .alert-warning { background:var(--warning-bg); border-color:#e6c07a; }
+    .alert-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+    .alert-body { font-size:14px; line-height:1.55; }
+    .alert-body strong { color:var(--warning); }
+
+    /* ─── UI MOCKUP (Claude interface) ─── */
+    .ui-mock {
+      background:var(--ui-bg); border-radius:12px; overflow:hidden;
+      border:1px solid var(--ui-border); margin:14px 0;
+      font-family:'Inter',sans-serif;
+    }
+    .ui-mock-bar {
+      background:#0E0D0C; padding:9px 14px;
+      display:flex; align-items:center; gap:7px;
+      border-bottom:1px solid var(--ui-border);
+    }
+    .ui-dot { width:10px; height:10px; border-radius:50%; }
+    .ui-dot.r{background:#FF5F57;} .ui-dot.y{background:#FFBD2E;} .ui-dot.g{background:#28C840;}
+    .ui-mock-bar .ui-url {
+      margin-left:8px; font-size:11px; color:#555; font-family:'Inter',sans-serif;
+    }
+    .ui-mock-body { display:flex; }
+    .ui-sidebar {
+      background:var(--ui-sidebar); width:190px; flex-shrink:0;
+      padding:10px 8px; border-right:1px solid var(--ui-border); min-height:140px;
+    }
+    .ui-item {
+      display:flex; align-items:center; gap:9px;
+      padding:7px 10px; border-radius:7px;
+      font-size:12.5px; color:var(--ui-text); margin-bottom:1px;
+    }
+    .ui-item.active { background:#252220; color:var(--ui-text-active); }
+    .ui-item.highlight {
+      background:var(--coral); color:#fff; font-weight:600;
+    }
+    .ui-item.sub { padding-left:28px; font-size:12px; }
+    .ui-item .icon { font-size:13px; width:16px; text-align:center; flex-shrink:0; }
+    .ui-connector {
+      width:1px; background:var(--ui-border); margin:0 0 0 22px; height:12px;
+    }
+    .ui-content { flex:1; padding:16px; }
+    .ui-section-title {
+      font-size:13px; font-weight:600; color:var(--ui-text-active);
+      margin-bottom:12px;
+    }
+    .ui-toggle-row {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:10px 0; border-bottom:1px solid var(--ui-border);
+    }
+    .ui-toggle-label { font-size:12.5px; color:var(--ui-text); max-width:240px; line-height:1.4; }
+    .ui-toggle-label strong { color:var(--ui-text-active); display:block; font-size:13px; }
+    .ui-toggle {
+      width:34px; height:19px; border-radius:10px; background:#3A3531;
+      position:relative; flex-shrink:0;
+    }
+    .ui-toggle.on { background:var(--coral); }
+    .ui-toggle::after {
+      content:''; position:absolute;
+      width:15px; height:15px; border-radius:50%; background:#fff;
+      top:2px; left:2px;
+    }
+    .ui-toggle.on::after { transform:translateX(15px); }
+    .ui-options { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+    .ui-option-btn {
+      display:flex; align-items:center; gap:10px;
+      padding:10px 14px; border-radius:8px;
+      border:1px solid var(--ui-border);
+      font-size:12.5px; color:var(--ui-text); background:#1C1B1A;
+    }
+    .ui-option-btn.primary {
+      border-color:var(--coral); color:var(--coral); background:rgba(217,119,87,.08);
+      font-weight:600;
+    }
+    .ui-option-btn .opt-icon { font-size:14px; }
+    .ui-tag {
+      margin-left:auto; font-size:10px; font-weight:700;
+      padding:2px 7px; border-radius:99px;
+      text-transform:uppercase; letter-spacing:.08em;
+    }
+    .ui-tag.rec { background:var(--coral); color:#fff; }
+    .ui-caption {
+      font-size:11px; color:var(--muted); margin-top:6px; font-style:italic;
+      padding:0 4px;
+    }
+    .screenshot-wrapper {
+      margin:14px 0; border-radius:10px; overflow:hidden;
+      border:1px solid var(--ui-border);
+      box-shadow:0 4px 12px rgba(0,0,0,.15);
+    }
+    .screenshot-wrapper img { width:100%; display:block; }
+    .screenshot-caption {
+      font-size:11px; color:var(--muted); margin-top:7px;
+      font-style:italic; padding:0 2px;
+    }
+
+    /* ─── STEPS ─── */
+    .steps { list-style:none; display:flex; flex-direction:column; }
+    .step { display:flex; gap:18px; }
+    .step-left { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+    .step-num {
+      width:36px; height:36px; border-radius:50%; background:var(--coral); color:#fff;
+      font-family:'Fraunces',serif; font-size:16px; font-weight:700;
+      display:flex; align-items:center; justify-content:center; flex-shrink:0; z-index:1;
+    }
+    .step-line { width:2px; flex:1; background:var(--cream-200); margin:4px 0; min-height:20px; }
+    .step:last-child .step-line { display:none; }
+    .step-body { padding:4px 0 28px; flex:1; }
+    .step-body h3 { font-size:17px; margin-bottom:8px; }
+    .step-body p { font-size:14px; color:var(--terra-700); margin-bottom:10px; }
+    .step-path {
+      display:inline-flex; align-items:center; gap:6px;
+      background:var(--cream-200); padding:6px 12px; border-radius:8px;
+      font-size:13px; font-weight:500; color:var(--terra-900); margin-bottom:10px;
+    }
+    .step-path .arrow { color:var(--coral); font-weight:700; }
+
+    /* ─── ELEMENTS TABLE ─── */
+    .elements {
+      list-style:none; display:flex; flex-direction:column;
+      gap:1px; background:var(--cream-200);
+      border-radius:14px; overflow:hidden; border:1px solid var(--cream-200);
+    }
+    .element-row {
+      display:grid; grid-template-columns:36px 110px 1fr;
+      background:#fff; align-items:start;
+    }
+    .element-icon { padding:18px 0 18px 16px; font-size:18px; line-height:1; }
+    .element-name {
+      padding:18px 12px 18px 8px; font-weight:600; font-size:14px;
+      color:var(--coral-dark); border-right:1px solid var(--cream-200);
+    }
+    .element-desc {
+      padding:18px; font-size:14px; color:var(--terra-700); line-height:1.5;
+    }
+    .element-desc .example {
+      display:block; margin-top:4px; font-size:12px; color:var(--muted); font-style:italic;
+    }
+
+    /* ─── TEMPLATES ─── */
+    .template-card {
+      background:#fff; border:1px solid var(--cream-200); border-radius:14px;
+      overflow:hidden; box-shadow:0 1px 2px rgba(43,31,23,.04); margin-bottom:14px;
+    }
+    .template-header {
+      padding:16px 20px 12px; border-bottom:1px solid var(--cream-200);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .template-num {
+      font-family:'Fraunces',serif; font-size:11px; font-weight:700;
+      color:var(--coral); text-transform:uppercase; letter-spacing:.1em; margin-bottom:3px;
+    }
+    .template-title { font-size:15px; font-weight:600; }
+    .template-desc  { font-size:13px; color:var(--terra-700); margin-top:3px; }
+    .template-body  { padding:16px 20px; }
+    .template-code {
+      font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.7;
+      color:var(--terra-700); background:var(--cream-50); padding:16px;
+      border-radius:9px; white-space:pre-wrap;
+      border:1px solid var(--cream-200);
+    }
+    .badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 9px; border-radius:7px; }
+    .badge-coral { background:var(--coral-soft); color:var(--coral-dark); }
+    .badge-ocre  { background:var(--ocre-soft);  color:var(--ocre); }
+    .copy-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:7px 14px; background:var(--coral); color:#fff;
+      border:none; border-radius:8px; font-family:'Inter',sans-serif;
+      font-size:12px; font-weight:600; cursor:pointer; margin-top:10px;
+    }
+    .copy-btn:hover { background:var(--coral-dark); }
+    .copy-btn.copied { background:var(--success); }
+
+    /* ─── TIPS ─── */
+    .tips-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .tip-card {
+      background:#fff; border:1px solid var(--cream-200); border-radius:12px;
+      padding:18px; box-shadow:0 1px 2px rgba(43,31,23,.04);
+    }
+    .tip-card .tip-icon { font-size:20px; margin-bottom:9px; display:block; }
+    .tip-card h3 { font-size:14px; margin-bottom:6px; }
+    .tip-card p  { font-size:13px; color:var(--terra-700); line-height:1.55; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background:var(--terra-900); color:var(--cream-200);
+      padding:36px 48px; text-align:center;
+    }
+    .footer .brand {
+      font-family:'Fraunces',serif; font-size:22px; font-weight:600;
+      color:var(--cream-50); margin-bottom:6px;
+    }
+    .footer .brand em { font-style:italic; color:var(--coral); }
+    .footer p { font-size:14px; color:var(--muted); margin-bottom:14px; }
+    .footer .handle {
+      display:inline-block; background:var(--coral); color:#fff;
+      font-weight:700; font-size:14px; padding:8px 20px; border-radius:99px;
+      text-decoration:none;
+    }
+
+    /* ─── PRINT ─── */
+    @page { size:A4 portrait; margin:0; }
+    @media print {
+      .topnav, .copy-btn { display:none; }
+      body  { font-size:14px; background:#fff; }
+      .page { max-width:100%; padding:0; }
+      .hero { padding:36px 48px 40px; }
+      .section { padding:26px 48px; }
+      .footer { border-radius:0; }
+      .step, .num-block, .compare, .template-card,
+      .tip-card, .alert, .element-row, .block-grid, .tips-grid {
+        break-inside:avoid; page-break-inside:avoid;
+      }
+      .section { break-inside:avoid; page-break-inside:avoid; }
+    }
+    @media (max-width:600px) {
+      .topnav { padding:10px 20px; }
+      .topnav-links { display:none; }
+      .hero, .section { padding-left:20px; padding-right:20px; }
+      .block-grid, .compare, .tips-grid { grid-template-columns:1fr; }
+      .footer { padding:28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV (screen only) ── -->
+<nav class="topnav">
+  <a class="brand" href="#">IA na <em>Prática</em></a>
+  <div class="topnav-links">
+    <a href="#o-que-e">O que é</a>
+    <a href="#como-criar">Como criar</a>
+    <a href="#elementos">5 elementos</a>
+    <a href="#templates">Templates</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="eyebrow">IA Aplicada · Guia Prático</div>
+  <h1>Pare de repetir<br>contexto pro Claude.<br><em>Skill resolve isso.</em></h1>
+  <p class="lead">Uma Skill é uma instrução permanente — você ensina o Claude uma vez e ele aplica automaticamente toda vez que aquela tarefa aparece.</p>
+
+  <div class="hero-wins">
+    <div class="wins-label">Em 10 minutos você vai ter</div>
+    <ul>
+      <li><span class="check">✓</span> Sua primeira Skill ativa no Claude</li>
+      <li><span class="check">✓</span> Template de comunicação configurado</li>
+      <li><span class="check">✓</span> 2 templates extras prontos para instalar</li>
+    </ul>
+  </div>
+
+  <div class="hero-meta">
+    <span>por <strong class="handle">@iacomrafael</strong></span>
+    <span>·</span>
+    <span>maio/2026</span>
+    <span>·</span>
+    <span>claude.ai &amp; Claude Cowork</span>
+  </div>
+</header>
+
+<!-- ── O QUE É ── -->
+<section class="section" id="o-que-e">
+  <div class="section-label">O que é</div>
+  <h2>Uma Skill ensina o Claude uma vez.<br>E ele nunca mais esquece.</h2>
+  <p>Pense assim: um prompt é uma instrução que você dá uma vez. Uma Skill é uma instrução que fica salva e o Claude carrega automaticamente quando precisar.</p>
+
+  <blockquote class="quote-block">"Prompts são instruções que você dá uma vez. Skills são instruções que ficam para sempre."</blockquote>
+
+  <div class="block-grid">
+    <div class="num-block">
+      <div class="num">1</div>
+      <h3>O que é uma Skill?</h3>
+      <p>Um conjunto de instruções salvas que ensinam o Claude a fazer uma tarefa específica do seu jeito — sempre. Você escreve uma vez, salva, e ele aplica automaticamente.</p>
+    </div>
+    <div class="num-block">
+      <div class="num">2</div>
+      <h3>Por que usar?</h3>
+      <p>✓ Parar de repetir contexto<br>✓ Manter padrão entre chats<br>✓ Acelerar tarefas recorrentes<br>✓ O Claude já te conhece antes de você falar</p>
+    </div>
+    <div class="num-block">
+      <div class="num">3</div>
+      <h3>Onde funciona?</h3>
+      <p>Em todos os lugares do Claude: chat normal, Claude Cowork e Code Tab. Você cria uma vez e funciona em qualquer conversa.</p>
+    </div>
+    <div class="num-block">
+      <div class="num">4</div>
+      <h3>Quem pode usar?</h3>
+      <p>Todos os planos: gratuito, Pro, Max, Team e Enterprise. Não precisa saber programar. Cria em conversa, sem código.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ANTES / DEPOIS ── -->
+<section class="section">
+  <div class="section-label">O problema que Skill resolve</div>
+  <h2>Você já escreveu isso mais de uma vez?</h2>
+  <p>Toda vez que abre o Claude para fazer a mesma tarefa, você repete as mesmas instruções. Skill elimina esse loop.</p>
+  <div class="compare">
+    <div class="compare-side compare-before">
+      <div class="compare-label"><span class="compare-dot"></span>Sem Skill — toda semana</div>
+      <div class="compare-prompt">"Escreve em tom direto, frases curtas, sem floreio, sem introdução longa, sem 'certamente', sem opções, entrega pronto para copiar e colar..."</div>
+      <p class="compare-caption">Você cola isso toda vez que precisa escrever algo.</p>
+    </div>
+    <div class="compare-side compare-after">
+      <div class="compare-label"><span class="compare-dot"></span>Com Skill ativa</div>
+      <div class="compare-prompt">"Escreve o e-mail de follow-up para o cliente X."</div>
+      <p class="compare-caption">O Claude já sabe o tom, o formato e o que evitar. Entrega pronto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMO CRIAR ── -->
+<section class="section" id="como-criar">
+  <div class="section-label">Como criar</div>
+  <h2>Crie sua primeira Skill em 5 passos</h2>
+  <p>Tudo via interface do claude.ai — sem código, sem arquivo manual, sem configuração técnica.</p>
+
+  <!-- PASSO 0: Config -->
+  <div class="alert alert-warning" style="margin-bottom:28px">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-body">
+      <strong>Antes de começar: 1 configuração necessária</strong><br>
+      Vá em <strong>Configurações → Capacidades</strong> e ative <strong>"Execução de código e criação de arquivos"</strong>. Sem isso, Skills não aparecem no menu.
+    </div>
+  </div>
+
+  <!-- UI mockup: toggle -->
+  <div class="ui-mock">
+    <div class="ui-mock-bar">
+      <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
+      <span class="ui-url">claude.ai · Configurações · Capacidades</span>
+    </div>
+    <div class="ui-mock-body">
+      <div class="ui-sidebar">
+        <div class="ui-item"><span class="icon">💬</span> Novo chat</div>
+        <div class="ui-item"><span class="icon">📁</span> Projetos</div>
+        <div class="ui-item"><span class="icon">✨</span> Personalizar</div>
+        <div class="ui-item active"><span class="icon">⚙️</span> Configurações</div>
+      </div>
+      <div class="ui-content">
+        <div class="ui-section-title">Capacidades</div>
+        <div class="ui-toggle-row">
+          <div class="ui-toggle-label">
+            <strong>Execução de código e criação de arquivos</strong>
+            Necessário para Skills funcionarem
+          </div>
+          <div class="ui-toggle on"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="screenshot-caption" style="margin-bottom:24px">Ative essa opção antes de continuar — sem ela, o menu de Skills não aparece.</p>
+
+  <ul class="steps">
+
+    <li class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Abra a área de Skills</h3>
+        <p>No menu lateral esquerdo do claude.ai, clique em <strong>Personalizar</strong> e depois em <strong>Skills</strong>.</p>
+        <span class="step-path">claude.ai <span class="arrow">→</span> Personalizar <span class="arrow">→</span> Skills</span>
+        <!-- UI mockup: sidebar -->
+        <div class="ui-mock">
+          <div class="ui-mock-bar">
+            <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
+            <span class="ui-url">claude.ai · Personalizar · Skills</span>
+          </div>
+          <div class="ui-mock-body">
+            <div class="ui-sidebar">
+              <div class="ui-item"><span class="icon">💬</span> Novo chat</div>
+              <div class="ui-item"><span class="icon">📁</span> Projetos</div>
+              <div class="ui-item active"><span class="icon">✨</span> Personalizar</div>
+              <div class="ui-connector"></div>
+              <div class="ui-item sub highlight"><span class="icon">⚡</span> Skills</div>
+              <div class="ui-item"><span class="icon">⚙️</span> Configurações</div>
+            </div>
+            <div class="ui-content">
+              <div class="ui-section-title">Suas Skills</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:8px">Nenhuma Skill personalizada ainda.<br>Clique em + para criar a sua.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Inicie a criação</h3>
+        <p>Clique no <code>+</code> e escolha <strong>Criar Skill</strong>. Na próxima tela, selecione <strong>Criar com Claude</strong> — é a opção mais fácil.</p>
+        <span class="step-path">+ <span class="arrow">→</span> Criar Skill <span class="arrow">→</span> Criar com Claude</span>
+        <!-- UI mockup: creation options -->
+        <div class="ui-mock">
+          <div class="ui-mock-bar">
+            <div class="ui-dot r"></div><div class="ui-dot y"></div><div class="ui-dot g"></div>
+            <span class="ui-url">claude.ai · Nova Skill</span>
+          </div>
+          <div class="ui-mock-body" style="padding:16px;display:block">
+            <div class="ui-section-title" style="margin-bottom:12px">Como você quer criar?</div>
+            <div class="ui-options">
+              <div class="ui-option-btn">
+                <span class="opt-icon">📁</span> Fazer upload de ZIP
+              </div>
+              <div class="ui-option-btn">
+                <span class="opt-icon">🔍</span> Explorar Skills prontas
+              </div>
+              <div class="ui-option-btn primary">
+                <span class="opt-icon">✨</span> Criar com Claude
+                <span class="ui-tag rec">Recomendado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="ui-caption">A opção "Criar com Claude" monta o arquivo automaticamente em conversa — você só descreve o que quer.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Descreva o que você quer (a parte mais importante)</h3>
+        <p>Uma caixa de conversa vai aparecer. Descreva sua Skill em português, como se estivesse explicando para um assistente humano: o que você quer que ele faça, como, e o que nunca fazer.</p>
+        <p>Use o modelo dos <strong>5 elementos</strong> da seção abaixo para estruturar melhor sua descrição.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Revise o que o Claude criou</h3>
+        <p>O Claude vai montar o arquivo da Skill automaticamente. Leia o que ele gerou — se algo não ficou certo, peça ajustes em conversa. Não precisa editar código manualmente.</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Ative e teste</h3>
+        <p>Clique em <strong>Salvar</strong> e ative a Skill. Abra um novo chat e peça algo que deveria acionar ela. Se não acionar, reescreva a <strong>descrição</strong> da Skill para ser mais específica — é ela que o Claude usa para decidir quando aplicar.</p>
+      </div>
+    </li>
+
+  </ul>
+</section>
+
+<!-- ── 5 ELEMENTOS ── -->
+<section class="section" id="elementos">
+  <div class="section-label">O que colocar</div>
+  <h2>5 elementos para uma Skill eficaz</h2>
+  <p>Quanto mais específico, mais alinhado o resultado. Skill vaga entrega resultado vago.</p>
+  <ul class="elements">
+    <li class="element-row">
+      <div class="element-icon">🎯</div>
+      <div class="element-name">Objetivo</div>
+      <div class="element-desc">Para que serve a Skill — a tarefa específica que ela cobre.<span class="example">Ex: "Escrever e-mails e mensagens profissionais no meu tom"</span></div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon">✍️</div>
+      <div class="element-name">Estilo</div>
+      <div class="element-desc">Como você quer que o Claude escreva — tom, linguagem, nível de formalidade.<span class="example">Ex: "Direto, profissional, sem floreio, sem introdução longa"</span></div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon">📐</div>
+      <div class="element-name">Formato</div>
+      <div class="element-desc">Como entregar a resposta — lista, parágrafo, tabela, pronto para copiar.<span class="example">Ex: "Texto pronto para copiar e colar, sem opções, sem perguntas"</span></div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon">🚫</div>
+      <div class="element-name">Regras</div>
+      <div class="element-desc">O que o Claude nunca deve fazer nessa Skill.<span class="example">Ex: "Nunca usar 'certamente', nunca dar opções sem eu pedir"</span></div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon">💡</div>
+      <div class="element-name">Exemplo</div>
+      <div class="element-desc">Uma amostra do resultado bom e do resultado ruim — opcional, mas ajuda muito.<span class="example">Ex: mostrar um e-mail no tom certo e um no tom errado</span></div>
+    </li>
+  </ul>
+</section>
+
+<!-- ── TEMPLATES ── -->
+<section class="section" id="templates">
+  <div class="section-label">Templates</div>
+  <h2>3 templates prontos para começar</h2>
+  <p>Cole qualquer um na tela "Criar com Claude" e ajuste para a sua realidade.</p>
+
+  <div class="template-card">
+    <div class="template-header">
+      <div>
+        <div class="template-num">Template 01</div>
+        <div class="template-title">Comunicação e Tom de Escrita</div>
+        <div class="template-desc">Para qualquer texto: e-mails, mensagens, resumos. A mais útil para começar.</div>
+      </div>
+      <span class="badge badge-coral">Comece aqui</span>
+    </div>
+    <div class="template-body">
+      <div class="template-code" id="tmpl1">Quero uma Skill de comunicação profissional. Quando eu pedir para
+escrever qualquer texto (e-mail, mensagem, resumo, relatório),
+siga estas regras:
+
+Tom: direto, profissional, sem floreio
+Frases: curtas, ativas, máximo 2 linhas por parágrafo
+Evitar: "certamente", "claro que sim", "espero que este
+        e-mail te encontre bem", introduções longas,
+        opções desnecessárias
+Entrega: texto pronto para copiar, sem variações,
+         sem perguntas adicionais
+
+Exemplo bom:
+"Segue o relatório conforme alinhado.
+Qualquer dúvida, fico à disposição."
+
+Exemplo ruim:
+"Olá! Espero que este e-mail te encontre muito bem.
+Venho por meio deste e-mail para compartilhar..."</div>
+      <button class="copy-btn" onclick="copyText('tmpl1',this)">📋 Copiar template</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <div class="template-header">
+      <div>
+        <div class="template-num">Template 02</div>
+        <div class="template-title">Resumo de Reunião</div>
+        <div class="template-desc">Transforma anotações bagunçadas em resumo estruturado com decisões e próximos passos.</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="template-code" id="tmpl2">Quero uma Skill de resumo de reunião. Quando eu colar anotações
+ou transcrição de uma reunião, entregue um resumo estruturado:
+
+1. Contexto (1 parágrafo, máximo 3 linhas)
+2. Principais decisões tomadas (bullet points)
+3. Próximos passos (responsável + ação + prazo se mencionado)
+4. Pontos em aberto (o que ficou sem definição)
+
+Formato: tópicos, nunca texto corrido
+Tom: objetivo, neutro, sem opiniões
+Tamanho: máximo 1 página A4
+
+Se alguma informação não estiver clara nas anotações,
+escreva "[não mencionado]" — nunca invente.</div>
+      <button class="copy-btn" onclick="copyText('tmpl2',this)">📋 Copiar template</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <div class="template-header">
+      <div>
+        <div class="template-num">Template 03</div>
+        <div class="template-title">Análise de Documento</div>
+        <div class="template-desc">Para quando você cola um PDF, relatório ou texto e quer análise rápida e acionável.</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="template-code" id="tmpl3">Quero uma Skill de análise de documento. Quando eu compartilhar
+um documento (PDF, texto, tabela), entregue:
+
+1. Resumo executivo (3–5 linhas: o que é, para quem,
+   qual o ponto central)
+2. Principais pontos (máximo 5 bullets — só o acionável)
+3. Riscos ou alertas (o que merece atenção)
+4. Pergunta para reflexão (1 pergunta que o documento
+   levanta mas não responde)
+
+Tom: consultor experiente falando com gestor ocupado
+Evitar: repetir o óbvio, linguagem técnica desnecessária
+Formato: tópicos, nunca texto corrido</div>
+      <button class="copy-btn" onclick="copyText('tmpl3',this)">📋 Copiar template</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── DICAS ── -->
+<section class="section">
+  <div class="section-label">Para não errar</div>
+  <h2>4 dicas rápidas</h2>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <span class="tip-icon">🎯</span>
+      <h3>Uma Skill por tarefa</h3>
+      <p>Não tente resolver tudo em uma. Múltiplas Skills focadas funcionam muito melhor que uma Skill genérica.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🔑</span>
+      <h3>A descrição é o gatilho</h3>
+      <p>O Claude usa a descrição da Skill para decidir quando aplicá-la. Se não aciona, reescreva a descrição para ser mais específica.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🧩</span>
+      <h3>Skills se somam</h3>
+      <p>O Claude pode usar duas Skills ao mesmo tempo sem você pedir. Uma Skill de tom + uma de formato trabalham juntas automaticamente.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🚀</span>
+      <h3>Comece pela comunicação</h3>
+      <p>O Template 1 é o melhor ponto de entrada. 10 minutos de configuração, resultado toda semana para qualquer texto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="brand">IA na <em>Prática</em></div>
+  <p>Toda semana o que está mudando — testado antes de postar.</p>
+  <a class="handle" href="https://instagram.com/iacomrafael">@iacomrafael</a>
+</footer>
+
+</div>
+
+<script>
+function copyText(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
+    const o = btn.innerHTML;
+    btn.innerHTML = '✅ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = o; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
