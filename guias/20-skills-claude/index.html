@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>20 Claude Skills que Todo Builder Deveria Ter — @iacomrafael</title>
-  <meta name="description" content="20 skills prontas para instalar no Claude. Hook Forge, Voice Locker, Decision Framer e mais 17. Build once. Run forever.">
+  <title>20 Skills que Uso no Claude — Todo Dia · @iacomrafael</title>
+  <meta name="description" content="20 skills prontas para instalar no Claude. Você instala uma vez e o Claude já sabe como trabalhar com você. Sem sessões desperdiçadas.">
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -167,50 +167,68 @@
       background: rgba(245,241,237,0.2);
     }
 
-    /* ── STICKY TABS ── */
-    .tabs-bar {
+    /* ── STICKY TABS — ANIMAÇÃO PREMIUM ── */
+    .tabs-strip {
       position: sticky;
       top: 0;
       z-index: 100;
       background: #fff;
       border-bottom: 1px solid var(--cream-200);
-      padding: 0 24px;
-    }
-
-    .tabs-inner {
-      max-width: 794px;
-      margin: 0 auto;
+      padding: 12px 24px;
       display: flex;
-      align-items: center;
-      gap: 4px;
+      gap: 8px;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      padding: 12px 0;
     }
 
-    .tabs-inner::-webkit-scrollbar { display: none; }
+    .tabs-strip::-webkit-scrollbar { display: none; }
 
     .tab {
-      flex-shrink: 0;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--terra-700);
-      background: transparent;
+      position: relative;
       border: none;
       cursor: pointer;
-      padding: 7px 14px;
+      background: transparent;
+      color: var(--terra-700);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
       border-radius: 99px;
-      transition: background 0.18s var(--ease-spring), color 0.18s;
+      transition: color .2s;
       white-space: nowrap;
+      z-index: 1;
+      flex-shrink: 0;
     }
 
-    .tab:hover { background: var(--cream-100); }
+    .tab::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      background: var(--cream-200);
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity .2s, transform .25s var(--ease-spring);
+      z-index: -1;
+    }
 
-    .tab.active {
+    .tab:hover::before { opacity: 1; transform: scale(1); }
+
+    .tab::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
       background: var(--coral);
-      color: #fff;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity .25s, transform .3s var(--ease-spring);
+      z-index: -1;
     }
+
+    .tab.active { color: #fff; }
+    .tab.active::after { opacity: 1; transform: scale(1); }
 
     /* ── MAIN CONTENT ── */
     .main {
@@ -240,14 +258,16 @@
       gap: 16px;
     }
 
-    /* ── SKILL CARD ── */
+    /* ── SKILL CARD — SIMPLIFICADO ── */
     .skill-card {
       background: #fff;
       border: 1px solid var(--cream-200);
       border-radius: 16px;
       padding: 24px;
       position: relative;
-      transition: transform 0.22s var(--ease-spring), box-shadow 0.22s var(--ease-spring);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow .25s var(--ease-spring), transform .25s var(--ease-spring);
       opacity: 0;
       transform: translateY(20px);
     }
@@ -255,7 +275,7 @@
     .skill-card.visible {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring);
+      transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring), box-shadow .25s var(--ease-spring);
     }
 
     .skill-card::before {
@@ -275,155 +295,278 @@
     }
 
     .skill-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(43,31,23,0.1);
+      box-shadow: 0 8px 24px rgba(43,31,23,.09);
+      transform: translateY(-2px);
+    }
+
+    .skill-card.visible:hover {
+      transform: translateY(-2px);
     }
 
     .skill-card:hover::before { opacity: 1; }
 
-    .card-meta {
+    .skill-header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 14px;
     }
 
-    .badge-num {
+    .skill-num {
       font-family: 'Bricolage Grotesque', sans-serif;
       font-weight: 800;
       font-size: 11px;
       color: var(--coral);
-      letter-spacing: 0.05em;
+      letter-spacing: .06em;
     }
 
-    .badge-cat {
+    .skill-cat-badge {
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-weight: 700;
+      letter-spacing: .10em;
       text-transform: uppercase;
-      padding: 3px 8px;
+      background: var(--coral-soft);
+      color: var(--coral);
+      padding: 3px 10px;
       border-radius: 99px;
-      background: var(--ocre-soft);
-      color: var(--ocre);
     }
 
-    .skill-name {
+    .skill-card h3 {
       font-family: 'Bricolage Grotesque', sans-serif;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 17px;
       color: var(--terra-900);
-      margin-bottom: 10px;
-      line-height: 1.2;
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
 
     .skill-desc {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--terra-700);
-      line-height: 1.65;
-      margin-bottom: 12px;
-    }
-
-    .skill-desc strong {
-      font-weight: 600;
-      color: var(--terra-900);
+      line-height: 1.6;
+      margin-bottom: 16px;
     }
 
     .skill-fire {
-      font-size: 13px;
-      color: var(--coral-dark);
+      font-size: 12px;
+      color: var(--coral);
       background: var(--coral-soft);
       border-radius: 8px;
       padding: 8px 12px;
       margin-bottom: 16px;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
       line-height: 1.5;
     }
 
-    .skill-fire strong {
-      font-weight: 700;
-    }
-
-    .card-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .expand-btn {
+    .skill-open-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--coral);
-      background: transparent;
-      border: 1.5px solid var(--coral);
+      background: none;
+      border: 1.5px solid var(--coral-soft);
+      padding: 8px 16px;
       border-radius: 99px;
-      padding: 6px 14px;
       cursor: pointer;
-      transition: background 0.18s, color 0.18s;
-    }
-
-    .expand-btn:hover {
-      background: var(--coral);
-      color: #fff;
-    }
-
-    /* ── CODE BLOCK ── */
-    .skill-code {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      margin-top: 0;
-    }
-
-    .skill-code.open {
-      max-height: 600px;
-      margin-top: 16px;
-    }
-
-    .code-wrapper {
-      position: relative;
-      background: #1C1B1A;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
+      transition: background .2s, border-color .2s;
       font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(232,227,221,0.6);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      padding: 5px 10px;
-      cursor: pointer;
-      transition: background 0.18s, color 0.18s;
+    }
+
+    .skill-open-btn:hover {
+      background: var(--coral-soft);
+      border-color: var(--coral);
+    }
+
+    /* ── MODAL OVERLAY ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(43,31,23,.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
-      gap: 5px;
-      z-index: 2;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
     }
 
-    .copy-btn:hover {
-      background: rgba(255,255,255,0.15);
-      color: #E8E3DD;
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
     }
 
-    .skill-code pre {
+    .modal {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 640px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 40px;
+      transform: translateY(24px) scale(.97);
+      transition: transform .4s var(--ease-spring);
+      position: relative;
+    }
+
+    .modal-backdrop.open .modal {
+      transform: none;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--cream-100);
+      border: none;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--terra-700);
+      font-size: 14px;
+      transition: background .15s;
+    }
+
+    .modal-close:hover { background: var(--cream-200); }
+
+    .modal-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .modal-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--coral);
+    }
+
+    .modal-cat-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      background: var(--coral-soft);
+      color: var(--coral);
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+
+    .modal h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      color: var(--terra-900);
+      margin-bottom: 12px;
+    }
+
+    .modal-what {
+      font-size: 15px;
+      color: var(--terra-700);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .modal-section {
+      margin-bottom: 24px;
+    }
+
+    .modal-section h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--coral);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+    }
+
+    .modal-section p,
+    .modal-section li {
+      font-size: 14px;
+      color: var(--terra-700);
+      line-height: 1.65;
+    }
+
+    .modal-section ul {
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .modal-prompt {
+      background: var(--cream-100);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--cream-200);
+      margin-top: 8px;
+    }
+
+    .modal-prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--cream-200);
+      gap: 12px;
+    }
+
+    .modal-prompt-header span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--terra-700);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      flex: 1;
+    }
+
+    .modal-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--coral);
+      border: none;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 99px;
+      transition: background .15s;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-copy-btn:hover { background: var(--coral-dark); }
+
+    .modal-prompt pre {
       padding: 20px;
+      margin: 0;
       overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+      background: #1C1B1A;
     }
 
-    .skill-code code {
+    .modal-prompt code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       color: #E8E3DD;
-      line-height: 1.7;
+      line-height: 1.6;
       white-space: pre;
     }
 
@@ -477,6 +620,8 @@
       .hero-big-number { font-size: 140px; right: 16px; }
       .skills-grid { grid-template-columns: 1fr; }
       .cta-section { padding: 36px 20px; }
+      .modal { padding: 28px 20px; }
+      .modal h2 { font-size: 20px; }
     }
   </style>
 </head>
@@ -490,27 +635,25 @@
   <div class="hero-big-number">20</div>
 
   <div class="hero-content">
-    <span class="hero-label">Claude Skills · @iacomrafael</span>
-    <h1>Skills que <em>todo builder</em><br>deveria ter</h1>
-    <p class="hero-sub">20 skills prontas para instalar. Cada uma faz um trabalho específico. Construa uma vez, use para sempre.</p>
+    <span class="hero-label">PRATICANTES DE IA · @iacomrafael</span>
+    <h1>20 Skills que Uso<br>no <em>Claude</em> — Todo Dia</h1>
+    <p class="hero-sub">Prompt você já sabe escrever. O problema é que na próxima sessão ele sumiu. Skill resolve: você instala uma vez e o Claude já sabe como trabalhar com você.</p>
     <div class="hero-stats">
       <span class="stat-item">20 Skills</span>
       <span class="stat-item">5 Categorias</span>
-      <span class="stat-item">0 sessões desperdiçadas</span>
+      <span class="stat-item">0 Sessões desperdiçadas</span>
     </div>
   </div>
 </section>
 
 <!-- ── TABS ── -->
-<div class="tabs-bar">
-  <div class="tabs-inner">
-    <button class="tab active" data-cat="all">Todas (20)</button>
-    <button class="tab" data-cat="content">Content (5)</button>
-    <button class="tab" data-cat="research">Research (5)</button>
-    <button class="tab" data-cat="business">Business (5)</button>
-    <button class="tab" data-cat="dev">Dev (3)</button>
-    <button class="tab" data-cat="strategy">Strategy (2)</button>
-  </div>
+<div class="tabs-strip">
+  <button class="tab active" data-cat="all">Todas (20)</button>
+  <button class="tab" data-cat="content">Conteúdo (5)</button>
+  <button class="tab" data-cat="research">Pesquisa (5)</button>
+  <button class="tab" data-cat="business">Negócio (5)</button>
+  <button class="tab" data-cat="dev">Dev (3)</button>
+  <button class="tab" data-cat="strategy">Estratégia (2)</button>
 </div>
 
 <!-- ── MAIN ── -->
@@ -521,22 +664,305 @@
 
   <div class="skills-grid">
 
-    <!-- 01 Hook Forge -->
-    <div class="skill-card" data-cat="content">
-      <div class="card-meta">
-        <span class="badge-num">01</span>
-        <span class="badge-cat">Content</span>
+    <!-- 01 Forja de Ganchos -->
+    <article class="skill-card reveal" data-cat="content" data-skill="1">
+      <div class="skill-header">
+        <span class="skill-num">01</span>
+        <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <h3 class="skill-name">Hook Forge</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any topic, angle, or draft opening and generates 10 hooks across different psychological triggers — curiosity, loss, contrast, specificity, controversy.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have an idea and no opening line. Run this before you write a single word of the piece.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      <h3>Forja de Ganchos</h3>
+      <p class="skill-desc">Pega qualquer tema, ângulo ou rascunho e gera 10 ganchos com 10 gatilhos psicológicos diferentes. Curiosidade, contraste, perda, especificidade — você escolhe o que funciona.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você tem uma ideia mas não sabe como começar. Rode antes de escrever qualquer coisa.</p>
+      <button class="skill-open-btn" onclick="openModal(1)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 02 Trava de Voz -->
+    <article class="skill-card reveal" data-cat="content" data-skill="2">
+      <div class="skill-header">
+        <span class="skill-num">02</span>
+        <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+      <h3>Trava de Voz</h3>
+      <p class="skill-desc">Analisa suas amostras de escrita e trava sua voz permanentemente no Claude. Cada texto que sair depois vai soar como você — não como IA genérica.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Na primeira vez que configura um novo Project no Claude. Rode isso antes de qualquer coisa.</p>
+      <button class="skill-open-btn" onclick="openModal(2)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 03 Arquiteto de Threads -->
+    <article class="skill-card reveal" data-cat="content" data-skill="3">
+      <div class="skill-header">
+        <span class="skill-num">03</span>
+        <span class="skill-cat-badge">Conteúdo</span>
+      </div>
+      <h3>Arquiteto de Threads</h3>
+      <p class="skill-desc">Pega qualquer ideia ou artigo e monta uma thread de Twitter/X com a estrutura que faz a pessoa chegar até o fim. Gancho, tensão, virada, CTA. Não é resumo — é thread construída para ser lida.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você quer distribuir um conteúdo longo no Twitter/X sem simplesmente copiar e colar pontos.</p>
+      <button class="skill-open-btn" onclick="openModal(3)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 04 Motor de Reaproveitamento -->
+    <article class="skill-card reveal" data-cat="content" data-skill="4">
+      <div class="skill-header">
+        <span class="skill-num">04</span>
+        <span class="skill-cat-badge">Conteúdo</span>
+      </div>
+      <h3>Motor de Reaproveitamento</h3>
+      <p class="skill-desc">Pega um conteúdo longo e produz seis formatos de uma vez: thread, post LinkedIn, seção de newsletter, três ganchos avulsos, legenda de citação e gancho de vídeo. Uma entrada, seis saídas.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você acabou de publicar qualquer artigo ou guia longo e precisa de distribuição para a semana.</p>
+      <button class="skill-open-btn" onclick="openModal(4)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 05 Laboratório de Títulos -->
+    <article class="skill-card reveal" data-cat="content" data-skill="5">
+      <div class="skill-header">
+        <span class="skill-num">05</span>
+        <span class="skill-cat-badge">Conteúdo</span>
+      </div>
+      <h3>Laboratório de Títulos</h3>
+      <p class="skill-desc">Pega qualquer ideia de conteúdo e gera 15 títulos em formatos diferentes. Avalia cada um e indica os três para testar. Você não deve adivinhar qual vai funcionar.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de publicar qualquer artigo, e-book ou assunto de e-mail de lançamento.</p>
+      <button class="skill-open-btn" onclick="openModal(5)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 06 Construtor de Briefing -->
+    <article class="skill-card reveal" data-cat="research" data-skill="6">
+      <div class="skill-header">
+        <span class="skill-num">06</span>
+        <span class="skill-cat-badge">Pesquisa</span>
+      </div>
+      <h3>Construtor de Briefing</h3>
+      <p class="skill-desc">Pega qualquer tema de pesquisa e transforma em briefing executável: pergunta central, 5 fontes específicas, 5 sinais a buscar, premissa a testar e descoberta que mudaria tudo.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de pesquisar mercado, concorrente ou tendência. Pesquisa sem estrutura vira pesquisa sem fim.</p>
+      <button class="skill-open-btn" onclick="openModal(6)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 07 Caçador de Contradições -->
+    <article class="skill-card reveal" data-cat="research" data-skill="7">
+      <div class="skill-header">
+        <span class="skill-num">07</span>
+        <span class="skill-cat-badge">Pesquisa</span>
+      </div>
+      <h3>Caçador de Contradições</h3>
+      <p class="skill-desc">Analisa qualquer conjunto de informações e encontra onde as fontes se contradizem. Expõe a complexidade real embaixo do consenso aparente.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de publicar análise ou artigo de opinião. Você descobre onde seu argumento é fraco antes que outra pessoa descubra.</p>
+      <button class="skill-open-btn" onclick="openModal(7)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 08 Radar de Sinais -->
+    <article class="skill-card reveal" data-cat="research" data-skill="8">
+      <div class="skill-header">
+        <span class="skill-num">08</span>
+        <span class="skill-cat-badge">Pesquisa</span>
+      </div>
+      <h3>Radar de Sinais</h3>
+      <p class="skill-desc">Processa uma semana de notícias e atualizações do setor e separa o que realmente importa do que só ganhou atenção. Sinal versus ruído — com distinção clara.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Toda semana para processar seu backlog de conteúdo de IA e automação.</p>
+      <button class="skill-open-btn" onclick="openModal(8)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 09 Auditor de Premissas -->
+    <article class="skill-card reveal" data-cat="research" data-skill="9">
+      <div class="skill-header">
+        <span class="skill-num">09</span>
+        <span class="skill-cat-badge">Pesquisa</span>
+      </div>
+      <h3>Auditor de Premissas</h3>
+      <p class="skill-desc">Analisa qualquer plano, argumento ou decisão e expõe cada premissa embutida — incluindo as tão óbvias que ninguém pensou em questionar. As premissas implícitas são as que matam projetos.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de lançar produto, precificar ou fazer proposta. O check mais importante que você não está fazendo.</p>
+      <button class="skill-open-btn" onclick="openModal(9)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 10 Ranqueador de Fontes -->
+    <article class="skill-card reveal" data-cat="research" data-skill="10">
+      <div class="skill-header">
+        <span class="skill-num">10</span>
+        <span class="skill-cat-badge">Pesquisa</span>
+      </div>
+      <h3>Ranqueador de Fontes</h3>
+      <p class="skill-desc">Recebe uma lista de fontes e classifica cada uma por credibilidade, atualidade e relevância. Diz o que usar, o que verificar e o que cortar.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de construir argumento em cima de pesquisa. Fonte popular não é fonte confiável.</p>
+      <button class="skill-open-btn" onclick="openModal(10)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 11 Escritor de SOPs -->
+    <article class="skill-card reveal" data-cat="business" data-skill="11">
+      <div class="skill-header">
+        <span class="skill-num">11</span>
+        <span class="skill-cat-badge">Negócio</span>
+      </div>
+      <h3>Escritor de SOPs</h3>
+      <p class="skill-desc">Pega qualquer descrição de processo — notas soltas, bullets, transcrição de áudio — e transforma em SOP executável com responsáveis, ferramentas, passos e pontos de verificação.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Processo existe só na sua cabeça e você precisa delegar. Isso é o gargalo.</p>
+      <button class="skill-open-btn" onclick="openModal(11)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 12 Enquadrador de Decisões -->
+    <article class="skill-card reveal" data-cat="business" data-skill="12">
+      <div class="skill-header">
+        <span class="skill-num">12</span>
+        <span class="skill-cat-badge">Negócio</span>
+      </div>
+      <h3>Enquadrador de Decisões</h3>
+      <p class="skill-desc">Pega qualquer decisão travada e reestrutura em escolha clara: qual é a decisão real, quais são as opções de verdade, o que você não sabe e o que acontece se não decidir.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você está girando em torno de uma decisão há mais de uma semana. Ela está mal enquadrada, não mal respondida.</p>
+      <button class="skill-open-btn" onclick="openModal(12)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 13 Extrator de Reunião -->
+    <article class="skill-card reveal" data-cat="business" data-skill="13">
+      <div class="skill-header">
+        <span class="skill-num">13</span>
+        <span class="skill-cat-badge">Negócio</span>
+      </div>
+      <h3>Extrator de Reunião</h3>
+      <p class="skill-desc">Processa qualquer transcrição ou anotação de reunião e devolve só o que importa: decisões tomadas, quem é responsável por quê, o que está bloqueado e o que ninguém disse em voz alta.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Após toda reunião com time, cliente ou sócio. Sem exceção.</p>
+      <button class="skill-open-btn" onclick="openModal(13)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 14 Teste de Estresse de Preço -->
+    <article class="skill-card reveal" data-cat="business" data-skill="14">
+      <div class="skill-header">
+        <span class="skill-num">14</span>
+        <span class="skill-cat-badge">Negócio</span>
+      </div>
+      <h3>Teste de Estresse de Preço</h3>
+      <p class="skill-desc">Analisa seu modelo de precificação sob três ângulos: o comprador desconfiado, o comprador que vê preço como qualidade e o concorrente. Diz o que seu preço está comunicando de verdade.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de lançar ou alterar qualquer precificação. Preço comunica antes do produto.</p>
+      <button class="skill-open-btn" onclick="openModal(14)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 15 Afiador de Oferta -->
+    <article class="skill-card reveal" data-cat="business" data-skill="15">
+      <div class="skill-header">
+        <span class="skill-num">15</span>
+        <span class="skill-cat-badge">Negócio</span>
+      </div>
+      <h3>Afiador de Oferta</h3>
+      <p class="skill-desc">Pega qualquer oferta e encontra a distância entre o que você acha que está vendendo e o que o comprador acha que está comprando. Afina até o valor ser impossível de não entender.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: As pessoas dizem "interessante" e não compram. Isso é gap de clareza, não de produto.</p>
+      <button class="skill-open-btn" onclick="openModal(15)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 16 Explicador de Código -->
+    <article class="skill-card reveal" data-cat="dev" data-skill="16">
+      <div class="skill-header">
+        <span class="skill-num">16</span>
+        <span class="skill-cat-badge">Dev</span>
+      </div>
+      <h3>Explicador de Código</h3>
+      <p class="skill-desc">Pega qualquer trecho de código e explica em dois níveis: o que faz (para quem precisa usar) e por que está estruturado assim (para quem precisa mudar). Mais a parte frágil e a premissa embutida.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você herdou código que não escreveu ou vai mexer em algo que não tocava há meses.</p>
+      <button class="skill-open-btn" onclick="openModal(16)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 17 Revisor de PR -->
+    <article class="skill-card reveal" data-cat="dev" data-skill="17">
+      <div class="skill-header">
+        <span class="skill-num">17</span>
+        <span class="skill-cat-badge">Dev</span>
+      </div>
+      <h3>Revisor de PR</h3>
+      <p class="skill-desc">Analisa qualquer diff de pull request e devolve só o que importa: bugs, testes ausentes, problemas de segurança, violações de estilo e a decisão arquitetural que merece conversa antes de mergear.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Qualquer pull request está pronto para revisão. Code review sem estrutura perde o que importa.</p>
+      <button class="skill-open-btn" onclick="openModal(17)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 18 Parceiro de Debug -->
+    <article class="skill-card reveal" data-cat="dev" data-skill="18">
+      <div class="skill-header">
+        <span class="skill-num">18</span>
+        <span class="skill-cat-badge">Dev</span>
+      </div>
+      <h3>Parceiro de Debug</h3>
+      <p class="skill-desc">Recebe qualquer erro, stacktrace ou comportamento inesperado e percorre o diagnóstico de forma sistemática. Causa raiz primeiro. Sem band-aids.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você está travado em um bug há mais de 20 minutos. Para o ciclo de tentativa e erro.</p>
+      <button class="skill-open-btn" onclick="openModal(18)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 19 Pensador de Segunda Ordem -->
+    <article class="skill-card reveal" data-cat="strategy" data-skill="19">
+      <div class="skill-header">
+        <span class="skill-num">19</span>
+        <span class="skill-cat-badge">Estratégia</span>
+      </div>
+      <h3>Pensador de Segunda Ordem</h3>
+      <p class="skill-desc">Pega qualquer decisão, ação ou tendência e mapeia as consequências de segunda e terceira ordem — os efeitos dos efeitos. A maioria pensa uma jogada à frente. Essa skill força três.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de qualquer decisão que afeta mais do que os próximos 30 dias.</p>
+      <button class="skill-open-btn" onclick="openModal(19)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+    <!-- 20 Aplicador de Modelos Mentais -->
+    <article class="skill-card reveal" data-cat="strategy" data-skill="20">
+      <div class="skill-header">
+        <span class="skill-num">20</span>
+        <span class="skill-cat-badge">Estratégia</span>
+      </div>
+      <h3>Aplicador de Modelos Mentais</h3>
+      <p class="skill-desc">Pega qualquer problema ou decisão e aplica os três modelos mentais mais relevantes para aquela situação específica. Não uma lista genérica de frameworks. Os três certos, aplicados ao seu caso.</p>
+      <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você está analisando o mesmo problema pelo mesmo ângulo há dias e não encontra saída.</p>
+      <button class="skill-open-btn" onclick="openModal(20)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
+    </article>
+
+  </div><!-- /.skills-grid -->
+
+  <!-- ── CTA FINAL ── -->
+  <div class="cta-section">
+    <h2>Pronto para instalar a primeira?</h2>
+    <p>Skills não fazem nada paradas. O guia completo mostra como instalar, organizar por projeto e criar as suas próprias em 15 minutos.</p>
+    <a href="../como-instalar-skills/index.html" class="cta-link">
+      Como instalar sua primeira skill <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+
+</main>
+
+<!-- ── MODAL (único, reutilizado) ── -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-meta">
+      <span class="modal-num" id="modal-num"></span>
+      <span class="modal-cat-badge" id="modal-cat"></span>
+    </div>
+    <h2 id="modal-title"></h2>
+    <p class="modal-what" id="modal-what"></p>
+    <div class="modal-section">
+      <h4>Por que instalar</h4>
+      <p id="modal-why"></p>
+    </div>
+    <div class="modal-section">
+      <h4>Como você pode usar</h4>
+      <ul id="modal-cases"></ul>
+    </div>
+    <div class="modal-section">
+      <h4>Prompt completo</h4>
+      <div class="modal-prompt">
+        <div class="modal-prompt-header">
+          <span>Instale no Claude · Settings → Sub-Agents → Add</span>
+          <button class="modal-copy-btn" id="copy-btn" onclick="copyPrompt()">
+            <i class="fa-solid fa-copy"></i> Copiar prompt
+          </button>
+        </div>
+        <pre><code id="modal-code"></code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const skills = {
+    1: {
+      name: "Forja de Ganchos",
+      cat: "Conteúdo & Escrita",
+      what: "Pega qualquer tema, ângulo ou rascunho de abertura e gera 10 ganchos usando 10 gatilhos psicológicos diferentes: curiosidade, perda, contraste, especificidade, controvérsia. Você escolhe o que funciona. Sem mais tempo olhando para uma tela em branco.",
+      why: "A primeira linha é o que decide se alguém vai ler ou não. Você não deve adivinhar. Essa skill gera opções para você escolher com critério — não inspiração.",
+      cases: [
+        "Antes de escrever qualquer post, thread ou e-mail importante",
+        "Quando você tem o conteúdo mas não sabe como começar",
+        "Para testar diferentes ângulos de abordagem num mesmo tema"
+      ],
+      prompt: `---
 name: hook-forge
 description: Use when you need multiple hook options for any piece of content. Generates 10 hooks across different psychological triggers. Never start a piece without running this first.
 ---
@@ -564,27 +990,19 @@ Rules:
 - No hook can end with a question mark.
 - All 10 must be genuinely different. Not 10 variations of the same structure.
 
-End with: "Strongest hook for this audience: [number] — [one sentence on why]."</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 02 Voice Locker -->
-    <div class="skill-card" data-cat="content">
-      <div class="card-meta">
-        <span class="badge-num">02</span>
-        <span class="badge-cat">Content</span>
-      </div>
-      <h3 class="skill-name">Voice Locker</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Analyzes your writing samples and locks your voice permanently into Claude. Every piece Claude writes after this sounds like you — not like a polished AI assistant, like you.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> The first time you set up a new Claude Project. Run this before anything else.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+End with: "Strongest hook for this audience: [number] — [one sentence on why]."`
+    },
+    2: {
+      name: "Trava de Voz",
+      cat: "Conteúdo & Escrita",
+      what: "Analisa suas amostras de escrita e trava sua voz permanentemente no Claude. Cada texto que sair depois vai soar como você — não como IA genérica, não como blog corporativo.",
+      why: "Você passa minutos reescrevendo porque o Claude não soa como você. Essa skill elimina isso. Roda uma vez, funciona para sempre.",
+      cases: [
+        "Na primeira vez que configura um novo Project no Claude",
+        "Antes de pedir qualquer texto de e-mail, post ou proposta",
+        "Para criar um 'voice brief' que você cola em qualquer sessão nova"
+      ],
+      prompt: `---
 name: voice-locker
 description: Use once with 3-5 writing samples to permanently lock your voice into Claude. After running this, all writing outputs match your style automatically.
 ---
@@ -606,27 +1024,19 @@ After analysis, write a one-paragraph voice brief I can paste into any future se
 
 Then write 3 sentences in my voice on a topic I give you. I will tell you if it is right.
 
-[PASTE 3-5 WRITING SAMPLES HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 03 Thread Architect -->
-    <div class="skill-card" data-cat="content">
-      <div class="card-meta">
-        <span class="badge-num">03</span>
-        <span class="badge-cat">Content</span>
-      </div>
-      <h3 class="skill-name">Thread Architect</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any idea, article, or argument and builds it into a Twitter/X thread with structural precision — hook, tension, payoff, CTA. Built to be read to the end.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have a piece of content and you want a thread version that performs — not just a list of points.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE 3-5 WRITING SAMPLES HERE]`
+    },
+    3: {
+      name: "Arquiteto de Threads",
+      cat: "Conteúdo & Escrita",
+      what: "Pega qualquer ideia, artigo ou argumento e monta uma thread de Twitter/X com a estrutura que faz a pessoa chegar até o fim — gancho, tensão, virada, CTA. Não é resumo. É uma thread construída para ser lida.",
+      why: "A maioria das threads é uma lista de pontos. Essa skill constrói uma sequência onde cada tweet justifica o próximo. A diferença entre thread que vai para o fim e thread que ninguém abre.",
+      cases: [
+        "Depois de criar um artigo ou guia longo e querer distribuir no Twitter/X",
+        "Quando você tem um framework ou insight que precisa ir para redes sociais",
+        "Para testar o desempenho de um conteúdo novo antes de virar post longo"
+      ],
+      prompt: `---
 name: thread-architect
 description: Use when turning any idea or long-form content into a Twitter/X thread. Builds for retention, not just coverage. Every tweet earns the next one.
 ---
@@ -638,45 +1048,37 @@ Take the idea or content I give you and build it into a thread that earns every 
 Structure:
 - TWEET 1: The hook. A statement that creates an open loop. Never a question. Never "A thread."
 - TWEET 2: The setup. Why this matters and who it is for.
-- TWEETS 3-8: The argument. One idea per tweet. Each tweet must create enough curiosity to justify reading the next.
+- TWEETS 3-8: The argument. One idea per tweet. Each tweet must create enough curiosity to justify reading the next. If a tweet could be the last tweet, rewrite it.
 - TWEET 9: The turn. The insight most people miss or the counterintuitive conclusion.
 - TWEET 10: The CTA. One sentence on what they will get.
 
 Rules:
 - Every tweet under 280 characters.
 - Number every tweet.
-- No tweet ends with "Let me explain." or "Here's why:"
+- No tweet ends with "Let me explain." or "Here's why:" — the next tweet explains.
 - No filler tweets. If a tweet does not carry a new idea, cut it.
 - The hook must work as a standalone post.
 
-End with: "Weakest tweet in this thread: [number] — [one sentence on why and how to fix it]."</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 04 Repurpose Engine -->
-    <div class="skill-card" data-cat="content">
-      <div class="card-meta">
-        <span class="badge-num">04</span>
-        <span class="badge-cat">Content</span>
-      </div>
-      <h3 class="skill-name">Repurpose Engine</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes one long-form piece and produces every short-form version at once. Thread, LinkedIn post, newsletter section, three standalone hooks, one quote graphic caption. One input. Six outputs.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You finish any long-form piece and need distribution without spending three hours reformatting.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+End with: "Weakest tweet in this thread: [number] — [one sentence on why and how to fix it]."`
+    },
+    4: {
+      name: "Motor de Reaproveitamento",
+      cat: "Conteúdo & Escrita",
+      what: "Pega um conteúdo longo e produz seis formatos de uma vez: thread, post LinkedIn, seção de newsletter, três ganchos avulsos, legenda de citação e gancho de vídeo. Uma entrada, seis saídas.",
+      why: "Você criou um bom conteúdo e está reformatando na mão para cada plataforma. Essa skill elimina três horas de trabalho manual e ainda deixa cada versão nativa da plataforma — não copiar e colar.",
+      cases: [
+        "Depois de publicar qualquer artigo, guia ou post longo",
+        "Para distribuir um webinar ou aula em múltiplos formatos",
+        "Quando você precisa de material para a semana toda a partir de um único conteúdo"
+      ],
+      prompt: `---
 name: repurpose-engine
 description: Use after publishing any long-form content. Takes one piece and produces 6 platform-native outputs simultaneously. Eliminates manual reformatting.
 ---
 
 You are a content strategist who specializes in distribution across platforms.
 
-Take the long-form content below and produce six outputs. Each must feel native to its platform.
+Take the long-form content below and produce six outputs. Each must feel native to its platform — not reformatted, genuinely rewritten for the medium.
 
 OUTPUT 1 — TWITTER/X THREAD (8 tweets):
 Hook tweet → 6 content tweets → CTA tweet. Each under 280 characters. Numbered.
@@ -694,34 +1096,26 @@ OUTPUT 5 — QUOTE GRAPHIC CAPTION:
 The single most quotable sentence from the piece. Under 140 characters.
 
 OUTPUT 6 — SHORT VIDEO SCRIPT HOOK (first 15 seconds):
-The opening 15 seconds of a short video. Written to be spoken, not read.
+The opening 15 seconds of a short video. Written to be spoken, not read. Hook in the first 3 seconds.
 
 Rules:
 - Do not summarize. Extract and rebuild for each platform.
 - Each output must stand alone.
 - Match voice from the original piece.
 
-[PASTE LONG-FORM CONTENT HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 05 Headline Lab -->
-    <div class="skill-card" data-cat="content">
-      <div class="card-meta">
-        <span class="badge-num">05</span>
-        <span class="badge-cat">Content</span>
-      </div>
-      <h3 class="skill-name">Headline Lab</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any article or content idea and generates 15 headlines across different proven formats — scored and ranked. You pick from the top three.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have finished a piece and you are guessing at the title.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE LONG-FORM CONTENT HERE]`
+    },
+    5: {
+      name: "Laboratório de Títulos",
+      cat: "Conteúdo & Escrita",
+      what: "Pega qualquer ideia de conteúdo e gera 15 títulos em formatos diferentes — how-to, lista numerada, contraste, alerta, resultado. Avalia cada um com nota de 1 a 10 e indica os três para testar.",
+      why: "Título não é decoração. É a diferença entre 200 leitores e 20 mil. Você não deve adivinhar qual vai funcionar — deve testar com critério.",
+      cases: [
+        "Antes de publicar qualquer artigo, e-book ou conteúdo longo",
+        "Para otimizar o assunto de e-mails de lançamento",
+        "Quando a taxa de abertura está baixa e você precisa testar ângulos novos"
+      ],
+      prompt: `---
 name: headline-lab
 description: Use before publishing any article, thread, or piece of content. Generates 15 headlines, scores them, and tells you which three to test.
 ---
@@ -747,27 +1141,19 @@ After generating all 15, score each one 1-10 on:
 
 Return the top 3 with a one-line explanation of why each works.
 
-End with: "Test this one first: [headline] — [one sentence reason]."</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 06 Brief Builder -->
-    <div class="skill-card" data-cat="research">
-      <div class="card-meta">
-        <span class="badge-num">06</span>
-        <span class="badge-cat">Research</span>
-      </div>
-      <h3 class="skill-name">Brief Builder</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any topic and builds a research brief that a junior analyst could execute. Sources, questions, signals, and the one finding that would change everything.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to research something and you have a topic but no structure.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+End with: "Test this one first: [headline] — [one sentence reason]."`
+    },
+    6: {
+      name: "Construtor de Briefing",
+      cat: "Pesquisa & Análise",
+      what: "Pega qualquer tema de pesquisa e transforma em um briefing executável: pergunta central, 5 fontes específicas, 5 sinais a buscar, premissa a testar e descoberta que mudaria tudo. Não começa pesquisa sem estrutura.",
+      why: "Pesquisa sem briefing vira pesquisa sem fim. Você passa horas lendo e não sabe o que estava procurando. Essa skill define a estrutura antes de você abrir o primeiro link.",
+      cases: [
+        "Antes de pesquisar mercado, concorrente ou tendência",
+        "Para estruturar uma análise de viabilidade de produto",
+        "Quando precisa orientar um estagiário ou equipe para fazer pesquisa"
+      ],
+      prompt: `---
 name: brief-builder
 description: Use when you need to research something properly and want a structured brief before starting. Turns vague research requests into specific investigation plans.
 ---
@@ -777,38 +1163,30 @@ You are a senior research director at a strategy consultancy.
 Take the research topic I give you and build a brief that makes the research executable.
 
 Return:
-1. THE CORE QUESTION (1 sentence): the single question this research must answer.
-2. PRIMARY SOURCES (5 specific sources): not "check Google." Specific databases, publications, or named experts.
-3. SIGNALS TO LOOK FOR (5 bullets): the specific data points or patterns that would be meaningful.
-4. THE ASSUMPTION TO TEST (1 sentence): the belief most people hold that the research might prove or disprove.
-5. THE FINDING THAT CHANGES EVERYTHING (1 sentence): the single discovery that would most change your approach.
+1. THE CORE QUESTION (1 sentence): the single question this research must answer. Not the topic. The question.
+2. PRIMARY SOURCES (5 specific sources): not "check Google." Specific: databases, publications, government bodies, academic journals, or named experts. One line on why each source matters.
+3. SIGNALS TO LOOK FOR (5 bullets): the specific data points, patterns, or findings that would be meaningful. What a good answer looks like.
+4. THE ASSUMPTION TO TEST (1 sentence): the belief most people hold about this topic that the research might prove or disprove.
+5. THE FINDING THAT CHANGES EVERYTHING (1 sentence): the single discovery that, if true, would most change how you approach this topic.
 
 Rules:
 - No generic sources. Every source must be specific and named.
 - The core question must be answerable.
-- The assumption to test must be something the requester actually believes.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 07 Contradiction Finder -->
-    <div class="skill-card" data-cat="research">
-      <div class="card-meta">
-        <span class="badge-num">07</span>
-        <span class="badge-cat">Research</span>
-      </div>
-      <h3 class="skill-name">Contradiction Finder</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any body of information and finds where sources contradict each other. Surfaces the real complexity underneath the consensus.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are building an argument from research and you want to know where your sources are weakest.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- The assumption to test must be something the requester actually believes.`
+    },
+    7: {
+      name: "Caçador de Contradições",
+      cat: "Pesquisa & Análise",
+      what: "Analisa qualquer conjunto de informações e encontra onde as fontes se contradizem. Expõe a complexidade real embaixo do consenso aparente.",
+      why: "A maioria das pesquisas suaviza as contradições. Essa skill as nomeia. Você descobre onde seu argumento é fraco antes que outra pessoa descubra.",
+      cases: [
+        "Antes de publicar análise de mercado ou artigo de opinião",
+        "Para avaliar propostas com múltiplas fontes de dado",
+        "Quando você suspeita que o consenso do setor tem uma brecha"
+      ],
+      prompt: `---
 name: contradiction-finder
-description: Use when analyzing multiple sources or a complex topic. Finds where sources disagree and what the real debate is.
+description: Use when analyzing multiple sources or a complex topic. Finds where sources disagree, where the consensus is weaker than it appears, and what the real debate is.
 ---
 
 You are a fact-checker and epistemologist. Your job is to find where things do not add up.
@@ -817,42 +1195,34 @@ Take the information I give you and find the contradictions.
 
 Return:
 1. SURFACE CONSENSUS (1 sentence): what most sources agree on.
-2. CONTRADICTIONS (3 bullets): specific places where sources conflict. Name both sides for each.
-3. THE WEAKEST CLAIM (1 bullet): the statement with the least support.
-4. THE REAL DEBATE (1 paragraph): what the experts actually disagree on.
-5. WHAT THIS MEANS FOR THE CONCLUSION (1 sentence): how confident should the reader be?
+2. CONTRADICTIONS (3 bullets): specific places where sources, data, or arguments conflict. Name both sides for each.
+3. THE WEAKEST CLAIM (1 bullet): the statement with the least support and most likely to be wrong.
+4. THE REAL DEBATE (1 paragraph): what the experts actually disagree on — the question the field has not resolved.
+5. WHAT THIS MEANS FOR THE CONCLUSION (1 sentence): how confident should the reader be in the overall argument?
 
 Rules:
 - Do not smooth over contradictions. Name them directly.
 - If two sources say opposite things, quote both positions specifically.
-- The real debate is not "more research is needed." Name the actual contested question.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 08 Signal Scanner -->
-    <div class="skill-card" data-cat="research">
-      <div class="card-meta">
-        <span class="badge-num">08</span>
-        <span class="badge-cat">Research</span>
-      </div>
-      <h3 class="skill-name">Signal Scanner</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes a week's worth of industry news and separates signal from noise. What actually matters versus what just got attention.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have a backlog of industry content and you need to know what actually matters.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- The real debate is not "more research is needed." Name the actual contested question.`
+    },
+    8: {
+      name: "Radar de Sinais",
+      cat: "Pesquisa & Análise",
+      what: "Processa uma semana de notícias, posts e atualizações do setor e separa o que realmente importa do que só ganhou atenção. Sinal versus ruído — com distinção clara.",
+      why: "Você passa horas lendo conteúdo de setor e sai sem saber o que foi importante. Essa skill filtra o que vai importar em 90 dias e joga fora o que não vai importar em 30.",
+      cases: [
+        "Toda semana para processar seu backlog de conteúdo de IA e automação",
+        "Antes de criar conteúdo sobre tendências de mercado",
+        "Para preparar resumo executivo de movimentos do setor para cliente"
+      ],
+      prompt: `---
 name: signal-scanner
 description: Use weekly to process industry content and separate what actually matters from what just got attention. Returns signal, not summary.
 ---
 
 You are an intelligence analyst specializing in emerging patterns.
 
-Take the content I give you and separate signal from noise.
+Take the content I give you — news, posts, articles, updates — and separate signal from noise.
 
 Return:
 1. THE SIGNAL (3 bullets): things that actually matter and will still matter in 90 days.
@@ -866,29 +1236,21 @@ Rules:
 - Noise is not the same as uninteresting. Noise is things that will not matter in 30 days.
 - The early indicator is the most important output.
 
-[PASTE THIS WEEK'S CONTENT HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 09 Assumption Auditor -->
-    <div class="skill-card" data-cat="research">
-      <div class="card-meta">
-        <span class="badge-num">09</span>
-        <span class="badge-cat">Research</span>
-      </div>
-      <h3 class="skill-name">Assumption Auditor</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any plan, argument, or decision and surfaces every assumption baked into it — including the ones so obvious nobody thought to question them.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to launch something, pitch something, or commit resources to something.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE THIS WEEK'S CONTENT HERE]`
+    },
+    9: {
+      name: "Auditor de Premissas",
+      cat: "Pesquisa & Análise",
+      what: "Analisa qualquer plano, argumento ou decisão e expõe cada premissa embutida — incluindo as tão óbvias que ninguém pensou em questionar. As premissas implícitas são as que matam projetos.",
+      why: "Todo projeto que falhou tinha uma premissa não questionada. Você não descobre isso depois do lançamento. Descobre aqui, antes.",
+      cases: [
+        "Antes de lançar produto, precificar ou fazer proposta",
+        "Para auditar um plano que parece sólido mas gera desconforto sem causa clara",
+        "Ao revisar pitch antes de apresentar para sócio ou investidor"
+      ],
+      prompt: `---
 name: assumption-auditor
-description: Use before committing to any plan, argument, or decision. Surfaces every assumption including the invisible ones.
+description: Use before committing to any plan, argument, or decision. Surfaces every assumption including the invisible ones. The most important pre-launch check you are not running.
 ---
 
 You are a systems thinker and risk analyst. You find what people forgot to question.
@@ -899,34 +1261,26 @@ Return:
 1. EXPLICIT ASSUMPTIONS (3 bullets): the things the plan openly assumes are true.
 2. IMPLICIT ASSUMPTIONS (3 bullets): the things the plan assumes without saying so.
 3. THE MOST DANGEROUS ASSUMPTION (1 sentence): the single assumption that, if wrong, causes the entire plan to fail.
-4. HOW TO TEST EACH (3 bullets): for each implicit assumption, one specific way to verify it before committing.
+4. HOW TO TEST EACH (3 bullets): one specific way to verify each implicit assumption before committing.
 
 Rules:
 - Implicit assumptions are more important than explicit ones.
-- The most dangerous assumption is not necessarily the most obvious one.
-- Every test must be specific. Not "do more research."</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 10 Source Ranker -->
-    <div class="skill-card" data-cat="research">
-      <div class="card-meta">
-        <span class="badge-num">10</span>
-        <span class="badge-cat">Research</span>
-      </div>
-      <h3 class="skill-name">Source Ranker</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes a list of sources on any topic and ranks them by credibility, recency, and relevance. Flags which ones to trust, which to verify, and which to cut.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have gathered sources and you are about to start writing.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- The most dangerous assumption is not necessarily the most obvious.
+- Every test must be specific. Not "do more research."`
+    },
+    10: {
+      name: "Ranqueador de Fontes",
+      cat: "Pesquisa & Análise",
+      what: "Recebe uma lista de fontes e classifica cada uma por credibilidade, atualidade e relevância. Diz o que usar, o que verificar e o que cortar — antes de você construir argumento em base fraca.",
+      why: "Fonte popular não é fonte confiável. Essa skill separa alcance de credibilidade — e aponta o que está faltando na sua pesquisa.",
+      cases: [
+        "Antes de publicar análise com dados de mercado",
+        "Para validar fontes usadas em proposta comercial",
+        "Quando precisa montar base de pesquisa para artigo ou relatório"
+      ],
+      prompt: `---
 name: source-ranker
-description: Use when you have gathered sources and want to know which ones to trust. Ranks by credibility, recency, and relevance.
+description: Use when you have gathered sources and want to know which ones to trust. Ranks by credibility, recency, and relevance before you build on them.
 ---
 
 You are a research librarian and fact-checker with expertise in source evaluation.
@@ -942,72 +1296,56 @@ For each source return:
 After ranking all sources:
 1. TOP 3 TO BUILD ON: sources strong enough to carry an argument.
 2. THE ONE TO CUT: the source most likely to undermine credibility if cited.
-3. THE GAP: what type of source is missing.
+3. THE GAP: what type of source is missing that would make the argument stronger.
 
 Rules:
 - A popular source is not a credible source.
 - The gap is mandatory. Every research set has one.
 
-[PASTE SOURCE LIST HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 11 SOP Writer -->
-    <div class="skill-card" data-cat="business">
-      <div class="card-meta">
-        <span class="badge-num">11</span>
-        <span class="badge-cat">Business</span>
-      </div>
-      <h3 class="skill-name">SOP Writer</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any process description — rough notes, bullet points, voice memo transcript — and turns it into a clean, executable SOP.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> A process exists in your head or in messy notes and needs to become something someone else can execute.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE SOURCE LIST HERE]`
+    },
+    11: {
+      name: "Escritor de SOPs",
+      cat: "Negócio & Operações",
+      what: "Pega qualquer descrição de processo — notas soltas, bullets, transcrição de áudio — e transforma em SOP executável com responsáveis, ferramentas, passos e pontos de verificação.",
+      why: "Processo que existe só na cabeça do fundador é gargalo. Essa skill transforma isso em documento que qualquer pessoa da equipe consegue executar sem depender de você.",
+      cases: [
+        "Para documentar qualquer processo recorrente antes de delegar",
+        "Quando vai contratar alguém novo e precisa de manual de onboarding",
+        "Para criar SOPs de atendimento, operação ou entrega de serviço"
+      ],
+      prompt: `---
 name: sop-writer
 description: Use when you need to document any recurring process. Turns rough descriptions into clean, executable SOPs with owners, tools, and guardrails.
 ---
 
 You are a chief operating officer and process designer.
 
-Take the process description I give you and turn it into an executable SOP.
+Take the process description I give you — however rough — and turn it into an executable SOP.
 
 Return:
 1. PROCESS NAME AND PURPOSE (2 sentences)
 2. TRIGGER (1 sentence): what starts this process.
-3. STEPS (numbered list): each step has — Action, Owner, Tool, Output.
+3. STEPS (numbered list): Action — Owner — Tool — Output. No vague steps.
 4. QUALITY CHECK (1 bullet): the one point where a human must verify before continuing.
 5. THE SACRED STEP (1 sentence): the one step that must never be automated and why.
 
 Rules:
 - No step can be "review and decide." Break it into specific criteria and specific options.
 - Every step has an owner. "Team" is not an owner.
-- The sacred step is mandatory.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 12 Decision Framer -->
-    <div class="skill-card" data-cat="business">
-      <div class="card-meta">
-        <span class="badge-num">12</span>
-        <span class="badge-cat">Business</span>
-      </div>
-      <h3 class="skill-name">Decision Framer</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any decision you are stuck on and reframes it into a structured choice with clear criteria, real options, and the information you actually need before deciding.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have been thinking about a decision for more than a week without deciding.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- The sacred step is mandatory.`
+    },
+    12: {
+      name: "Enquadrador de Decisões",
+      cat: "Negócio & Operações",
+      what: "Pega qualquer decisão travada e reestrutura em escolha clara: qual é a decisão real (geralmente diferente do que você acha), quais são as opções de verdade, o que você não sabe e o que acontece se não decidir.",
+      why: "Decisão que fica semanas na cabeça geralmente não está mal respondida — está mal enquadrada. Essa skill redefine o problema antes de tentar resolver.",
+      cases: [
+        "Quando você está girando em torno de uma decisão há mais de uma semana",
+        "Para facilitar decisões de produto, preço ou contratação com sócios",
+        "Antes de qualquer reunião de decisão importante"
+      ],
+      prompt: `---
 name: decision-framer
 description: Use when you are stuck on any significant decision. Reframes the decision, clarifies real options, and identifies what you need to know before choosing.
 ---
@@ -1020,33 +1358,25 @@ Return:
 1. THE REAL DECISION (1 sentence): restate what I am actually deciding. Often different from how I framed it.
 2. THE OPTIONS (3 max): the real distinct options including ones I did not mention.
 3. DECISION CRITERIA (3 bullets): the three things that matter most.
-4. WHAT I DO NOT KNOW (2 bullets): information that would most change my decision and how to get each one.
+4. WHAT I DO NOT KNOW (2 bullets): information that would most change my decision, and how to get each.
 5. THE DEFAULT (1 sentence): if I do nothing, what happens?
 
 Rules:
 - The real decision is often not the stated decision.
-- If two options are really the same option, say so.
-- The default is mandatory.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 13 Meeting Extractor -->
-    <div class="skill-card" data-cat="business">
-      <div class="card-meta">
-        <span class="badge-num">13</span>
-        <span class="badge-cat">Business</span>
-      </div>
-      <h3 class="skill-name">Meeting Extractor</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any meeting transcript or rough notes and returns only four things: what was decided, who owns what, what is blocked, and the one thing nobody said out loud.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> Every meeting ends. No exceptions.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- If two options are the same option, say so.
+- The default is mandatory.`
+    },
+    13: {
+      name: "Extrator de Reunião",
+      cat: "Negócio & Operações",
+      what: "Processa qualquer transcrição ou anotação de reunião e devolve só o que importa: decisões tomadas, quem é responsável por quê, o que está bloqueado e o que ninguém disse em voz alta mas estava na sala.",
+      why: "Reunião sem extração é reunião que será refeita. Essa skill força clareza de dono, prazo e bloqueio — e ainda nomeia o elefante na sala.",
+      cases: [
+        "Após toda reunião com time, cliente ou sócio",
+        "Para processar transcrições do Fireflies, Otter ou Zoom",
+        "Quando precisa de ata profissional em menos de dois minutos"
+      ],
+      prompt: `---
 name: meeting-extractor
 description: Use after every meeting with a transcript or notes. Returns decisions, owners, blockers, and the unspoken issue. Nothing else.
 ---
@@ -1058,35 +1388,27 @@ Take the meeting transcript or notes below. Return only what matters.
 Return:
 1. DECISIONS MADE (bullet list): every commitment or conclusion reached.
 2. ACTION ITEMS (bullet list): task — owner — deadline. If deadline unset, write "deadline: unset."
-3. BLOCKERS (bullet list): anything that prevents progress.
-4. THE UNSPOKEN ISSUE (1 sentence): the tension or disagreement present but never addressed.
+3. BLOCKERS (bullet list): anything preventing progress.
+4. THE UNSPOKEN ISSUE (1 sentence): the tension or disagreement present but never directly addressed.
 
 Rules:
-- Do not summarize the discussion. Only decisions, actions, blockers, unspoken.
+- Do not summarize the discussion.
 - Every action item must have an owner. "We" is not an owner.
 - The unspoken issue is mandatory.
 
-[PASTE TRANSCRIPT OR NOTES HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 14 Pricing Stress Tester -->
-    <div class="skill-card" data-cat="business">
-      <div class="card-meta">
-        <span class="badge-num">14</span>
-        <span class="badge-cat">Business</span>
-      </div>
-      <h3 class="skill-name">Pricing Stress Tester</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes your pricing model and stress tests it from three directions — the skeptic, the value buyer, and the competitor. Returns what your pricing is actually communicating.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to launch new pricing or you have been losing deals and you are not sure why.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE TRANSCRIPT OR NOTES HERE]`
+    },
+    14: {
+      name: "Teste de Estresse de Preço",
+      cat: "Negócio & Operações",
+      what: "Analisa seu modelo de precificação sob três ângulos: o comprador desconfiado, o comprador que vê preço como qualidade e o concorrente. Diz o que seu preço está comunicando de verdade — não o que você acha que está.",
+      why: "Preço comunica antes do produto. Se o preço não está alinhado com a percepção de valor, o problema não é o produto — é o sinal que o preço emite.",
+      cases: [
+        "Antes de lançar ou alterar qualquer precificação",
+        "Quando você está perdendo deals e não sabe por quê",
+        "Para auditar preço de produto digital ou serviço de consultoria"
+      ],
+      prompt: `---
 name: pricing-stress-tester
 description: Use before launching or changing any pricing. Stress tests from three buyer perspectives and tells you what your pricing is actually communicating.
 ---
@@ -1106,32 +1428,24 @@ What do they see? Where is your pricing vulnerable?
 
 After all three angles:
 1. WHAT YOUR PRICING IS ACTUALLY COMMUNICATING (1 paragraph)
-2. THE ONE CHANGE (1 sentence): the single adjustment that would fix the biggest problem.
+2. THE ONE CHANGE (1 sentence): the single adjustment that fixes the biggest problem.
 
 Rules:
 - Do not validate the pricing. Stress test it.
-- Each angle must produce a specific concern, not a generic one.
-- The one change must be specific.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 15 Offer Sharpener -->
-    <div class="skill-card" data-cat="business">
-      <div class="card-meta">
-        <span class="badge-num">15</span>
-        <span class="badge-cat">Business</span>
-      </div>
-      <h3 class="skill-name">Offer Sharpener</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any offer and sharpens it until the value is impossible to misunderstand. Finds the gap between what you think you are selling and what the buyer thinks they are buying.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> People keep saying "interesting" and not buying. That is a gap problem.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- Each angle must produce a specific concern.
+- The one change must be specific.`
+    },
+    15: {
+      name: "Afiador de Oferta",
+      cat: "Negócio & Operações",
+      what: "Pega qualquer oferta — produto, serviço ou proposta — e encontra a distância entre o que você acha que está vendendo e o que o comprador acha que está comprando. Afina até o valor ser impossível de não entender.",
+      why: "Quando as pessoas dizem 'interessante' e não compram, o problema não é o preço nem o produto. É o gap de clareza. Essa skill encontra e fecha esse gap.",
+      cases: [
+        "Antes de lançar qualquer produto digital ou serviço",
+        "Para reescrever copy de página de vendas que não está convertendo",
+        "Para afinar proposta comercial antes de enviar"
+      ],
+      prompt: `---
 name: offer-sharpener
 description: Use before launching any product, service, or proposal. Finds the gap between what you think you are selling and what buyers actually hear.
 ---
@@ -1148,29 +1462,21 @@ Return:
 5. THE ONE LINE (1 sentence): if a prospect reads only this, they know exactly whether this is for them.
 
 Rules:
-- The gap must be honest. Do not flatter the seller.
+- The gap must be honest.
 - The sharpened offer must be more specific, not longer.
-- The one line is a clarity test, not a tagline.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 16 Code Explainer -->
-    <div class="skill-card" data-cat="dev">
-      <div class="card-meta">
-        <span class="badge-num">16</span>
-        <span class="badge-cat">Dev</span>
-      </div>
-      <h3 class="skill-name">Code Explainer</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any piece of code and explains it at two levels: what it does for someone who needs to use it, and why it is built this way for someone who needs to change it.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You inherit code you did not write or prepare to modify something you have not touched in six months.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- The one line is a clarity test, not a tagline.`
+    },
+    16: {
+      name: "Explicador de Código",
+      cat: "Código & Dev",
+      what: "Pega qualquer trecho de código e explica em dois níveis: o que faz (para quem precisa usar) e por que está estruturado assim (para quem precisa mudar). Mais a parte frágil e a premissa embutida.",
+      why: "Você herdou código que não escreveu. Ou vai mexer em algo que não tocava há meses. Essa skill te coloca em velocidade de cruzeiro antes de mudar qualquer coisa.",
+      cases: [
+        "Ao retomar um projeto depois de semanas parado",
+        "Para entender código gerado por outra IA antes de modificar",
+        "Para explicar lógica técnica para stakeholder não-técnico"
+      ],
+      prompt: `---
 name: code-explainer
 description: Use when you need to understand any piece of code quickly. Two-level explanation every time.
 ---
@@ -1183,37 +1489,29 @@ LEVEL 1 — FOR THE USER (what it does):
 Plain language. A non-technical stakeholder should understand what the code accomplishes.
 
 LEVEL 2 — FOR THE MODIFIER (why it is built this way):
-Architectural decisions. What would break if you changed X? What are the edge cases?
+Architectural decisions. What would break if you changed X? Where are the edge cases?
 
 After both levels:
-1. THE FRAGILE PART (1 sentence): the section most likely to break under unexpected conditions.
+1. THE FRAGILE PART (1 sentence): most likely to break under unexpected conditions.
 2. THE ASSUMPTION (1 sentence): the key assumption that, if wrong, causes it to fail.
 
 Rules:
 - Level 1 must be readable by someone who does not code.
 - Level 2 must be useful to someone who does.
 
-[PASTE CODE HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 17 PR Reviewer -->
-    <div class="skill-card" data-cat="dev">
-      <div class="card-meta">
-        <span class="badge-num">17</span>
-        <span class="badge-cat">Dev</span>
-      </div>
-      <h3 class="skill-name">PR Reviewer</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Reviews any pull request diff and returns the five things that matter: bugs, missing tests, security issues, style violations, and the one architectural decision worth a real conversation.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> Any pull request is ready for review.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE CODE HERE]`
+    },
+    17: {
+      name: "Revisor de PR",
+      cat: "Código & Dev",
+      what: "Analisa qualquer diff de pull request e devolve só o que importa: bugs, testes ausentes, problemas de segurança, violações de estilo e a decisão arquitetural que merece conversa antes de mergear.",
+      why: "Code review sem estrutura é code review que perde os problemas importantes e demora no que não importa. Essa skill tem foco: só o que afeta o sistema.",
+      cases: [
+        "Antes de aprovar qualquer pull request em time",
+        "Para revisar código de IA gerado antes de fazer deploy",
+        "Como checklist de auto-revisão antes de abrir PR"
+      ],
+      prompt: `---
 name: pr-reviewer
 description: Use on any pull request before merging. Returns bugs, missing tests, security issues, style violations, and the one decision worth a real conversation.
 ---
@@ -1223,39 +1521,31 @@ You are a senior engineer doing a code review. Thorough, direct, no wasted time.
 Read the diff I give you. Return only what matters.
 
 Return:
-1. BUGS (if any): specific lines where behavior is wrong. Line number and one sentence.
+1. BUGS (if any): specific lines, one sentence per finding.
 2. MISSING TESTS (if any): functions with no test coverage.
 3. SECURITY ISSUES (if any): severity Critical / High / Medium.
-4. STYLE VIOLATIONS (max 3): real violations, not stylistic preferences.
+4. STYLE VIOLATIONS (max 3): real violations, not preferences.
 5. THE CONVERSATION (1 bullet): the one decision worth discussing before merging.
 
 Rules:
-- Be terse. One sentence per finding.
+- One sentence per finding.
 - Do not comment on things that are fine.
 - If the PR is clean: "No issues found. Ready to merge."
 - The conversation bullet is mandatory.
 
-[PASTE DIFF HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 18 Debug Partner -->
-    <div class="skill-card" data-cat="dev">
-      <div class="card-meta">
-        <span class="badge-num">18</span>
-        <span class="badge-cat">Dev</span>
-      </div>
-      <h3 class="skill-name">Debug Partner</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any error, stacktrace, or unexpected behavior and walks through diagnosis systematically. Root cause first. Band-aid fixes flagged and rejected.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have been staring at a bug for more than 20 minutes. Stop guessing.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE DIFF HERE]`
+    },
+    18: {
+      name: "Parceiro de Debug",
+      cat: "Código & Dev",
+      what: "Recebe qualquer erro, stacktrace ou comportamento inesperado e percorre o diagnóstico de forma sistemática. Causa raiz primeiro. Sem band-aids.",
+      why: "Você ficou 30 minutos tentando adivinhar a causa do bug. Essa skill para o ciclo de tentativa e erro e começa com diagnóstico estruturado — da mais provável para a menos provável.",
+      cases: [
+        "Quando você está travado em um bug há mais de 20 minutos",
+        "Para diagnosticar comportamento inesperado em automação n8n",
+        "Ao depurar código gerado por IA que não está funcionando"
+      ],
+      prompt: `---
 name: debug-partner
 description: Use when you have a bug or unexpected behavior and want the root cause — not a workaround. Systematic diagnosis every time.
 ---
@@ -1272,31 +1562,23 @@ Return:
 5. THE REGRESSION TEST (1 bullet): the test that would catch this bug if it appeared again.
 
 Rules:
-- Never suggest suppressing an error. Find the cause.
-- If multiple root causes, provide diagnostic steps — do not guess.
+- Never suggest suppressing an error.
+- The fix must address the root cause, not the symptom.
 - The regression test is mandatory.
 
-[PASTE ERROR / STACKTRACE / DESCRIPTION HERE]</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 19 Second Order Thinker -->
-    <div class="skill-card" data-cat="strategy">
-      <div class="card-meta">
-        <span class="badge-num">19</span>
-        <span class="badge-cat">Strategy</span>
-      </div>
-      <h3 class="skill-name">Second Order Thinker</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any decision, action, or trend and maps second and third order consequences. Most people think one move ahead. This skill forces three.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to make a decision that affects more than the next 30 days.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+[PASTE ERROR / STACKTRACE / DESCRIPTION HERE]`
+    },
+    19: {
+      name: "Pensador de Segunda Ordem",
+      cat: "Estratégia & Raciocínio",
+      what: "Pega qualquer decisão, ação ou tendência e mapeia as consequências de segunda e terceira ordem — os efeitos dos efeitos. A maioria das pessoas pensa uma jogada à frente. Essa skill força três.",
+      why: "O que vai te pegar no futuro quase nunca é a consequência óbvia da sua decisão. É a consequência da consequência. Essa skill mapeia isso antes de você agir.",
+      cases: [
+        "Antes de lançar produto ou mudança de estratégia",
+        "Para analisar tendências de IA sem se prender à narrativa de surface",
+        "Ao avaliar parceria, contratação ou pivô de posicionamento"
+      ],
+      prompt: `---
 name: second-order-thinker
 description: Use before any significant decision or when analyzing any trend. Maps consequences beyond the obvious first move.
 ---
@@ -1306,36 +1588,28 @@ You are a strategic advisor trained in systems thinking and consequence mapping.
 Take the decision, action, or trend I give you and map its consequences beyond the obvious.
 
 Return:
-1. FIRST ORDER EFFECTS (3 bullets): the immediate, obvious consequences.
-2. SECOND ORDER EFFECTS (3 bullets): the consequences of the first order effects.
-3. THIRD ORDER EFFECTS (2 bullets): the consequences of the second order effects.
+1. FIRST ORDER EFFECTS (3 bullets): immediate, obvious consequences.
+2. SECOND ORDER EFFECTS (3 bullets): consequences of the first order effects.
+3. THIRD ORDER EFFECTS (2 bullets): consequences of the second order effects.
 4. THE UNINTENDED CONSEQUENCE (1 sentence): the one outcome nobody is planning for.
 5. THE FEEDBACK LOOP (1 sentence): where an effect circles back and amplifies the original decision.
 
 Rules:
 - First order effects are not interesting. Spend more time on second and third.
 - The unintended consequence must be specific.
-- The feedback loop is the most strategically important output.</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 20 Mental Model Applier -->
-    <div class="skill-card" data-cat="strategy">
-      <div class="card-meta">
-        <span class="badge-num">20</span>
-        <span class="badge-cat">Strategy</span>
-      </div>
-      <h3 class="skill-name">Mental Model Applier</h3>
-      <p class="skill-desc"><strong>O que faz:</strong> Takes any problem or decision and applies the three most relevant mental models. Not a list of mental models. The right ones for this specific situation.</p>
-      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have been thinking about a problem from the same angle for too long.</p>
-      <div class="card-actions">
-        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      <div class="skill-code">
-        <div class="code-wrapper">
-          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
-          <pre><code>---
+- The feedback loop is the most strategically important output.`
+    },
+    20: {
+      name: "Aplicador de Modelos Mentais",
+      cat: "Estratégia & Raciocínio",
+      what: "Pega qualquer problema ou decisão e aplica os três modelos mentais mais relevantes para aquela situação específica. Não uma lista genérica de frameworks. Os três certos, aplicados diretamente ao seu caso.",
+      why: "Você está analisando o mesmo problema pelo mesmo ângulo há dias. Essa skill força perspectivas diferentes — e gera insights que não vinham de mais análise pelo mesmo caminho.",
+      cases: [
+        "Quando você está travado num problema recorrente sem encontrar saída",
+        "Para analisar decisão de negócio com ângulos que não considerou",
+        "Antes de reunião estratégica importante para chegar com perspectiva diferente"
+      ],
+      prompt: `---
 name: mental-model-applier
 description: Use when you are stuck on any problem or decision and want frameworks that actually apply — not a generic list. Returns three models applied directly to your situation.
 ---
@@ -1350,31 +1624,51 @@ For each model:
 3. THE INSIGHT IT PRODUCES: what this model reveals that I was not seeing before.
 
 After all three models:
-- THE DOMINANT INSIGHT (1 sentence): the single most useful thing produced by applying all three together.
+- THE DOMINANT INSIGHT (1 sentence): the single most useful thing from applying all three together.
 - THE ACTION (1 sentence): what to do differently based on this analysis.
 
 Rules:
 - Choose models based on fit, not fame.
-- The application must be specific. Not generic.
-- The dominant insight must emerge from the combination, not repeat one model.</code></pre>
-        </div>
-      </div>
-    </div>
+- The application must be specific to my situation.
+- The dominant insight must emerge from the combination of models.`
+    }
+  };
 
-  </div><!-- /.skills-grid -->
+  function openModal(id) {
+    const s = skills[id];
+    const bd = document.getElementById('modal-backdrop');
+    document.getElementById('modal-num').textContent = String(id).padStart(2, '0');
+    document.getElementById('modal-cat').textContent = s.cat;
+    document.getElementById('modal-title').textContent = s.name;
+    document.getElementById('modal-what').textContent = s.what;
+    document.getElementById('modal-why').textContent = s.why;
+    const ul = document.getElementById('modal-cases');
+    ul.innerHTML = s.cases.map(c => `<li>${c}</li>`).join('');
+    document.getElementById('modal-code').textContent = s.prompt;
+    bd.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 
-  <!-- ── CTA FINAL ── -->
-  <div class="cta-section">
-    <h2>Pronto para instalar a primeira?</h2>
-    <p>Skills não fazem nada paradas. O guia completo mostra como instalar, organizar por projeto e criar as suas próprias em 15 minutos.</p>
-    <a href="../como-instalar-skills/index.html" class="cta-link">
-      Como instalar sua primeira skill <i class="fa-solid fa-arrow-right"></i>
-    </a>
-  </div>
+  function closeModal() {
+    document.getElementById('modal-backdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-</main>
+  document.getElementById('modal-backdrop').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
 
-<script>
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  function copyPrompt() {
+    const code = document.getElementById('modal-code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+      setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar prompt', 2000);
+    });
+  }
+
   // Tab filtering
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1388,30 +1682,6 @@ Rules:
         if (show) visible++;
       });
       document.querySelector('.results-count').textContent = `${visible} skills`;
-    });
-  });
-
-  // Expand/collapse code
-  document.querySelectorAll('.expand-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const card = btn.closest('.skill-card');
-      const code = card.querySelector('.skill-code');
-      const isOpen = code.classList.contains('open');
-      code.classList.toggle('open');
-      btn.innerHTML = isOpen
-        ? 'Ver skill <i class="fa-solid fa-chevron-down"></i>'
-        : 'Fechar <i class="fa-solid fa-chevron-up"></i>';
-    });
-  });
-
-  // Copy to clipboard
-  document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const code = btn.closest('.skill-code').querySelector('code').textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
-        setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar', 2000);
-      });
     });
   });
 
