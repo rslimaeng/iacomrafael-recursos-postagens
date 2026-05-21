@@ -3,53 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recursos @iacomrafael</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Recursos @iacomrafael — IA na Prática</title>
+  <meta name="description" content="Guias, vaults e materiais de apoio para os posts do @iacomrafael. Gratuitos, sem login.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    :root { --coral:#D97757; --terra:#2B1F17; --cream:#F5F1ED; --cream-200:#EBE6DD; --muted:#8A8A8A; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Inter',sans-serif; background:var(--cream); color:var(--terra); min-height:100vh; }
-    .hero { background:var(--terra); padding:60px 40px 52px; text-align:center; }
-    .hero h1 { font-family:'Fraunces',serif; font-size:40px; font-weight:600; color:#FAF7F2; line-height:1.15; margin-bottom:12px; }
-    .hero h1 em { font-style:italic; color:var(--coral); }
-    .hero p  { font-size:16px; color:#A09890; max-width:480px; margin:0 auto 28px; line-height:1.6; }
-    .hero a  { display:inline-block; background:var(--coral); color:#fff; font-weight:700; font-size:14px; padding:10px 24px; border-radius:99px; text-decoration:none; }
-    .grid { max-width:760px; margin:48px auto; padding:0 24px; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
-    .card { background:#fff; border:1px solid var(--cream-200); border-radius:16px; padding:24px; text-decoration:none; color:inherit; transition:box-shadow .15s; }
-    .card:hover { box-shadow:0 8px 24px rgba(43,31,23,.08); }
-    .card-tag { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral); margin-bottom:10px; }
-    .card h2 { font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:8px; line-height:1.3; }
-    .card p  { font-size:13px; color:var(--muted); line-height:1.55; }
-    .card-arrow { margin-top:16px; font-size:13px; font-weight:600; color:var(--coral); }
-    footer { text-align:center; padding:32px; font-size:13px; color:var(--muted); border-top:1px solid var(--cream-200); }
+
+/* ─── TOKENS ─── */
+:root {
+  --coral:      #D97757;
+  --coral-dark: #C9633E;
+  --coral-soft: #F2D5C3;
+  --terra-900:  #2B1F17;
+  --terra-700:  #4A382C;
+  --cream-100:  #F5F1ED;
+  --cream-200:  #EBE6DD;
+  --white:      #FFFFFF;
+  --muted:      #8A8A8A;
+  --ui-text:    #A09890;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-md:  0 4px 12px rgba(43,31,23,.07);
+  --shadow-lg:  0 12px 32px rgba(43,31,23,.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px; line-height: 1.65;
+  color: var(--terra-900);
+  background: var(--cream-100);
+}
+
+/* ─── KEYFRAMES ─── */
+@keyframes blobDrift1 {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(50px,-40px) scale(1.10); }
+}
+@keyframes blobDrift2 {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(-40px,50px) scale(0.92); }
+}
+@keyframes gradientShift {
+  0%,100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes lineReveal {
+  0%   { clip-path: inset(0 0 100% 0); transform: translateY(14px); opacity: 0; }
+  100% { clip-path: inset(0 0 0% 0);   transform: translateY(0);    opacity: 1; }
+}
+
+/* ─── OVERLAYS FIXOS ─── */
+.noise-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.ambient-blob-1 {
+  position: fixed; top: -180px; left: -180px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(217,119,87,.10) 0%, transparent 70%);
+  animation: blobDrift1 18s ease-in-out infinite alternate;
+  pointer-events: none; z-index: 0;
+}
+.ambient-blob-2 {
+  position: fixed; bottom: -200px; right: -200px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,148,58,.07) 0%, transparent 70%);
+  animation: blobDrift2 22s ease-in-out infinite alternate;
+  pointer-events: none; z-index: 0;
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--terra-900);
+  position: relative; overflow: hidden;
+  padding: 72px 40px 80px;
+  text-align: center;
+}
+.hero-content { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(217,119,87,.15); border: 1px solid rgba(217,119,87,.25);
+  border-radius: 99px; padding: 6px 16px;
+  font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800; font-size: clamp(36px, 6vw, 52px);
+  color: #FAF7F2; line-height: 1.1; margin-bottom: 20px;
+}
+.hero-line { display: block; animation: lineReveal .8s var(--ease-spring) both; }
+.hero-line:nth-child(2) { animation-delay: .12s; }
+
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--coral), #F59E5A, #E8562A, var(--coral));
+  background-size: 300% 100%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: gradientShift 3.5s ease infinite;
+}
+
+.hero p {
+  font-size: 16px; color: var(--ui-text);
+  max-width: 440px; margin: 0 auto 32px; line-height: 1.7;
+}
+
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--coral); color: #fff;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px;
+  padding: 12px 28px; border-radius: 99px; text-decoration: none;
+  position: relative; overflow: hidden;
+  transition: background .2s, box-shadow .2s;
+  box-shadow: 0 4px 16px rgba(217,119,87,.35);
+}
+.hero-cta:hover { background: var(--coral-dark); box-shadow: 0 8px 28px rgba(217,119,87,.50); }
+.hero-cta::before {
+  content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+  transform: skewX(-20deg); transition: left .5s ease;
+}
+.hero-cta:hover::before { left: 150%; }
+
+/* ─── GRID DE RECURSOS ─── */
+.resources {
+  max-width: 794px; margin: 0 auto;
+  padding: 64px 24px 80px;
+  position: relative; z-index: 1;
+}
+
+.resources-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 8px;
+}
+.resources h2 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700; font-size: 26px; color: var(--terra-900);
+  margin-bottom: 32px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.resource-card {
+  background: var(--white);
+  border: 1px solid var(--cream-200);
+  border-radius: 16px; padding: 28px;
+  text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
+  transition: box-shadow .25s var(--ease-spring), transform .25s var(--ease-spring);
+}
+.resource-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* gradient border no hover */
+.resource-card::before {
+  content: ''; position: absolute; inset: 0; padding: 1px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(217,119,87,.85), rgba(217,119,87,.08), rgba(217,119,87,.55));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .3s;
+}
+.resource-card:hover::before { opacity: 1; }
+
+.card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 12px;
+}
+.resource-card h3 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700; font-size: 18px; line-height: 1.3;
+  color: var(--terra-900); margin-bottom: 10px;
+}
+.resource-card p {
+  font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px;
+}
+.card-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--coral);
+  transition: gap .2s var(--ease-spring);
+}
+.resource-card:hover .card-link { gap: 10px; }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .6s var(--ease-spring), transform .6s var(--ease-spring);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal:nth-child(2) { transition-delay: .1s; }
+.reveal:nth-child(3) { transition-delay: .2s; }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center; padding: 32px 24px;
+  font-size: 13px; color: var(--muted);
+  border-top: 1px solid var(--cream-200);
+  position: relative; z-index: 1;
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 600px) {
+  .hero { padding: 56px 24px 64px; }
+  .resources { padding: 48px 20px 64px; }
+  .cards-grid { grid-template-columns: 1fr; }
+}
+
   </style>
 </head>
 <body>
+
+  <div class="noise-overlay"></div>
+  <div class="ambient-blob-1"></div>
+  <div class="ambient-blob-2"></div>
+
+  <!-- HERO -->
   <div class="hero">
-    <h1>IA na <em>Prática</em><br>— Recursos</h1>
-    <p>Guias, templates e materiais de apoio para os posts do @iacomrafael. Gratuitos, sem login.</p>
-    <a href="https://www.instagram.com/iacomrafael/" target="_blank">Seguir @iacomrafael</a>
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> @iacomrafael</div>
+      <h1>
+        <span class="hero-line">IA na <em>Prática</em></span>
+        <span class="hero-line">— Recursos</span>
+      </h1>
+      <p>Guias, vaults e materiais de apoio para os posts do @iacomrafael. Gratuitos, sem login.</p>
+      <a class="hero-cta" href="https://www.instagram.com/iacomrafael/" target="_blank">
+        <i class="fa-brands fa-instagram"></i> Seguir @iacomrafael
+      </a>
+    </div>
   </div>
-  <div class="grid">
-    <a class="card" href="guias/skill-claude/">
-      <div class="card-tag">Guia Prático</div>
-      <h2>Como Criar Sua Primeira Skill no Claude</h2>
-      <p>Pare de repetir contexto. Skill é a instrução que o Claude carrega automaticamente. 5 passos, 3 templates prontos.</p>
-      <div class="card-arrow">Abrir guia →</div>
-    </a>
-    <a class="card" href="guias/20-skills-claude/">
-      <div class="card-tag">Vault de Skills</div>
-      <h2>20 Claude Skills que Todo Builder Deveria Ter</h2>
-      <p>20 skills prontas para instalar. Hook Forge, Voice Locker, Decision Framer e mais 17. Build once. Run forever.</p>
-      <div class="card-arrow">Ver vault →</div>
-    </a>
-    <a class="card" href="design-system/">
-      <div class="card-tag">Referência Interna</div>
-      <h2>Design System v1</h2>
-      <p>Tokens, componentes, animações e decisões documentadas. Base visual para todos os materiais do @iacomrafael.</p>
-      <div class="card-arrow">Ver sistema →</div>
-    </a>
-  </div>
+
+  <!-- RECURSOS -->
+  <section class="resources">
+    <div class="resources-label">Materiais</div>
+    <h2>Tudo que você precisa para aplicar</h2>
+    <div class="cards-grid">
+
+      <a class="resource-card reveal" href="guias/skill-claude/">
+        <div class="card-tag">Guia Prático</div>
+        <h3>Como Criar Sua Primeira Skill no Claude</h3>
+        <p>Pare de repetir contexto. Skill é a instrução que o Claude carrega automaticamente. 5 passos, 3 templates prontos.</p>
+        <span class="card-link">Abrir guia <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+      <a class="resource-card reveal" href="guias/20-skills-claude/">
+        <div class="card-tag">Vault de Skills</div>
+        <h3>20 Claude Skills que Todo Builder Deveria Ter</h3>
+        <p>20 skills prontas para instalar. Hook Forge, Voice Locker, Decision Framer e mais 17. Build once. Run forever.</p>
+        <span class="card-link">Ver vault <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+
+    </div>
+  </section>
+
   <footer>por <strong>@iacomrafael</strong> · Rafael Lima · maio/2026</footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
 </body>
 </html>
