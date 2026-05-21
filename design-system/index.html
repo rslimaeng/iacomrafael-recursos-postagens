@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System v1 — @iacomrafael</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================
+       IACOMRAFAEL DESIGN SYSTEM v1 — mai/2026
+       Análise de 20 design systems (9 claros + 11 escuros)
+       Paleta coral/terra/cream mantida.
+       Upgrades: spring easing, botões glow, scroll-reveal
+       com blur, stagger, componentes novos.
+    ================================================ */
+
+    /* --- TOKENS --- */
+    :root {
+      --coral:      #D97757;
+      --coral-dark: #C9633E;
+      --coral-soft: #F2D5C3;
+      --terra-900:  #2B1F17;
+      --terra-700:  #4A382C;
+      --cream-50:   #FAF7F2;
+      --cream-100:  #F5F1ED;
+      --cream-200:  #EBE6DD;
+      --white:      #FFFFFF;
+      --muted:      #8A8A8A;
+      --ocre:       #C9943A;
+      --ocre-soft:  #F0E2C2;
+
+      /* Shadows terra-tinted (upgrade: cold rgba(0,0,0) removido) */
+      --shadow-sm:      0 1px 2px rgba(43,31,23,0.04);
+      --shadow-md:      0 4px 12px rgba(43,31,23,0.06);
+      --shadow-lg:      0 12px 32px rgba(43,31,23,0.08);
+      --shadow-coral:   0 4px 15px rgba(217,119,87,0.25);
+      --shadow-coral-h: 0 8px 25px rgba(217,119,87,0.40);
+
+      /* Radius */
+      --r-chip:    4px;
+      --r-badge:   8px;
+      --r-card:    16px;
+      --r-surface: 24px;
+      --r-pill:    9999px;
+
+      /* Easing — consenso de 7/9 temas claros analisados */
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--terra-900);
+      background: var(--cream-100);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- TIPOGRAFIA --- */
+    .t-hero {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 500;
+      font-variation-settings: 'opsz' 144, 'SOFT' 50;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+    }
+    .t-h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 34px;
+      font-weight: 600;
+      font-variation-settings: 'opsz' 96, 'SOFT' 30;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+    }
+    .t-h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      font-weight: 600;
+      font-variation-settings: 'opsz' 48, 'SOFT' 20;
+      letter-spacing: -0.4px;
+      line-height: 1.25;
+    }
+    .t-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+    }
+    .t-caption {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .t-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--cream-200);
+      color: var(--terra-700);
+      padding: 2px 6px;
+      border-radius: var(--r-chip);
+    }
+
+    /* --- BUTTONS --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: var(--r-badge);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s var(--ease-spring);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--coral);
+      color: white;
+      box-shadow: var(--shadow-coral);
+    }
+    .btn-primary:hover {
+      background: var(--coral-dark);
+      box-shadow: var(--shadow-coral-h);
+      transform: translateY(-2px);
+    }
+    .btn-gradient {
+      background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+      color: white;
+      box-shadow: var(--shadow-coral);
+    }
+    .btn-gradient:hover {
+      box-shadow: var(--shadow-coral-h);
+      transform: translateY(-2px) scale(1.02);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--terra-900);
+      border: 1.5px solid var(--cream-200);
+    }
+    .btn-secondary:hover {
+      background: var(--cream-50);
+      border-color: var(--terra-700);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--coral);
+      border: 1.5px solid var(--coral-soft);
+    }
+    .btn-ghost:hover {
+      background: var(--coral-soft);
+      border-color: var(--coral);
+      transform: translateY(-1px);
+    }
+    .btn-pill { border-radius: var(--r-pill); }
+    .btn-sm   { font-size: 12px; padding: 7px 14px; }
+    .btn-lg   { font-size: 15px; padding: 14px 28px; }
+
+    /* --- CARDS --- */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--cream-200);
+      border-radius: var(--r-card);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--coral), var(--coral-soft));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s var(--ease-spring);
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .card:hover::before { transform: scaleX(1); }
+
+    .card-depth {
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--cream-200);
+      border-radius: var(--r-card);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease;
+      overflow: visible;
+    }
+    .card-depth::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--cream-100);
+      border: 1px solid var(--cream-200);
+      border-radius: var(--r-card);
+      transform: translate(8px, 8px);
+      z-index: -1;
+      transition: transform 0.3s var(--ease-spring);
+    }
+    .card-depth:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .card-depth:hover::after { transform: translate(12px, 12px); }
+
+    .card-flat {
+      background: var(--cream-50);
+      border: 1px solid var(--cream-200);
+      border-radius: var(--r-card);
+      padding: 28px;
+    }
+
+    /* --- COMPONENTES NOVOS --- */
+    .quote-block {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      font-variation-settings: 'opsz' 72, 'SOFT' 80;
+      line-height: 1.5;
+      color: var(--terra-700);
+      border-left: 3px solid var(--coral);
+      padding: 4px 0 4px 20px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(43,31,23,0.12) 50%, transparent);
+      border: none;
+      margin: 48px 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--r-badge);
+    }
+    .badge-coral   { background: var(--coral-soft);  color: var(--coral-dark); }
+    .badge-insight { background: var(--ocre-soft);   color: var(--ocre); }
+    .badge-terra   { background: var(--cream-200);   color: var(--terra-700); }
+
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-item .val {
+      font-family: 'Fraunces', serif;
+      font-size: 40px;
+      font-weight: 500;
+      font-variation-settings: 'opsz' 96, 'SOFT' 30;
+      letter-spacing: -1px;
+      line-height: 1;
+      color: var(--terra-900);
+    }
+    .stat-item .lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* --- ANIMATION SYSTEM --- */
+    @keyframes fadeSlideIn {
+      0%   { opacity: 0; transform: translateY(24px); filter: blur(4px); }
+      100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    @keyframes revealUp {
+      0%   { clip-path: inset(100% 0 0 0); transform: translateY(10px); opacity: 0; }
+      100% { clip-path: inset(0 0 0 0);    transform: translateY(0);    opacity: 1; }
+    }
+    @keyframes beamH {
+      0%   { left: -220px; opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { left: 100%;  opacity: 0; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(4px);
+      transition:
+        opacity   0.8s var(--ease-spring),
+        transform 0.8s var(--ease-spring),
+        filter    0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+    /* Stagger via --i CSS var */
+    .stagger > *:nth-child(1) { --i: 0; }
+    .stagger > *:nth-child(2) { --i: 1; }
+    .stagger > *:nth-child(3) { --i: 2; }
+    .stagger > *:nth-child(4) { --i: 3; }
+    .stagger > *:nth-child(5) { --i: 4; }
+    .stagger > *:nth-child(6) { --i: 5; }
+    .stagger.reveal > * { transition-delay: calc(var(--i, 0) * 80ms); }
+
+    .beam-h {
+      position: absolute;
+      height: 1px;
+      width: 220px;
+      background: linear-gradient(90deg, transparent, rgba(217,119,87,0.5), transparent);
+      animation: beamH 5s linear infinite;
+      pointer-events: none;
+    }
+
+    /* ---- PAGE LAYOUT ---- */
+    .ds-nav {
+      background: var(--terra-900);
+      padding: 16px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ds-nav .brand {
+      font-family: 'Fraunces', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--coral);
+      font-variation-settings: 'opsz' 48, 'SOFT' 20;
+      text-decoration: none;
+    }
+    .ds-nav .version {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .ds-hero {
+      background: var(--terra-900);
+      padding: 80px 40px 96px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ds-hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .ds-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 40px;
+    }
+    .ds-section + .ds-section { border-top: 1px solid var(--cream-200); }
+    .ds-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
+    }
+    .ds-section h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 30px;
+      font-weight: 600;
+      font-variation-settings: 'opsz' 80, 'SOFT' 25;
+      letter-spacing: -0.5px;
+      color: var(--terra-900);
+      margin-bottom: 10px;
+    }
+    .ds-section .desc {
+      font-size: 15px;
+      color: var(--terra-700);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    /* Layout helpers */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; }
+    .swatch { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .swatch-color { height: 56px; }
+    .swatch-info  { padding: 8px 10px; background: var(--white); border-top: 1px solid var(--cream-200); }
+    .swatch-name  { font-size: 10px; font-weight: 700; color: var(--terra-900); margin-bottom: 2px; }
+    .swatch-hex   { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+    .type-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--cream-200);
+    }
+    .type-meta        { min-width: 140px; flex-shrink: 0; }
+    .type-meta .role  { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+    .type-meta .spec  { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--terra-700); line-height: 1.6; }
+
+    .btn-row   { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .badges-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    .decision-item {
+      background: var(--white);
+      border: 1px solid var(--cream-200);
+      border-radius: var(--r-card);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .decision-item .d-title { font-size: 14px; font-weight: 700; color: var(--terra-900); margin-bottom: 6px; }
+    .decision-item .d-why   { font-size: 13px; color: var(--terra-700); line-height: 1.65; }
+    .decision-item .d-from  { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--cream-200);
+      background: var(--cream-50);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="ds-nav">
+    <a class="brand" href="../">@iacomrafael — Design System</a>
+    <span class="version">v1 · mai/2026</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="ds-hero">
+    <div class="beam-h" style="top: 38%;"></div>
+    <div class="beam-h" style="top: 62%; animation-delay: 2.5s;"></div>
+    <div class="ds-hero-inner">
+      <p class="t-eyebrow" style="color: var(--coral-soft); margin-bottom: 16px;">Design System v1</p>
+      <h1 class="t-hero" style="color: #FAF7F2; margin-bottom: 16px;">
+        Base visual para<br>
+        <em style="color: var(--coral);">todos os materiais</em>
+      </h1>
+      <p style="font-size: 16px; color: rgba(250,247,242,0.60); max-width: 520px; line-height: 1.7; margin-bottom: 32px;">
+        Tokens, componentes, animações e decisões documentadas. Derivado da análise de 20 design systems — 9 temas claros e 11 escuros. Paleta coral/terra/cream mantida integralmente.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="#cores" class="btn btn-primary btn-pill">Ver tokens →</a>
+        <a href="#decisoes" class="btn btn-secondary btn-pill" style="color: rgba(250,247,242,0.75); border-color: rgba(250,247,242,0.18);">Decisões de design</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 CORES -->
+  <section class="ds-section reveal" id="cores">
+    <p class="ds-section-label">01 — Cores</p>
+    <h2>Paleta de tokens</h2>
+    <p class="desc">Paleta mantida do brand-guide-v2. Coral = CTA primário. Terra = texto. Cream = superfície. Ocre = badges educacionais — nunca CTA.</p>
+
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#D97757;"></div>
+        <div class="swatch-info"><div class="swatch-name">--coral</div><div class="swatch-hex">#D97757</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C9633E;"></div>
+        <div class="swatch-info"><div class="swatch-name">--coral-dark</div><div class="swatch-hex">#C9633E</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F2D5C3;"></div>
+        <div class="swatch-info"><div class="swatch-name">--coral-soft</div><div class="swatch-hex">#F2D5C3</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#2B1F17;"></div>
+        <div class="swatch-info"><div class="swatch-name">--terra-900</div><div class="swatch-hex">#2B1F17</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#4A382C;"></div>
+        <div class="swatch-info"><div class="swatch-name">--terra-700</div><div class="swatch-hex">#4A382C</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F5F1ED;"></div>
+        <div class="swatch-info"><div class="swatch-name">--cream-100</div><div class="swatch-hex">#F5F1ED</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#EBE6DD; border:1px solid #d4cfc6;"></div>
+        <div class="swatch-info"><div class="swatch-name">--cream-200</div><div class="swatch-hex">#EBE6DD</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C9943A;"></div>
+        <div class="swatch-info"><div class="swatch-name">--ocre</div><div class="swatch-hex">#C9943A</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F0E2C2;"></div>
+        <div class="swatch-info"><div class="swatch-name">--ocre-soft</div><div class="swatch-hex">#F0E2C2</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:900px; margin-left:auto; margin-right:auto;">
+
+  <!-- 02 TIPOGRAFIA -->
+  <section class="ds-section reveal" id="tipografia">
+    <p class="ds-section-label">02 — Tipografia</p>
+    <h2>Escala tipográfica</h2>
+    <p class="desc">Fraunces variável para display/headings — axis SOFT e opsz mudam a personalidade por tamanho. Inter para corpo e UI. JetBrains Mono para código e labels técnicos.</p>
+
+    <div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">Hero</div>
+          <div class="spec">Fraunces 500<br>opsz 144 SOFT 50<br>clamp(36–52px) / 1.1</div>
+        </div>
+        <div class="t-hero" style="font-size: 36px;">Inteligência que<br><em style="color:var(--coral);">trabalha com você</em></div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">H2</div>
+          <div class="spec">Fraunces 600<br>opsz 96 SOFT 30<br>34px / 1.15</div>
+        </div>
+        <div class="t-h2">Aprenda uma vez, use sempre</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">H3 / Card</div>
+          <div class="spec">Fraunces 600<br>opsz 48 SOFT 20<br>22px / 1.25</div>
+        </div>
+        <div class="t-h3">Skill salva o contexto permanente</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">Stat/Número</div>
+          <div class="spec">Fraunces 500<br>opsz 96 SOFT 30<br>40px / 1.0</div>
+        </div>
+        <div style="font-family:'Fraunces',serif;font-size:40px;font-weight:500;font-variation-settings:'opsz' 96,'SOFT' 30;letter-spacing:-1px;line-height:1;color:var(--coral);">24</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">Quote</div>
+          <div class="spec">Fraunces 400 italic<br>opsz 72 SOFT 80<br>22px / 1.5</div>
+        </div>
+        <blockquote class="quote-block" style="margin:0;">A IA não pensa por você — ela pensa com você.</blockquote>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">Eyebrow</div>
+          <div class="spec">Inter 700 uppercase<br>11px / 0.12em</div>
+        </div>
+        <div class="t-eyebrow">IA Aplicada</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">Body</div>
+          <div class="spec">Inter 400<br>16px / 1.65</div>
+        </div>
+        <div>Você escreve uma vez, salva, e o Claude carrega automaticamente — sem precisar mencionar.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="role">Caption</div>
+          <div class="spec">Inter 400<br>13px / 1.5<br>--muted</div>
+        </div>
+        <div class="t-caption">Última atualização: mai/2026</div>
+      </div>
+      <div class="type-row" style="border:none;">
+        <div class="type-meta">
+          <div class="role">Código</div>
+          <div class="spec">JetBrains Mono 400<br>12px / 1.5</div>
+        </div>
+        <code class="t-code" style="font-size:13px; padding:4px 10px;">/skill instagram-carrossel-v3</code>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:900px; margin-left:auto; margin-right:auto;">
+
+  <!-- 03 BOTÕES -->
+  <section class="ds-section reveal" id="botoes">
+    <p class="ds-section-label">03 — Botões</p>
+    <h2>Sistema de botões</h2>
+    <p class="desc">5 variantes. Primary e Gradient para CTAs. Secondary e Ghost para ações secundárias. Pill para qualquer variante. Hover sempre com <code class="t-code">translateY(-2px)</code> + glow coral.</p>
+
+    <div class="btn-row">
+      <a href="#" class="btn btn-primary" onclick="return false;">Primary</a>
+      <a href="#" class="btn btn-gradient" onclick="return false;">Gradient</a>
+      <a href="#" class="btn btn-secondary" onclick="return false;">Secondary</a>
+      <a href="#" class="btn btn-ghost" onclick="return false;">Ghost</a>
+    </div>
+    <div class="btn-row">
+      <a href="#" class="btn btn-primary btn-pill" onclick="return false;">Primary Pill</a>
+      <a href="#" class="btn btn-gradient btn-pill" onclick="return false;">Gradient Pill</a>
+      <a href="#" class="btn btn-secondary btn-pill" onclick="return false;">Secondary Pill</a>
+    </div>
+    <div class="btn-row">
+      <a href="#" class="btn btn-primary btn-sm" onclick="return false;">Small</a>
+      <a href="#" class="btn btn-primary" onclick="return false;">Regular</a>
+      <a href="#" class="btn btn-primary btn-lg" onclick="return false;">Large</a>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:900px; margin-left:auto; margin-right:auto;">
+
+  <!-- 04 CARDS -->
+  <section class="ds-section" id="cards">
+    <p class="ds-section-label">04 — Cards</p>
+    <h2>Sistema de cards</h2>
+    <p class="desc">3 variantes. Card padrão: barra coral surge no topo no hover. Card Depth: camada offset cria profundidade sem glassmorphism. Flat: informativo, sem interação.</p>
+
+    <div class="cards-grid stagger reveal">
+      <div class="card">
+        <p class="t-eyebrow" style="margin-bottom:10px;">Card Padrão</p>
+        <p class="t-h3" style="margin-bottom:8px;">Hover para ver a barra coral</p>
+        <p class="t-caption">Barra desliza da esquerda. Shadow sobe com spring easing.</p>
+      </div>
+      <div class="card-depth">
+        <p class="t-eyebrow" style="margin-bottom:10px;">Card Depth</p>
+        <p class="t-h3" style="margin-bottom:8px;">Camada offset atrás</p>
+        <p class="t-caption">Profundidade visual sem backdrop-filter. Hover amplia o offset.</p>
+      </div>
+      <div class="card-flat">
+        <p class="t-eyebrow" style="margin-bottom:10px;">Card Flat</p>
+        <p class="t-h3" style="margin-bottom:8px;">Sem hover, fundo cream</p>
+        <p class="t-caption">Para informação ou listas onde hover seria distração.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:900px; margin-left:auto; margin-right:auto;">
+
+  <!-- 05 COMPONENTES -->
+  <section class="ds-section reveal" id="componentes">
+    <p class="ds-section-label">05 — Componentes</p>
+    <h2>Novos componentes</h2>
+    <p class="desc">Quote block, gradient divider, badges e stat display. Derivados da análise e alinhados ao brand guide.</p>
+
+    <div style="display:flex; flex-direction:column; gap:40px;">
+
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:14px;">Quote block</p>
+        <blockquote class="quote-block">A primeira versão do prompt nunca é a melhor. A quarta é.</blockquote>
+        <p class="t-caption" style="margin-top:10px;">Fraunces italic SOFT 80 · terra-700 · border-left 3px coral</p>
+      </div>
+
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:16px;">Gradient divider</p>
+        <hr class="divider" style="margin:0;">
+        <p class="t-caption" style="margin-top:12px;">linear-gradient horizontal, terra-900 a 12% de opacidade. Substitui bordas sólidas entre seções.</p>
+      </div>
+
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:12px;">Badges</p>
+        <div class="badges-row">
+          <span class="badge badge-coral">IA Aplicada</span>
+          <span class="badge badge-insight">Aprendizado</span>
+          <span class="badge badge-terra">Desmistificação</span>
+          <span class="badge badge-coral">Produtividade</span>
+        </div>
+        <p class="t-caption" style="margin-top:12px;">Coral = destaque/CTA. Ocre = conteúdo educacional. Terra = pilar neutro.</p>
+      </div>
+
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:16px;">Stat display (Fraunces 40px — antes: Inter 16px bold)</p>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="val" style="color:var(--coral);">24</div>
+            <div class="lbl">Skills ativas</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">10k</div>
+            <div class="lbl">Meta seguidores</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">50</div>
+            <div class="lbl">Produtos dez/26</div>
+          </div>
+          <div class="stat-item">
+            <div class="val" style="color:var(--ocre);">4</div>
+            <div class="lbl">Pilares editoriais</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:900px; margin-left:auto; margin-right:auto;">
+
+  <!-- 06 ANIMAÇÕES -->
+  <section class="ds-section" id="animacoes">
+    <p class="ds-section-label">06 — Animações</p>
+    <h2>Sistema de entrada</h2>
+    <p class="desc">IntersectionObserver adiciona <code class="t-code">.visible</code> quando elemento entra na tela. Stagger via variável CSS <code class="t-code">--i</code>. Easing spring em tudo.</p>
+
+    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:32px;">
+      <div style="background:var(--white); border:1px solid var(--cream-200); border-radius:var(--r-card); padding:20px 24px;">
+        <p class="t-eyebrow" style="margin-bottom:6px;">.reveal</p>
+        <p style="font-size:14px; color:var(--terra-700);">opacity 0→1 + translateY(24px)→0 + blur(4px)→0</p>
+        <p class="t-caption" style="margin-top:4px;">0.8s <code class="t-code">cubic-bezier(0.16, 1, 0.3, 1)</code></p>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--cream-200); border-radius:var(--r-card); padding:20px 24px;">
+        <p class="t-eyebrow" style="margin-bottom:6px;">.stagger.reveal > *</p>
+        <p style="font-size:14px; color:var(--terra-700);">Cada filho atrasa 80ms além do anterior</p>
+        <p class="t-caption" style="margin-top:4px;"><code class="t-code">transition-delay: calc(var(--i, 0) * 80ms)</code></p>
+      </div>
+    </div>
+
+    <p class="t-eyebrow" style="margin-bottom:16px;">Demo stagger (role a tela para resetar)</p>
+    <div class="cards-grid stagger reveal">
+      <div class="card-flat"><p class="t-h3" style="font-size:16px;">Card 1</p><p class="t-caption">Entra primeiro</p></div>
+      <div class="card-flat"><p class="t-h3" style="font-size:16px;">Card 2</p><p class="t-caption">80ms depois</p></div>
+      <div class="card-flat"><p class="t-h3" style="font-size:16px;">Card 3</p><p class="t-caption">160ms depois</p></div>
+    </div>
+
+    <div style="margin-top:32px; background:var(--terra-900); border-radius:var(--r-card); padding:24px; position:relative; overflow:hidden;">
+      <div class="beam-h" style="top:40%;"></div>
+      <p class="t-eyebrow" style="color:var(--coral-soft); margin-bottom:10px;">Beam decorativo</p>
+      <p style="color:rgba(250,247,242,0.65); font-size:14px; max-width:480px;">Linha de luz coral atravessa a caixa a cada 5s. Opcional — usar em heroes ou banners sobre fundo escuro.</p>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:900px; margin-left:auto; margin-right:auto;">
+
+  <!-- 07 DECISÕES -->
+  <section class="ds-section reveal" id="decisoes">
+    <p class="ds-section-label">07 — Decisões</p>
+    <h2>Por que cada escolha</h2>
+    <p class="desc">Cada decisão rastreada até a análise dos 20 design systems. Registrado aqui para manter coerência nos próximos materiais.</p>
+
+    <div class="decision-item">
+      <div class="d-title">Fraunces + Inter — não DM Serif + DM Sans da v2</div>
+      <div class="d-why">DM Serif é geométrico. Fraunces é variável com axis SOFT — fica mais quente em tamanhos grandes (opsz 144). A apresentação Pará v2 usou DM Serif como upgrade, mas o brand guide já define Fraunces como canônico. Coerência acima de novidade pontual.</div>
+      <div class="d-from">Fonte: brand-guide-v2 + delta v1→v2 da apresentação Pará</div>
+    </div>
+
+    <div class="decision-item">
+      <div class="d-title">Shadows terra-tinted — não cold rgba(0,0,0)</div>
+      <div class="d-why">V1 e V2 da apresentação usam rgba(0,0,0,...) nas sombras. Sobre superfície cream, ficam frias e desconectadas. rgba(43,31,23,...) herda o calor do terra-900 e reforça a coesão da paleta. Mudança de 1 linha, impacto perceptível.</div>
+      <div class="d-from">Fonte: brand-guide-v2 shadow tokens</div>
+    </div>
+
+    <div class="decision-item">
+      <div class="d-title">cubic-bezier(0.16, 1, 0.3, 1) como curva de animação padrão</div>
+      <div class="d-why">Aparece em 7 dos 9 temas claros analisados (digital-architect, white-medical, green-museum, genlabs, cryptolearn...). Curva spring — desacelera rápido antes da parada, simula física real. É a curva das animações iOS. ease e ease-out ficam datados ao lado.</div>
+      <div class="d-from">Fonte: cross-analysis dos 9 temas claros</div>
+    </div>
+
+    <div class="decision-item">
+      <div class="d-title">Sem glassmorphism — só os padrões estruturais</div>
+      <div class="d-why">14 dos 20 design systems usam backdrop-filter: blur. O brand guide bane glassmorphism e neumorphism explicitamente. O que extraímos: anatomia de cards (dual-layer, depth offset), easing de botões, stagger de cards. Os efeitos de blur em superfícies ficaram de fora.</div>
+      <div class="d-from">Fonte: brand-guide-v2 proibições + análise glass-pricing</div>
+    </div>
+
+    <div class="decision-item">
+      <div class="d-title">Scroll reveal com blur(4px) + translateY — não só opacity</div>
+      <div class="d-why">Todos os 11 temas escuros e 7 dos 9 claros usam esse padrão com blur. O blur leve no início torna a entrada cinematográfica sem ser chamativa. V2 da Pará já usou blur no tab-switch — estendemos para scroll-reveal em todos os elementos.</div>
+      <div class="d-from">Fonte: ai-social-automation, canvas-visual, volta-ev + v2 tab animation</div>
+    </div>
+
+    <div class="decision-item">
+      <div class="d-title">Stat numbers em Fraunces 40px — não Inter bold 16px</div>
+      <div class="d-why">V1 e V2 renderizam métricas no mesmo tamanho do texto do corpo. O glass-pricing usa price-value 2.5rem — hierarquia numérica imediata. Fraunces 40px cria scanning rápido: olho vai para o número, depois para o label. Gap visual enorme para custo mínimo.</div>
+      <div class="d-from">Fonte: glass-pricing component + gaps v1→v2</div>
+    </div>
+
+    <div class="decision-item">
+      <div class="d-title">Gradient divider — não borda sólida 1px</div>
+      <div class="d-why">Borda sólida entre seções cria uma grade quadriculada que compete com o conteúdo. O gradient divider (transparente nas bordas, terra-900 a 12% no centro) separa sem cortar. Padrão extraído dos temas escuros do glass-pricing e adaptado à paleta quente.</div>
+      <div class="d-from">Fonte: glass-pricing + open-source-llm dividers</div>
+    </div>
+
+  </section>
+
+  <footer>
+    por <strong>@iacomrafael</strong> · Rafael Lima · Design System v1 · mai/2026
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
