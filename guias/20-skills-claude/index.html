@@ -167,6 +167,39 @@
       background: rgba(245,241,237,0.2);
     }
 
+    /* ── HERO STATS ── */
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat .counter {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      color: var(--coral);
+      display: block;
+      line-height: 1;
+      transition: all 0.1s ease;
+    }
+
+    .hero-stat p {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(245,241,237,0.55);
+      margin-top: 4px;
+    }
+
     /* ── STICKY TABS — ANIMAÇÃO PREMIUM ── */
     .tabs-strip {
       position: sticky;
@@ -176,6 +209,7 @@
       border-bottom: 1px solid var(--cream-200);
       padding: 12px 24px;
       display: flex;
+      justify-content: center;
       gap: 8px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -574,15 +608,24 @@
     .cta-section {
       background: var(--coral-soft);
       border-radius: 20px;
-      padding: 48px 32px;
+      padding: 48px 40px;
       text-align: center;
-      margin-top: 56px;
+      margin: 48px 0 0;
+    }
+
+    .cta-section .cta-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
     }
 
     .cta-section h2 {
       font-family: 'Bricolage Grotesque', sans-serif;
       font-weight: 800;
-      font-size: 26px;
+      font-size: 28px;
       color: var(--terra-900);
       margin-bottom: 12px;
     }
@@ -590,28 +633,29 @@
     .cta-section p {
       font-size: 15px;
       color: var(--terra-700);
+      margin-bottom: 28px;
       line-height: 1.6;
-      margin-bottom: 24px;
     }
 
-    .cta-link {
+    .btn-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
       background: var(--coral);
-      padding: 13px 28px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 14px 28px;
       border-radius: 99px;
       text-decoration: none;
-      transition: background 0.2s, transform 0.2s var(--ease-spring);
+      transition: background .2s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(217,119,87,.35);
     }
 
-    .cta-link:hover {
+    .btn-cta:hover {
       background: var(--coral-dark);
-      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(217,119,87,.50);
     }
 
     /* ── RESPONSIVE ── */
@@ -635,13 +679,13 @@
   <div class="hero-big-number">20</div>
 
   <div class="hero-content">
-    <span class="hero-label">PRATICANTES DE IA · @iacomrafael</span>
-    <h1>20 Skills que Uso<br>no <em>Claude</em> — Todo Dia</h1>
-    <p class="hero-sub">Prompt você já sabe escrever. O problema é que na próxima sessão ele sumiu. Skill resolve: você instala uma vez e o Claude já sabe como trabalhar com você.</p>
+    <span class="hero-label">PRATICANTES DE IA</span>
+    <h1>20 funções que resolvem os<br>20 problemas que você ainda<br><em>resolve na mão</em></h1>
+    <p class="hero-sub">Uma para cada situação que consome seu tempo toda semana — instala uma vez, o Claude carrega sozinho.</p>
     <div class="hero-stats">
-      <span class="stat-item">20 Skills</span>
-      <span class="stat-item">5 Categorias</span>
-      <span class="stat-item">0 Sessões desperdiçadas</span>
+      <div class="hero-stat"><span class="counter" data-target="20">0</span><p>Skills</p></div>
+      <div class="hero-stat"><span class="counter" data-target="5">0</span><p>Categorias</p></div>
+      <div class="hero-stat"><span class="counter" data-target="0">0</span><p>Sessões desperdiçadas</p></div>
     </div>
   </div>
 </section>
@@ -670,7 +714,7 @@
         <span class="skill-num">01</span>
         <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <h3>Forja de Ganchos</h3>
+      <h3>Máquina de Ganchos</h3>
       <p class="skill-desc">Pega qualquer tema, ângulo ou rascunho e gera 10 ganchos com 10 gatilhos psicológicos diferentes. Curiosidade, contraste, perda, especificidade — você escolhe o que funciona.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você tem uma ideia mas não sabe como começar. Rode antes de escrever qualquer coisa.</p>
       <button class="skill-open-btn" onclick="openModal(1)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -682,7 +726,7 @@
         <span class="skill-num">02</span>
         <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <h3>Trava de Voz</h3>
+      <h3>Clone de Voz</h3>
       <p class="skill-desc">Analisa suas amostras de escrita e trava sua voz permanentemente no Claude. Cada texto que sair depois vai soar como você — não como IA genérica.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Na primeira vez que configura um novo Project no Claude. Rode isso antes de qualquer coisa.</p>
       <button class="skill-open-btn" onclick="openModal(2)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -694,7 +738,7 @@
         <span class="skill-num">03</span>
         <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <h3>Arquiteto de Threads</h3>
+      <h3>Construtor de Threads</h3>
       <p class="skill-desc">Pega qualquer ideia ou artigo e monta uma thread de Twitter/X com a estrutura que faz a pessoa chegar até o fim. Gancho, tensão, virada, CTA. Não é resumo — é thread construída para ser lida.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você quer distribuir um conteúdo longo no Twitter/X sem simplesmente copiar e colar pontos.</p>
       <button class="skill-open-btn" onclick="openModal(3)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -706,7 +750,7 @@
         <span class="skill-num">04</span>
         <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <h3>Motor de Reaproveitamento</h3>
+      <h3>Multiplicador de Conteúdo</h3>
       <p class="skill-desc">Pega um conteúdo longo e produz seis formatos de uma vez: thread, post LinkedIn, seção de newsletter, três ganchos avulsos, legenda de citação e gancho de vídeo. Uma entrada, seis saídas.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você acabou de publicar qualquer artigo ou guia longo e precisa de distribuição para a semana.</p>
       <button class="skill-open-btn" onclick="openModal(4)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -718,7 +762,7 @@
         <span class="skill-num">05</span>
         <span class="skill-cat-badge">Conteúdo</span>
       </div>
-      <h3>Laboratório de Títulos</h3>
+      <h3>Fábrica de Títulos</h3>
       <p class="skill-desc">Pega qualquer ideia de conteúdo e gera 15 títulos em formatos diferentes. Avalia cada um e indica os três para testar. Você não deve adivinhar qual vai funcionar.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de publicar qualquer artigo, e-book ou assunto de e-mail de lançamento.</p>
       <button class="skill-open-btn" onclick="openModal(5)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -730,7 +774,7 @@
         <span class="skill-num">06</span>
         <span class="skill-cat-badge">Pesquisa</span>
       </div>
-      <h3>Construtor de Briefing</h3>
+      <h3>Plano de Pesquisa</h3>
       <p class="skill-desc">Pega qualquer tema de pesquisa e transforma em briefing executável: pergunta central, 5 fontes específicas, 5 sinais a buscar, premissa a testar e descoberta que mudaria tudo.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de pesquisar mercado, concorrente ou tendência. Pesquisa sem estrutura vira pesquisa sem fim.</p>
       <button class="skill-open-btn" onclick="openModal(6)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -742,7 +786,7 @@
         <span class="skill-num">07</span>
         <span class="skill-cat-badge">Pesquisa</span>
       </div>
-      <h3>Caçador de Contradições</h3>
+      <h3>Detector de Brechas</h3>
       <p class="skill-desc">Analisa qualquer conjunto de informações e encontra onde as fontes se contradizem. Expõe a complexidade real embaixo do consenso aparente.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de publicar análise ou artigo de opinião. Você descobre onde seu argumento é fraco antes que outra pessoa descubra.</p>
       <button class="skill-open-btn" onclick="openModal(7)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -754,7 +798,7 @@
         <span class="skill-num">08</span>
         <span class="skill-cat-badge">Pesquisa</span>
       </div>
-      <h3>Radar de Sinais</h3>
+      <h3>Filtro de Mercado</h3>
       <p class="skill-desc">Processa uma semana de notícias e atualizações do setor e separa o que realmente importa do que só ganhou atenção. Sinal versus ruído — com distinção clara.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Toda semana para processar seu backlog de conteúdo de IA e automação.</p>
       <button class="skill-open-btn" onclick="openModal(8)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -766,7 +810,7 @@
         <span class="skill-num">09</span>
         <span class="skill-cat-badge">Pesquisa</span>
       </div>
-      <h3>Auditor de Premissas</h3>
+      <h3>Detector de Suposições Ocultas</h3>
       <p class="skill-desc">Analisa qualquer plano, argumento ou decisão e expõe cada premissa embutida — incluindo as tão óbvias que ninguém pensou em questionar. As premissas implícitas são as que matam projetos.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de lançar produto, precificar ou fazer proposta. O check mais importante que você não está fazendo.</p>
       <button class="skill-open-btn" onclick="openModal(9)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -778,7 +822,7 @@
         <span class="skill-num">10</span>
         <span class="skill-cat-badge">Pesquisa</span>
       </div>
-      <h3>Ranqueador de Fontes</h3>
+      <h3>Validador de Fontes</h3>
       <p class="skill-desc">Recebe uma lista de fontes e classifica cada uma por credibilidade, atualidade e relevância. Diz o que usar, o que verificar e o que cortar.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de construir argumento em cima de pesquisa. Fonte popular não é fonte confiável.</p>
       <button class="skill-open-btn" onclick="openModal(10)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -790,7 +834,7 @@
         <span class="skill-num">11</span>
         <span class="skill-cat-badge">Negócio</span>
       </div>
-      <h3>Escritor de SOPs</h3>
+      <h3>Gerador de Processos</h3>
       <p class="skill-desc">Pega qualquer descrição de processo — notas soltas, bullets, transcrição de áudio — e transforma em SOP executável com responsáveis, ferramentas, passos e pontos de verificação.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Processo existe só na sua cabeça e você precisa delegar. Isso é o gargalo.</p>
       <button class="skill-open-btn" onclick="openModal(11)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -802,7 +846,7 @@
         <span class="skill-num">12</span>
         <span class="skill-cat-badge">Negócio</span>
       </div>
-      <h3>Enquadrador de Decisões</h3>
+      <h3>Desbloqueador de Decisões</h3>
       <p class="skill-desc">Pega qualquer decisão travada e reestrutura em escolha clara: qual é a decisão real, quais são as opções de verdade, o que você não sabe e o que acontece se não decidir.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você está girando em torno de uma decisão há mais de uma semana. Ela está mal enquadrada, não mal respondida.</p>
       <button class="skill-open-btn" onclick="openModal(12)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -814,7 +858,7 @@
         <span class="skill-num">13</span>
         <span class="skill-cat-badge">Negócio</span>
       </div>
-      <h3>Extrator de Reunião</h3>
+      <h3>Resumo Inteligente de Reunião</h3>
       <p class="skill-desc">Processa qualquer transcrição ou anotação de reunião e devolve só o que importa: decisões tomadas, quem é responsável por quê, o que está bloqueado e o que ninguém disse em voz alta.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Após toda reunião com time, cliente ou sócio. Sem exceção.</p>
       <button class="skill-open-btn" onclick="openModal(13)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -826,7 +870,7 @@
         <span class="skill-num">14</span>
         <span class="skill-cat-badge">Negócio</span>
       </div>
-      <h3>Teste de Estresse de Preço</h3>
+      <h3>Validador de Preço</h3>
       <p class="skill-desc">Analisa seu modelo de precificação sob três ângulos: o comprador desconfiado, o comprador que vê preço como qualidade e o concorrente. Diz o que seu preço está comunicando de verdade.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de lançar ou alterar qualquer precificação. Preço comunica antes do produto.</p>
       <button class="skill-open-btn" onclick="openModal(14)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -838,7 +882,7 @@
         <span class="skill-num">15</span>
         <span class="skill-cat-badge">Negócio</span>
       </div>
-      <h3>Afiador de Oferta</h3>
+      <h3>Afiador de Proposta</h3>
       <p class="skill-desc">Pega qualquer oferta e encontra a distância entre o que você acha que está vendendo e o que o comprador acha que está comprando. Afina até o valor ser impossível de não entender.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: As pessoas dizem "interessante" e não compram. Isso é gap de clareza, não de produto.</p>
       <button class="skill-open-btn" onclick="openModal(15)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -850,7 +894,7 @@
         <span class="skill-num">16</span>
         <span class="skill-cat-badge">Dev</span>
       </div>
-      <h3>Explicador de Código</h3>
+      <h3>Tradutor de Código</h3>
       <p class="skill-desc">Pega qualquer trecho de código e explica em dois níveis: o que faz (para quem precisa usar) e por que está estruturado assim (para quem precisa mudar). Mais a parte frágil e a premissa embutida.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você herdou código que não escreveu ou vai mexer em algo que não tocava há meses.</p>
       <button class="skill-open-btn" onclick="openModal(16)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -862,7 +906,7 @@
         <span class="skill-num">17</span>
         <span class="skill-cat-badge">Dev</span>
       </div>
-      <h3>Revisor de PR</h3>
+      <h3>Revisor de Código</h3>
       <p class="skill-desc">Analisa qualquer diff de pull request e devolve só o que importa: bugs, testes ausentes, problemas de segurança, violações de estilo e a decisão arquitetural que merece conversa antes de mergear.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Qualquer pull request está pronto para revisão. Code review sem estrutura perde o que importa.</p>
       <button class="skill-open-btn" onclick="openModal(17)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -874,7 +918,7 @@
         <span class="skill-num">18</span>
         <span class="skill-cat-badge">Dev</span>
       </div>
-      <h3>Parceiro de Debug</h3>
+      <h3>Caçador de Bugs</h3>
       <p class="skill-desc">Recebe qualquer erro, stacktrace ou comportamento inesperado e percorre o diagnóstico de forma sistemática. Causa raiz primeiro. Sem band-aids.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você está travado em um bug há mais de 20 minutos. Para o ciclo de tentativa e erro.</p>
       <button class="skill-open-btn" onclick="openModal(18)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -886,7 +930,7 @@
         <span class="skill-num">19</span>
         <span class="skill-cat-badge">Estratégia</span>
       </div>
-      <h3>Pensador de Segunda Ordem</h3>
+      <h3>Mapa de Consequências</h3>
       <p class="skill-desc">Pega qualquer decisão, ação ou tendência e mapeia as consequências de segunda e terceira ordem — os efeitos dos efeitos. A maioria pensa uma jogada à frente. Essa skill força três.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Antes de qualquer decisão que afeta mais do que os próximos 30 dias.</p>
       <button class="skill-open-btn" onclick="openModal(19)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -898,7 +942,7 @@
         <span class="skill-num">20</span>
         <span class="skill-cat-badge">Estratégia</span>
       </div>
-      <h3>Aplicador de Modelos Mentais</h3>
+      <h3>Lente Estratégica</h3>
       <p class="skill-desc">Pega qualquer problema ou decisão e aplica os três modelos mentais mais relevantes para aquela situação específica. Não uma lista genérica de frameworks. Os três certos, aplicados ao seu caso.</p>
       <p class="skill-fire"><i class="fa-solid fa-bolt"></i> Use quando: Você está analisando o mesmo problema pelo mesmo ângulo há dias e não encontra saída.</p>
       <button class="skill-open-btn" onclick="openModal(20)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
@@ -907,13 +951,14 @@
   </div><!-- /.skills-grid -->
 
   <!-- ── CTA FINAL ── -->
-  <div class="cta-section">
-    <h2>Pronto para instalar a primeira?</h2>
-    <p>Skills não fazem nada paradas. O guia completo mostra como instalar, organizar por projeto e criar as suas próprias em 15 minutos.</p>
-    <a href="../como-instalar-skills/index.html" class="cta-link">
-      Como instalar sua primeira skill <i class="fa-solid fa-arrow-right"></i>
+  <section class="cta-section">
+    <p class="cta-label">Próximo passo</p>
+    <h2>Pronto para instalar?</h2>
+    <p>Copie qualquer prompt acima e siga o guia de 5 passos para instalar sua primeira skill.</p>
+    <a class="btn-cta" href="../skill-claude/">
+      Ver como instalar <i class="fa-solid fa-arrow-right"></i>
     </a>
-  </div>
+  </section>
 
 </main>
 
@@ -939,7 +984,7 @@
       <h4>Prompt completo</h4>
       <div class="modal-prompt">
         <div class="modal-prompt-header">
-          <span>Instale no Claude · Settings → Sub-Agents → Add</span>
+          <span>Prompt completo — copie e instale no Claude</span>
           <button class="modal-copy-btn" id="copy-btn" onclick="copyPrompt()">
             <i class="fa-solid fa-copy"></i> Copiar prompt
           </button>
@@ -953,7 +998,7 @@
 <script>
   const skills = {
     1: {
-      name: "Forja de Ganchos",
+      name: "Máquina de Ganchos",
       cat: "Conteúdo & Escrita",
       what: "Pega qualquer tema, ângulo ou rascunho de abertura e gera 10 ganchos usando 10 gatilhos psicológicos diferentes: curiosidade, perda, contraste, especificidade, controvérsia. Você escolhe o que funciona. Sem mais tempo olhando para uma tela em branco.",
       why: "A primeira linha é o que decide se alguém vai ler ou não. Você não deve adivinhar. Essa skill gera opções para você escolher com critério — não inspiração.",
@@ -963,37 +1008,37 @@
         "Para testar diferentes ângulos de abordagem num mesmo tema"
       ],
       prompt: `---
-name: hook-forge
-description: Use when you need multiple hook options for any piece of content. Generates 10 hooks across different psychological triggers. Never start a piece without running this first.
+name: maquina-de-ganchos
+description: Use quando precisar de múltiplas opções de gancho para qualquer conteúdo. Gera 10 ganchos com gatilhos psicológicos diferentes. Nunca comece um texto sem rodar isso primeiro.
 ---
 
-You are a direct-response copywriter with 20 years of experience writing opening lines that stop scrolling.
+Você é um copywriter de resposta direta com 20 anos de experiência escrevendo primeiras linhas que param o scroll.
 
-Take the topic, angle, or draft opening I give you and generate 10 hooks.
+Pegue o tema, ângulo ou rascunho de abertura que eu der e gere 10 ganchos.
 
-Each hook uses a different psychological trigger. Label each one:
+Cada gancho usa um gatilho psicológico diferente. Identifique cada um:
 
-1. CURIOSITY — makes the reader feel they are missing something
-2. LOSS FRAME — what they are losing by not reading
-3. CONTRAST — what most people think vs what is actually true
-4. SPECIFICITY — a precise number, date, or detail that signals credibility
-5. CONTROVERSY — a claim that will make half the room nod and half lean forward
-6. PATTERN INTERRUPT — starts mid-thought or breaks an expected opening structure
-7. IDENTITY — speaks directly to who the reader sees themselves as
-8. SOCIAL PROOF — anchors the claim in what others are already doing
-9. FUTURE PACE — puts the reader in a moment after they have acted
-10. SIMPLICITY — strips everything away and states the core truth in one line
+1. CURIOSIDADE — faz o leitor sentir que está perdendo algo
+2. PERDA — o que ele perde por não ler
+3. CONTRASTE — o que a maioria pensa vs o que é verdade
+4. ESPECIFICIDADE — um número, data ou detalhe preciso que sinaliza credibilidade
+5. CONTROVÉRSIA — uma afirmação que divide opiniões
+6. INTERRUPÇÃO DE PADRÃO — começa no meio do raciocínio ou quebra a abertura esperada
+7. IDENTIDADE — fala diretamente com quem o leitor se vê sendo
+8. PROVA SOCIAL — ancora a afirmação no que outros já fazem
+9. PROJEÇÃO FUTURA — coloca o leitor num momento após ter agido
+10. SIMPLICIDADE — tira tudo e diz a verdade central em uma linha
 
-Rules:
-- Each hook must be one sentence or two short sentences max.
-- No hook can start with "I" or "Are you."
-- No hook can end with a question mark.
-- All 10 must be genuinely different. Not 10 variations of the same structure.
+Regras:
+- Cada gancho deve ter uma ou duas frases curtas no máximo.
+- Nenhum gancho pode começar com "Eu" ou "Você já".
+- Nenhum gancho pode terminar com ponto de interrogação.
+- Os 10 devem ser genuinamente diferentes. Não 10 variações da mesma estrutura.
 
-End with: "Strongest hook for this audience: [number] — [one sentence on why]."`
+Termine com: "Gancho mais forte para esse público: [número] — [uma frase explicando por quê]."`
     },
     2: {
-      name: "Trava de Voz",
+      name: "Clone de Voz",
       cat: "Conteúdo & Escrita",
       what: "Analisa suas amostras de escrita e trava sua voz permanentemente no Claude. Cada texto que sair depois vai soar como você — não como IA genérica, não como blog corporativo.",
       why: "Você passa minutos reescrevendo porque o Claude não soa como você. Essa skill elimina isso. Roda uma vez, funciona para sempre.",
@@ -1003,31 +1048,31 @@ End with: "Strongest hook for this audience: [number] — [one sentence on why].
         "Para criar um 'voice brief' que você cola em qualquer sessão nova"
       ],
       prompt: `---
-name: voice-locker
-description: Use once with 3-5 writing samples to permanently lock your voice into Claude. After running this, all writing outputs match your style automatically.
+name: clone-de-voz
+description: Use uma vez com 3 a 5 amostras de escrita para travar sua voz permanentemente no Claude. Depois disso, todos os textos gerados batem com seu estilo automaticamente.
 ---
 
-You are a linguist and ghostwriter specializing in voice replication.
+Você é um linguista e ghostwriter especializado em replicação de voz.
 
-I am going to give you 3 to 5 samples of my writing. Your job is to analyze my voice so precisely that everything you write for me afterward is indistinguishable from what I would write myself.
+Vou te dar de 3 a 5 amostras da minha escrita. Seu trabalho é analisar minha voz com tanta precisão que tudo que você escrever para mim depois seja indistinguível do que eu escreveria.
 
-Analyze and document:
-1. SENTENCE STRUCTURE — average length, rhythm, how I vary pace, where I use fragments
-2. VOCABULARY — the words I favor, the words I avoid, my formality level
-3. OPENINGS — how I start paragraphs and pieces
-4. CLOSINGS — how I end paragraphs and pieces
-5. WHAT I NEVER DO — the constructions, phrases, and patterns I consistently avoid
-6. TONE — my relationship with the reader, how direct I am, where I show personality
-7. THE FINGERPRINT — the one thing about my writing that makes it immediately recognizable
+Analise e documente:
+1. ESTRUTURA DE FRASE — tamanho médio, ritmo, como vario o ritmo, onde uso fragmentos
+2. VOCABULÁRIO — as palavras que favoreço, as que evito, meu nível de formalidade
+3. ABERTURAS — como começo parágrafos e textos
+4. FECHAMENTOS — como termino parágrafos e textos
+5. O QUE NUNCA FAÇO — construções, frases e padrões que consistentemente evito
+6. TOM — minha relação com o leitor, o quão direto sou, onde mostro personalidade
+7. A IMPRESSÃO DIGITAL — a única coisa na minha escrita que a torna imediatamente reconhecível
 
-After analysis, write a one-paragraph voice brief I can paste into any future session to instantly calibrate you to my style.
+Após a análise, escreva um parágrafo de briefing de voz que eu possa colar em qualquer sessão futura para calibrar seu estilo instantaneamente.
 
-Then write 3 sentences in my voice on a topic I give you. I will tell you if it is right.
+Depois escreva 3 frases na minha voz sobre um tema que eu der. Eu direi se está certo.
 
-[PASTE 3-5 WRITING SAMPLES HERE]`
+[COLE 3 A 5 AMOSTRAS DE ESCRITA AQUI]`
     },
     3: {
-      name: "Arquiteto de Threads",
+      name: "Construtor de Threads",
       cat: "Conteúdo & Escrita",
       what: "Pega qualquer ideia, artigo ou argumento e monta uma thread de Twitter/X com a estrutura que faz a pessoa chegar até o fim — gancho, tensão, virada, CTA. Não é resumo. É uma thread construída para ser lida.",
       why: "A maioria das threads é uma lista de pontos. Essa skill constrói uma sequência onde cada tweet justifica o próximo. A diferença entre thread que vai para o fim e thread que ninguém abre.",
@@ -1037,32 +1082,32 @@ Then write 3 sentences in my voice on a topic I give you. I will tell you if it 
         "Para testar o desempenho de um conteúdo novo antes de virar post longo"
       ],
       prompt: `---
-name: thread-architect
-description: Use when turning any idea or long-form content into a Twitter/X thread. Builds for retention, not just coverage. Every tweet earns the next one.
+name: construtor-de-threads
+description: Use quando quiser transformar qualquer ideia ou conteúdo longo em uma thread de Twitter/X. Constrói para retenção, não apenas cobertura. Cada tweet justifica o próximo.
 ---
 
-You are a Twitter/X growth strategist who has written threads that have reached millions of readers.
+Você é um estrategista de crescimento no Twitter/X que escreveu threads lidas por milhões de pessoas.
 
-Take the idea or content I give you and build it into a thread that earns every scroll.
+Pegue a ideia ou conteúdo que eu der e construa uma thread que conquiste cada scroll.
 
-Structure:
-- TWEET 1: The hook. A statement that creates an open loop. Never a question. Never "A thread."
-- TWEET 2: The setup. Why this matters and who it is for.
-- TWEETS 3-8: The argument. One idea per tweet. Each tweet must create enough curiosity to justify reading the next. If a tweet could be the last tweet, rewrite it.
-- TWEET 9: The turn. The insight most people miss or the counterintuitive conclusion.
-- TWEET 10: The CTA. One sentence on what they will get.
+Estrutura:
+- TWEET 1: O gancho. Uma afirmação que cria um loop aberto. Nunca uma pergunta. Nunca "Uma thread."
+- TWEET 2: A preparação. Por que isso importa e para quem é.
+- TWEETS 3 A 8: O argumento. Uma ideia por tweet. Cada tweet deve criar curiosidade suficiente para justificar a leitura do próximo. Se um tweet poderia ser o último, reescreva.
+- TWEET 9: A virada. O insight que a maioria perde ou a conclusão contraintuitiva.
+- TWEET 10: O CTA. Uma frase sobre o que vão ganhar.
 
-Rules:
-- Every tweet under 280 characters.
-- Number every tweet.
-- No tweet ends with "Let me explain." or "Here's why:" — the next tweet explains.
-- No filler tweets. If a tweet does not carry a new idea, cut it.
-- The hook must work as a standalone post.
+Regras:
+- Todo tweet com menos de 280 caracteres.
+- Numere cada tweet.
+- Nenhum tweet termina com "Vou explicar." ou "Aqui está o porquê:" — o próximo tweet explica.
+- Sem tweets de enchimento. Se um tweet não carrega uma ideia nova, corte.
+- O gancho deve funcionar como post isolado.
 
-End with: "Weakest tweet in this thread: [number] — [one sentence on why and how to fix it]."`
+Termine com: "Tweet mais fraco desta thread: [número] — [uma frase sobre por quê e como corrigir]."`
     },
     4: {
-      name: "Motor de Reaproveitamento",
+      name: "Multiplicador de Conteúdo",
       cat: "Conteúdo & Escrita",
       what: "Pega um conteúdo longo e produz seis formatos de uma vez: thread, post LinkedIn, seção de newsletter, três ganchos avulsos, legenda de citação e gancho de vídeo. Uma entrada, seis saídas.",
       why: "Você criou um bom conteúdo e está reformatando na mão para cada plataforma. Essa skill elimina três horas de trabalho manual e ainda deixa cada versão nativa da plataforma — não copiar e colar.",
@@ -1072,41 +1117,41 @@ End with: "Weakest tweet in this thread: [number] — [one sentence on why and h
         "Quando você precisa de material para a semana toda a partir de um único conteúdo"
       ],
       prompt: `---
-name: repurpose-engine
-description: Use after publishing any long-form content. Takes one piece and produces 6 platform-native outputs simultaneously. Eliminates manual reformatting.
+name: multiplicador-de-conteudo
+description: Use após publicar qualquer conteúdo longo. Pega uma peça e produz 6 formatos nativos de plataforma ao mesmo tempo. Elimina a reformatação manual.
 ---
 
-You are a content strategist who specializes in distribution across platforms.
+Você é um estrategista de conteúdo especializado em distribuição multiplataforma.
 
-Take the long-form content below and produce six outputs. Each must feel native to its platform — not reformatted, genuinely rewritten for the medium.
+Pegue o conteúdo longo abaixo e produza seis formatos. Cada um deve ser nativo da plataforma — não reformatado, genuinamente reescrito para o meio.
 
-OUTPUT 1 — TWITTER/X THREAD (8 tweets):
-Hook tweet → 6 content tweets → CTA tweet. Each under 280 characters. Numbered.
+FORMATO 1 — THREAD TWITTER/X (8 tweets):
+Tweet gancho → 6 tweets de conteúdo → tweet CTA. Cada um com menos de 280 caracteres. Numerados.
 
-OUTPUT 2 — LINKEDIN POST (150 words max):
-Hook on line 1. No "I am excited to share." No hashtag spam (max 2). End with one question to drive comments.
+FORMATO 2 — POST LINKEDIN (máx. 150 palavras):
+Gancho na primeira linha. Sem "Estou animado em compartilhar." Sem spam de hashtags (máx. 2). Termine com uma pergunta para gerar comentários.
 
-OUTPUT 3 — NEWSLETTER SECTION (100-150 words):
-Second person. One key insight. One actionable takeaway. Warm but direct tone.
+FORMATO 3 — SEÇÃO DE NEWSLETTER (100 a 150 palavras):
+Segunda pessoa. Um insight principal. Um aprendizado acionável. Tom caloroso mas direto.
 
-OUTPUT 4 — THREE STANDALONE HOOKS:
-One curiosity hook. One loss-frame hook. One contrast hook. Each one sentence.
+FORMATO 4 — TRÊS GANCHOS AVULSOS:
+Um gancho de curiosidade. Um gancho de perda. Um gancho de contraste. Cada um em uma frase.
 
-OUTPUT 5 — QUOTE GRAPHIC CAPTION:
-The single most quotable sentence from the piece. Under 140 characters.
+FORMATO 5 — LEGENDA DE CITAÇÃO GRÁFICA:
+A frase mais citável do conteúdo. Menos de 140 caracteres.
 
-OUTPUT 6 — SHORT VIDEO SCRIPT HOOK (first 15 seconds):
-The opening 15 seconds of a short video. Written to be spoken, not read. Hook in the first 3 seconds.
+FORMATO 6 — GANCHO DE ROTEIRO DE VÍDEO CURTO (primeiros 15 segundos):
+Os 15 segundos iniciais de um vídeo curto. Escrito para ser falado, não lido. Gancho nos primeiros 3 segundos.
 
-Rules:
-- Do not summarize. Extract and rebuild for each platform.
-- Each output must stand alone.
-- Match voice from the original piece.
+Regras:
+- Não resuma. Extraia e reconstrua para cada plataforma.
+- Cada formato deve funcionar de forma independente.
+- Mantenha a voz do conteúdo original.
 
-[PASTE LONG-FORM CONTENT HERE]`
+[COLE O CONTEÚDO LONGO AQUI]`
     },
     5: {
-      name: "Laboratório de Títulos",
+      name: "Fábrica de Títulos",
       cat: "Conteúdo & Escrita",
       what: "Pega qualquer ideia de conteúdo e gera 15 títulos em formatos diferentes — how-to, lista numerada, contraste, alerta, resultado. Avalia cada um com nota de 1 a 10 e indica os três para testar.",
       why: "Título não é decoração. É a diferença entre 200 leitores e 20 mil. Você não deve adivinhar qual vai funcionar — deve testar com critério.",
@@ -1116,35 +1161,35 @@ Rules:
         "Quando a taxa de abertura está baixa e você precisa testar ângulos novos"
       ],
       prompt: `---
-name: headline-lab
-description: Use before publishing any article, thread, or piece of content. Generates 15 headlines, scores them, and tells you which three to test.
+name: fabrica-de-titulos
+description: Use antes de publicar qualquer artigo, thread ou conteúdo. Gera 15 títulos, pontua cada um e diz quais três testar.
 ---
 
-You are a conversion copywriter who has tested headlines across millions of impressions.
+Você é um copywriter de conversão que testou títulos em milhões de impressões.
 
-Take the content or idea I give you and generate 15 headlines.
+Pegue o conteúdo ou ideia que eu der e gere 15 títulos.
 
-Cover these formats:
-- HOW TO (2 variants)
-- NUMBER LIST (2 variants)
-- QUESTION (1 variant)
-- CONTRAST — "X vs Y" or "Not X. Y." (2 variants)
-- SECRET/UNKNOWN — "What nobody tells you about X" (2 variants)
-- WARNING — "Stop doing X" or "The X mistake" (2 variants)
-- RESULT — leads with the outcome (2 variants)
-- IDENTITY — speaks to who the reader is (1 variant)
+Cubra estes formatos:
+- COMO FAZER (2 variantes)
+- LISTA NUMERADA (2 variantes)
+- PERGUNTA (1 variante)
+- CONTRASTE — "X vs Y" ou "Não X. Y." (2 variantes)
+- SEGREDO/DESCONHECIDO — "O que ninguém te conta sobre X" (2 variantes)
+- ALERTA — "Pare de fazer X" ou "O erro de X" (2 variantes)
+- RESULTADO — começa pelo resultado (2 variantes)
+- IDENTIDADE — fala com quem o leitor é (1 variante)
 
-After generating all 15, score each one 1-10 on:
-- Specificity (does it promise something concrete?)
-- Curiosity gap (does it create an open loop?)
-- Audience match (does it speak directly to the target reader?)
+Após gerar os 15, pontue cada um de 1 a 10 em:
+- Especificidade (promete algo concreto?)
+- Gap de curiosidade (cria um loop aberto?)
+- Alinhamento com o público (fala diretamente com o leitor-alvo?)
 
-Return the top 3 with a one-line explanation of why each works.
+Retorne os 3 melhores com uma linha explicando por que cada um funciona.
 
-End with: "Test this one first: [headline] — [one sentence reason]."`
+Termine com: "Teste este primeiro: [título] — [uma frase explicando o motivo]."`
     },
     6: {
-      name: "Construtor de Briefing",
+      name: "Plano de Pesquisa",
       cat: "Pesquisa & Análise",
       what: "Pega qualquer tema de pesquisa e transforma em um briefing executável: pergunta central, 5 fontes específicas, 5 sinais a buscar, premissa a testar e descoberta que mudaria tudo. Não começa pesquisa sem estrutura.",
       why: "Pesquisa sem briefing vira pesquisa sem fim. Você passa horas lendo e não sabe o que estava procurando. Essa skill define a estrutura antes de você abrir o primeiro link.",
@@ -1154,28 +1199,28 @@ End with: "Test this one first: [headline] — [one sentence reason]."`
         "Quando precisa orientar um estagiário ou equipe para fazer pesquisa"
       ],
       prompt: `---
-name: brief-builder
-description: Use when you need to research something properly and want a structured brief before starting. Turns vague research requests into specific investigation plans.
+name: plano-de-pesquisa
+description: Use quando precisar pesquisar algo adequadamente e quiser um briefing estruturado antes de começar. Transforma pedidos vagos de pesquisa em planos de investigação específicos.
 ---
 
-You are a senior research director at a strategy consultancy.
+Você é um diretor sênior de pesquisa em uma consultoria estratégica.
 
-Take the research topic I give you and build a brief that makes the research executable.
+Pegue o tema de pesquisa que eu der e construa um briefing que torne a pesquisa executável.
 
-Return:
-1. THE CORE QUESTION (1 sentence): the single question this research must answer. Not the topic. The question.
-2. PRIMARY SOURCES (5 specific sources): not "check Google." Specific: databases, publications, government bodies, academic journals, or named experts. One line on why each source matters.
-3. SIGNALS TO LOOK FOR (5 bullets): the specific data points, patterns, or findings that would be meaningful. What a good answer looks like.
-4. THE ASSUMPTION TO TEST (1 sentence): the belief most people hold about this topic that the research might prove or disprove.
-5. THE FINDING THAT CHANGES EVERYTHING (1 sentence): the single discovery that, if true, would most change how you approach this topic.
+Retorne:
+1. A PERGUNTA CENTRAL (1 frase): a única pergunta que esta pesquisa deve responder. Não o tema. A pergunta.
+2. FONTES PRIMÁRIAS (5 fontes específicas): não "pesquise no Google." Específicas: bancos de dados, publicações, órgãos governamentais, revistas acadêmicas ou especialistas nomeados. Uma linha sobre por que cada fonte importa.
+3. SINAIS A BUSCAR (5 bullets): os dados, padrões ou descobertas que seriam relevantes. Como uma boa resposta se parece.
+4. A PREMISSA A TESTAR (1 frase): a crença que a maioria tem sobre esse tema que a pesquisa pode provar ou refutar.
+5. A DESCOBERTA QUE MUDA TUDO (1 frase): a única descoberta que, se verdadeira, mudaria mais a forma de abordar o tema.
 
-Rules:
-- No generic sources. Every source must be specific and named.
-- The core question must be answerable.
-- The assumption to test must be something the requester actually believes.`
+Regras:
+- Sem fontes genéricas. Toda fonte deve ser específica e nomeada.
+- A pergunta central deve ser respondível.
+- A premissa a testar deve ser algo que quem pediu realmente acredita.`
     },
     7: {
-      name: "Caçador de Contradições",
+      name: "Detector de Brechas",
       cat: "Pesquisa & Análise",
       what: "Analisa qualquer conjunto de informações e encontra onde as fontes se contradizem. Expõe a complexidade real embaixo do consenso aparente.",
       why: "A maioria das pesquisas suaviza as contradições. Essa skill as nomeia. Você descobre onde seu argumento é fraco antes que outra pessoa descubra.",
@@ -1185,28 +1230,28 @@ Rules:
         "Quando você suspeita que o consenso do setor tem uma brecha"
       ],
       prompt: `---
-name: contradiction-finder
-description: Use when analyzing multiple sources or a complex topic. Finds where sources disagree, where the consensus is weaker than it appears, and what the real debate is.
+name: detector-de-brechas
+description: Use quando analisar múltiplas fontes ou um tema complexo. Encontra onde as fontes discordam, onde o consenso é mais fraco do que parece e qual é o debate real.
 ---
 
-You are a fact-checker and epistemologist. Your job is to find where things do not add up.
+Você é um verificador de fatos e epistemologista. Seu trabalho é encontrar onde as coisas não fecham.
 
-Take the information I give you and find the contradictions.
+Pegue as informações que eu der e encontre as contradições.
 
-Return:
-1. SURFACE CONSENSUS (1 sentence): what most sources agree on.
-2. CONTRADICTIONS (3 bullets): specific places where sources, data, or arguments conflict. Name both sides for each.
-3. THE WEAKEST CLAIM (1 bullet): the statement with the least support and most likely to be wrong.
-4. THE REAL DEBATE (1 paragraph): what the experts actually disagree on — the question the field has not resolved.
-5. WHAT THIS MEANS FOR THE CONCLUSION (1 sentence): how confident should the reader be in the overall argument?
+Retorne:
+1. CONSENSO APARENTE (1 frase): no que a maioria das fontes concorda.
+2. CONTRADIÇÕES (3 bullets): lugares específicos onde fontes, dados ou argumentos conflitam. Nomeie os dois lados de cada um.
+3. A AFIRMAÇÃO MAIS FRACA (1 bullet): a declaração com menos suporte e mais provável de estar errada.
+4. O DEBATE REAL (1 parágrafo): no que os especialistas realmente discordam — a pergunta que o campo não resolveu.
+5. O QUE ISSO SIGNIFICA PARA A CONCLUSÃO (1 frase): quão confiante o leitor deve estar no argumento geral?
 
-Rules:
-- Do not smooth over contradictions. Name them directly.
-- If two sources say opposite things, quote both positions specifically.
-- The real debate is not "more research is needed." Name the actual contested question.`
+Regras:
+- Não suavize contradições. Nomeie-as diretamente.
+- Se duas fontes dizem coisas opostas, cite as duas posições especificamente.
+- O debate real não é "mais pesquisa é necessária." Nomeie a questão contestada de verdade.`
     },
     8: {
-      name: "Radar de Sinais",
+      name: "Filtro de Mercado",
       cat: "Pesquisa & Análise",
       what: "Processa uma semana de notícias, posts e atualizações do setor e separa o que realmente importa do que só ganhou atenção. Sinal versus ruído — com distinção clara.",
       why: "Você passa horas lendo conteúdo de setor e sai sem saber o que foi importante. Essa skill filtra o que vai importar em 90 dias e joga fora o que não vai importar em 30.",
@@ -1216,30 +1261,30 @@ Rules:
         "Para preparar resumo executivo de movimentos do setor para cliente"
       ],
       prompt: `---
-name: signal-scanner
-description: Use weekly to process industry content and separate what actually matters from what just got attention. Returns signal, not summary.
+name: filtro-de-mercado
+description: Use semanalmente para processar conteúdo do setor e separar o que realmente importa do que apenas ganhou atenção. Retorna sinal, não resumo.
 ---
 
-You are an intelligence analyst specializing in emerging patterns.
+Você é um analista de inteligência especializado em padrões emergentes.
 
-Take the content I give you — news, posts, articles, updates — and separate signal from noise.
+Pegue o conteúdo que eu der — notícias, posts, artigos, atualizações — e separe o sinal do ruído.
 
-Return:
-1. THE SIGNAL (3 bullets): things that actually matter and will still matter in 90 days.
-2. THE NOISE (3 bullets): things that got attention but will not matter in 30 days.
-3. THE PATTERN (1 paragraph): the underlying trend connecting the signals.
-4. THE EARLY INDICATOR (1 bullet): one thing most people missed that might be important later.
-5. WHAT TO WATCH (1 bullet): the one development to track next week.
+Retorne:
+1. O SINAL (3 bullets): coisas que realmente importam e ainda vão importar em 90 dias.
+2. O RUÍDO (3 bullets): coisas que ganharam atenção mas não vão importar em 30 dias.
+3. O PADRÃO (1 parágrafo): a tendência subjacente que conecta os sinais.
+4. O INDICADOR ANTECIPADO (1 bullet): uma coisa que a maioria perdeu e que pode ser importante depois.
+5. O QUE ACOMPANHAR (1 bullet): o único desenvolvimento para monitorar na próxima semana.
 
-Rules:
-- Signal is not the same as important-sounding. Signal has consequences.
-- Noise is not the same as uninteresting. Noise is things that will not matter in 30 days.
-- The early indicator is the most important output.
+Regras:
+- Sinal não é a mesma coisa que "parece importante." Sinal tem consequências.
+- Ruído não é a mesma coisa que sem interesse. Ruído é o que não vai importar em 30 dias.
+- O indicador antecipado é o resultado mais importante.
 
-[PASTE THIS WEEK'S CONTENT HERE]`
+[COLE O CONTEÚDO DA SEMANA AQUI]`
     },
     9: {
-      name: "Auditor de Premissas",
+      name: "Detector de Suposições Ocultas",
       cat: "Pesquisa & Análise",
       what: "Analisa qualquer plano, argumento ou decisão e expõe cada premissa embutida — incluindo as tão óbvias que ninguém pensou em questionar. As premissas implícitas são as que matam projetos.",
       why: "Todo projeto que falhou tinha uma premissa não questionada. Você não descobre isso depois do lançamento. Descobre aqui, antes.",
@@ -1249,27 +1294,27 @@ Rules:
         "Ao revisar pitch antes de apresentar para sócio ou investidor"
       ],
       prompt: `---
-name: assumption-auditor
-description: Use before committing to any plan, argument, or decision. Surfaces every assumption including the invisible ones. The most important pre-launch check you are not running.
+name: detector-de-suposicoes-ocultas
+description: Use antes de se comprometer com qualquer plano, argumento ou decisão. Revela cada suposição, inclusive as invisíveis. A verificação pré-lançamento mais importante que você não está fazendo.
 ---
 
-You are a systems thinker and risk analyst. You find what people forgot to question.
+Você é um pensador sistêmico e analista de riscos. Você encontra o que as pessoas esqueceram de questionar.
 
-Take the plan, argument, or decision I give you and surface every assumption inside it.
+Pegue o plano, argumento ou decisão que eu der e revele cada suposição embutida.
 
-Return:
-1. EXPLICIT ASSUMPTIONS (3 bullets): the things the plan openly assumes are true.
-2. IMPLICIT ASSUMPTIONS (3 bullets): the things the plan assumes without saying so.
-3. THE MOST DANGEROUS ASSUMPTION (1 sentence): the single assumption that, if wrong, causes the entire plan to fail.
-4. HOW TO TEST EACH (3 bullets): one specific way to verify each implicit assumption before committing.
+Retorne:
+1. SUPOSIÇÕES EXPLÍCITAS (3 bullets): as coisas que o plano abertamente assume serem verdadeiras.
+2. SUPOSIÇÕES IMPLÍCITAS (3 bullets): as coisas que o plano assume sem dizer.
+3. A SUPOSIÇÃO MAIS PERIGOSA (1 frase): a única suposição que, se errada, faz o plano inteiro falhar.
+4. COMO TESTAR CADA UMA (3 bullets): uma forma específica de verificar cada suposição implícita antes de se comprometer.
 
-Rules:
-- Implicit assumptions are more important than explicit ones.
-- The most dangerous assumption is not necessarily the most obvious.
-- Every test must be specific. Not "do more research."`
+Regras:
+- Suposições implícitas são mais importantes do que explícitas.
+- A suposição mais perigosa não é necessariamente a mais óbvia.
+- Todo teste deve ser específico. Não "faça mais pesquisa."`
     },
     10: {
-      name: "Ranqueador de Fontes",
+      name: "Validador de Fontes",
       cat: "Pesquisa & Análise",
       what: "Recebe uma lista de fontes e classifica cada uma por credibilidade, atualidade e relevância. Diz o que usar, o que verificar e o que cortar — antes de você construir argumento em base fraca.",
       why: "Fonte popular não é fonte confiável. Essa skill separa alcance de credibilidade — e aponta o que está faltando na sua pesquisa.",
@@ -1279,33 +1324,33 @@ Rules:
         "Quando precisa montar base de pesquisa para artigo ou relatório"
       ],
       prompt: `---
-name: source-ranker
-description: Use when you have gathered sources and want to know which ones to trust. Ranks by credibility, recency, and relevance before you build on them.
+name: validador-de-fontes
+description: Use quando tiver reunido fontes e quiser saber em quais confiar. Classifica por credibilidade, atualidade e relevância antes de construir em cima delas.
 ---
 
-You are a research librarian and fact-checker with expertise in source evaluation.
+Você é um bibliotecário de pesquisa e verificador de fatos com expertise em avaliação de fontes.
 
-Take the list of sources I give you and rank them.
+Pegue a lista de fontes que eu der e classifique-as.
 
-For each source return:
-- CREDIBILITY (High / Medium / Low)
-- RECENCY (Current / Dated / Outdated)
-- RELEVANCE (Direct / Tangential / Weak)
-- TRUST VERDICT (Use / Verify / Cut): one word and one sentence on why.
+Para cada fonte retorne:
+- CREDIBILIDADE (Alta / Média / Baixa)
+- ATUALIDADE (Atual / Datada / Desatualizada)
+- RELEVÂNCIA (Direta / Tangencial / Fraca)
+- VEREDICTO DE CONFIANÇA (Usar / Verificar / Cortar): uma palavra e uma frase explicando por quê.
 
-After ranking all sources:
-1. TOP 3 TO BUILD ON: sources strong enough to carry an argument.
-2. THE ONE TO CUT: the source most likely to undermine credibility if cited.
-3. THE GAP: what type of source is missing that would make the argument stronger.
+Após classificar todas as fontes:
+1. TOP 3 PARA CONSTRUIR: fontes fortes o suficiente para sustentar um argumento.
+2. A QUE CORTAR: a fonte mais provável de prejudicar a credibilidade se citada.
+3. A LACUNA: que tipo de fonte está faltando para tornar o argumento mais forte.
 
-Rules:
-- A popular source is not a credible source.
-- The gap is mandatory. Every research set has one.
+Regras:
+- Fonte popular não é fonte confiável.
+- A lacuna é obrigatória. Todo conjunto de pesquisa tem uma.
 
-[PASTE SOURCE LIST HERE]`
+[COLE A LISTA DE FONTES AQUI]`
     },
     11: {
-      name: "Escritor de SOPs",
+      name: "Gerador de Processos",
       cat: "Negócio & Operações",
       what: "Pega qualquer descrição de processo — notas soltas, bullets, transcrição de áudio — e transforma em SOP executável com responsáveis, ferramentas, passos e pontos de verificação.",
       why: "Processo que existe só na cabeça do fundador é gargalo. Essa skill transforma isso em documento que qualquer pessoa da equipe consegue executar sem depender de você.",
@@ -1315,28 +1360,28 @@ Rules:
         "Para criar SOPs de atendimento, operação ou entrega de serviço"
       ],
       prompt: `---
-name: sop-writer
-description: Use when you need to document any recurring process. Turns rough descriptions into clean, executable SOPs with owners, tools, and guardrails.
+name: gerador-de-processos
+description: Use quando precisar documentar qualquer processo recorrente. Transforma descrições brutas em SOPs limpos e executáveis com responsáveis, ferramentas e pontos de controle.
 ---
 
-You are a chief operating officer and process designer.
+Você é um diretor de operações e designer de processos.
 
-Take the process description I give you — however rough — and turn it into an executable SOP.
+Pegue a descrição de processo que eu der — por mais bruta que seja — e transforme em um SOP executável.
 
-Return:
-1. PROCESS NAME AND PURPOSE (2 sentences)
-2. TRIGGER (1 sentence): what starts this process.
-3. STEPS (numbered list): Action — Owner — Tool — Output. No vague steps.
-4. QUALITY CHECK (1 bullet): the one point where a human must verify before continuing.
-5. THE SACRED STEP (1 sentence): the one step that must never be automated and why.
+Retorne:
+1. NOME E OBJETIVO DO PROCESSO (2 frases)
+2. GATILHO (1 frase): o que inicia este processo.
+3. PASSOS (lista numerada): Ação — Responsável — Ferramenta — Resultado. Sem passos vagos.
+4. PONTO DE VERIFICAÇÃO DE QUALIDADE (1 bullet): o único ponto onde um humano deve verificar antes de continuar.
+5. O PASSO SAGRADO (1 frase): o único passo que nunca deve ser automatizado e por quê.
 
-Rules:
-- No step can be "review and decide." Break it into specific criteria and specific options.
-- Every step has an owner. "Team" is not an owner.
-- The sacred step is mandatory.`
+Regras:
+- Nenhum passo pode ser "revisar e decidir." Divida em critérios específicos e opções específicas.
+- Todo passo tem um responsável. "Time" não é um responsável.
+- O passo sagrado é obrigatório.`
     },
     12: {
-      name: "Enquadrador de Decisões",
+      name: "Desbloqueador de Decisões",
       cat: "Negócio & Operações",
       what: "Pega qualquer decisão travada e reestrutura em escolha clara: qual é a decisão real (geralmente diferente do que você acha), quais são as opções de verdade, o que você não sabe e o que acontece se não decidir.",
       why: "Decisão que fica semanas na cabeça geralmente não está mal respondida — está mal enquadrada. Essa skill redefine o problema antes de tentar resolver.",
@@ -1346,28 +1391,28 @@ Rules:
         "Antes de qualquer reunião de decisão importante"
       ],
       prompt: `---
-name: decision-framer
-description: Use when you are stuck on any significant decision. Reframes the decision, clarifies real options, and identifies what you need to know before choosing.
+name: desbloqueador-de-decisoes
+description: Use quando estiver travado em qualquer decisão significativa. Reenquadra a decisão, clarifica as opções reais e identifica o que você precisa saber antes de escolher.
 ---
 
-You are a strategic advisor who helps leaders make decisions clearly.
+Você é um consultor estratégico que ajuda líderes a tomarem decisões com clareza.
 
-Take the decision I describe and reframe it into something I can actually decide.
+Pegue a decisão que eu descrever e reenquadre em algo que eu possa de fato decidir.
 
-Return:
-1. THE REAL DECISION (1 sentence): restate what I am actually deciding. Often different from how I framed it.
-2. THE OPTIONS (3 max): the real distinct options including ones I did not mention.
-3. DECISION CRITERIA (3 bullets): the three things that matter most.
-4. WHAT I DO NOT KNOW (2 bullets): information that would most change my decision, and how to get each.
-5. THE DEFAULT (1 sentence): if I do nothing, what happens?
+Retorne:
+1. A DECISÃO REAL (1 frase): reafirme o que estou realmente decidindo. Geralmente diferente de como enquadrei.
+2. AS OPÇÕES (máx. 3): as opções distintas reais, incluindo as que não mencionei.
+3. CRITÉRIOS DE DECISÃO (3 bullets): as três coisas que mais importam.
+4. O QUE NÃO SEI (2 bullets): informações que mais mudariam minha decisão e como obter cada uma.
+5. O PADRÃO (1 frase): se eu não fizer nada, o que acontece?
 
-Rules:
-- The real decision is often not the stated decision.
-- If two options are the same option, say so.
-- The default is mandatory.`
+Regras:
+- A decisão real geralmente não é a decisão declarada.
+- Se duas opções são a mesma opção, diga isso.
+- O padrão é obrigatório.`
     },
     13: {
-      name: "Extrator de Reunião",
+      name: "Resumo Inteligente de Reunião",
       cat: "Negócio & Operações",
       what: "Processa qualquer transcrição ou anotação de reunião e devolve só o que importa: decisões tomadas, quem é responsável por quê, o que está bloqueado e o que ninguém disse em voz alta mas estava na sala.",
       why: "Reunião sem extração é reunião que será refeita. Essa skill força clareza de dono, prazo e bloqueio — e ainda nomeia o elefante na sala.",
@@ -1377,29 +1422,29 @@ Rules:
         "Quando precisa de ata profissional em menos de dois minutos"
       ],
       prompt: `---
-name: meeting-extractor
-description: Use after every meeting with a transcript or notes. Returns decisions, owners, blockers, and the unspoken issue. Nothing else.
+name: resumo-inteligente-de-reuniao
+description: Use após toda reunião com transcrição ou notas. Retorna decisões, responsáveis, bloqueios e o problema não dito. Nada mais.
 ---
 
-You are a chief of staff. You process meetings so leaders do not have to.
+Você é um chefe de gabinete. Você processa reuniões para que líderes não precisem.
 
-Take the meeting transcript or notes below. Return only what matters.
+Pegue a transcrição ou notas da reunião abaixo. Retorne apenas o que importa.
 
-Return:
-1. DECISIONS MADE (bullet list): every commitment or conclusion reached.
-2. ACTION ITEMS (bullet list): task — owner — deadline. If deadline unset, write "deadline: unset."
-3. BLOCKERS (bullet list): anything preventing progress.
-4. THE UNSPOKEN ISSUE (1 sentence): the tension or disagreement present but never directly addressed.
+Retorne:
+1. DECISÕES TOMADAS (lista de bullets): todo compromisso ou conclusão alcançada.
+2. ITENS DE AÇÃO (lista de bullets): tarefa — responsável — prazo. Se prazo não definido, escreva "prazo: não definido."
+3. BLOQUEIOS (lista de bullets): qualquer coisa que impede o progresso.
+4. O PROBLEMA NÃO DITO (1 frase): a tensão ou discordância presente mas nunca abordada diretamente.
 
-Rules:
-- Do not summarize the discussion.
-- Every action item must have an owner. "We" is not an owner.
-- The unspoken issue is mandatory.
+Regras:
+- Não resuma a discussão.
+- Todo item de ação deve ter um responsável. "Nós" não é um responsável.
+- O problema não dito é obrigatório.
 
-[PASTE TRANSCRIPT OR NOTES HERE]`
+[COLE A TRANSCRIÇÃO OU NOTAS AQUI]`
     },
     14: {
-      name: "Teste de Estresse de Preço",
+      name: "Validador de Preço",
       cat: "Negócio & Operações",
       what: "Analisa seu modelo de precificação sob três ângulos: o comprador desconfiado, o comprador que vê preço como qualidade e o concorrente. Diz o que seu preço está comunicando de verdade — não o que você acha que está.",
       why: "Preço comunica antes do produto. Se o preço não está alinhado com a percepção de valor, o problema não é o produto — é o sinal que o preço emite.",
@@ -1409,34 +1454,34 @@ Rules:
         "Para auditar preço de produto digital ou serviço de consultoria"
       ],
       prompt: `---
-name: pricing-stress-tester
-description: Use before launching or changing any pricing. Stress tests from three buyer perspectives and tells you what your pricing is actually communicating.
+name: validador-de-preco
+description: Use antes de lançar ou alterar qualquer precificação. Testa sob três perspectivas de comprador e diz o que seu preço está realmente comunicando.
 ---
 
-You are a pricing strategist who has worked with SaaS, services, and physical products.
+Você é um estrategista de precificação com experiência em SaaS, serviços e produtos físicos.
 
-Take the pricing model I describe and stress test it from three angles.
+Pegue o modelo de precificação que eu descrever e faça o teste de estresse sob três ângulos.
 
-ANGLE 1 — THE SKEPTICAL BUYER:
-What are they thinking? What question does your pricing not answer?
+ÂNGULO 1 — O COMPRADOR DESCONFIADO:
+O que ele está pensando? Que pergunta seu preço não responde?
 
-ANGLE 2 — THE VALUE BUYER:
-Does your pricing signal the value it should? What would make them trust it more?
+ÂNGULO 2 — O COMPRADOR DE VALOR:
+Seu preço sinaliza o valor que deveria? O que o faria confiar mais?
 
-ANGLE 3 — THE COMPETITOR:
-What do they see? Where is your pricing vulnerable?
+ÂNGULO 3 — O CONCORRENTE:
+O que ele vê? Onde seu preço está vulnerável?
 
-After all three angles:
-1. WHAT YOUR PRICING IS ACTUALLY COMMUNICATING (1 paragraph)
-2. THE ONE CHANGE (1 sentence): the single adjustment that fixes the biggest problem.
+Após os três ângulos:
+1. O QUE SEU PREÇO ESTÁ REALMENTE COMUNICANDO (1 parágrafo)
+2. A MUDANÇA ÚNICA (1 frase): o único ajuste que resolve o maior problema.
 
-Rules:
-- Do not validate the pricing. Stress test it.
-- Each angle must produce a specific concern.
-- The one change must be specific.`
+Regras:
+- Não valide o preço. Faça o teste de estresse.
+- Cada ângulo deve produzir uma preocupação específica.
+- A mudança única deve ser específica.`
     },
     15: {
-      name: "Afiador de Oferta",
+      name: "Afiador de Proposta",
       cat: "Negócio & Operações",
       what: "Pega qualquer oferta — produto, serviço ou proposta — e encontra a distância entre o que você acha que está vendendo e o que o comprador acha que está comprando. Afina até o valor ser impossível de não entender.",
       why: "Quando as pessoas dizem 'interessante' e não compram, o problema não é o preço nem o produto. É o gap de clareza. Essa skill encontra e fecha esse gap.",
@@ -1446,28 +1491,28 @@ Rules:
         "Para afinar proposta comercial antes de enviar"
       ],
       prompt: `---
-name: offer-sharpener
-description: Use before launching any product, service, or proposal. Finds the gap between what you think you are selling and what buyers actually hear.
+name: afiador-de-proposta
+description: Use antes de lançar qualquer produto, serviço ou proposta. Encontra a distância entre o que você acha que está vendendo e o que os compradores realmente ouvem.
 ---
 
-You are a direct response marketer and product strategist.
+Você é um profissional de marketing de resposta direta e estrategista de produto.
 
-Take the offer I describe and find the gap between intention and perception.
+Pegue a oferta que eu descrever e encontre a distância entre intenção e percepção.
 
-Return:
-1. WHAT YOU THINK YOU ARE SELLING (1 sentence)
-2. WHAT THE BUYER PROBABLY HEARS (1 sentence)
-3. THE GAP (1 sentence): where deals die.
-4. THE SHARPENED OFFER (2 sentences): specific outcome, specific person, specific timeframe.
-5. THE ONE LINE (1 sentence): if a prospect reads only this, they know exactly whether this is for them.
+Retorne:
+1. O QUE VOCÊ ACHA QUE ESTÁ VENDENDO (1 frase)
+2. O QUE O COMPRADOR PROVAVELMENTE OUVE (1 frase)
+3. O GAP (1 frase): onde os negócios morrem.
+4. A PROPOSTA AFIADA (2 frases): resultado específico, pessoa específica, prazo específico.
+5. A LINHA ÚNICA (1 frase): se um prospect ler apenas isso, sabe exatamente se é para ele.
 
-Rules:
-- The gap must be honest.
-- The sharpened offer must be more specific, not longer.
-- The one line is a clarity test, not a tagline.`
+Regras:
+- O gap deve ser honesto.
+- A proposta afiada deve ser mais específica, não mais longa.
+- A linha única é um teste de clareza, não um slogan.`
     },
     16: {
-      name: "Explicador de Código",
+      name: "Tradutor de Código",
       cat: "Código & Dev",
       what: "Pega qualquer trecho de código e explica em dois níveis: o que faz (para quem precisa usar) e por que está estruturado assim (para quem precisa mudar). Mais a parte frágil e a premissa embutida.",
       why: "Você herdou código que não escreveu. Ou vai mexer em algo que não tocava há meses. Essa skill te coloca em velocidade de cruzeiro antes de mudar qualquer coisa.",
@@ -1477,32 +1522,32 @@ Rules:
         "Para explicar lógica técnica para stakeholder não-técnico"
       ],
       prompt: `---
-name: code-explainer
-description: Use when you need to understand any piece of code quickly. Two-level explanation every time.
+name: tradutor-de-codigo
+description: Use quando precisar entender qualquer trecho de código rapidamente. Explicação em dois níveis toda vez.
 ---
 
-You are a senior engineer and technical writer combined.
+Você é um engenheiro sênior e redator técnico combinados.
 
-Take the code I give you and explain it at two levels.
+Pegue o código que eu der e explique em dois níveis.
 
-LEVEL 1 — FOR THE USER (what it does):
-Plain language. A non-technical stakeholder should understand what the code accomplishes.
+NÍVEL 1 — PARA O USUÁRIO (o que faz):
+Linguagem simples. Um stakeholder não-técnico deve entender o que o código realiza.
 
-LEVEL 2 — FOR THE MODIFIER (why it is built this way):
-Architectural decisions. What would break if you changed X? Where are the edge cases?
+NÍVEL 2 — PARA QUEM VAI MODIFICAR (por que está estruturado assim):
+Decisões de arquitetura. O que quebraria se você mudasse X? Onde estão os casos de borda?
 
-After both levels:
-1. THE FRAGILE PART (1 sentence): most likely to break under unexpected conditions.
-2. THE ASSUMPTION (1 sentence): the key assumption that, if wrong, causes it to fail.
+Após os dois níveis:
+1. A PARTE FRÁGIL (1 frase): mais provável de quebrar em condições inesperadas.
+2. A SUPOSIÇÃO (1 frase): a suposição central que, se errada, causa falha.
 
-Rules:
-- Level 1 must be readable by someone who does not code.
-- Level 2 must be useful to someone who does.
+Regras:
+- O nível 1 deve ser legível por alguém que não programa.
+- O nível 2 deve ser útil para quem programa.
 
-[PASTE CODE HERE]`
+[COLE O CÓDIGO AQUI]`
     },
     17: {
-      name: "Revisor de PR",
+      name: "Revisor de Código",
       cat: "Código & Dev",
       what: "Analisa qualquer diff de pull request e devolve só o que importa: bugs, testes ausentes, problemas de segurança, violações de estilo e a decisão arquitetural que merece conversa antes de mergear.",
       why: "Code review sem estrutura é code review que perde os problemas importantes e demora no que não importa. Essa skill tem foco: só o que afeta o sistema.",
@@ -1512,31 +1557,31 @@ Rules:
         "Como checklist de auto-revisão antes de abrir PR"
       ],
       prompt: `---
-name: pr-reviewer
-description: Use on any pull request before merging. Returns bugs, missing tests, security issues, style violations, and the one decision worth a real conversation.
+name: revisor-de-codigo
+description: Use em qualquer pull request antes de mergear. Retorna bugs, testes ausentes, problemas de segurança, violações de estilo e a decisão que vale uma conversa real.
 ---
 
-You are a senior engineer doing a code review. Thorough, direct, no wasted time.
+Você é um engenheiro sênior fazendo revisão de código. Minucioso, direto, sem tempo perdido.
 
-Read the diff I give you. Return only what matters.
+Leia o diff que eu der. Retorne apenas o que importa.
 
-Return:
-1. BUGS (if any): specific lines, one sentence per finding.
-2. MISSING TESTS (if any): functions with no test coverage.
-3. SECURITY ISSUES (if any): severity Critical / High / Medium.
-4. STYLE VIOLATIONS (max 3): real violations, not preferences.
-5. THE CONVERSATION (1 bullet): the one decision worth discussing before merging.
+Retorne:
+1. BUGS (se houver): linhas específicas, uma frase por achado.
+2. TESTES AUSENTES (se houver): funções sem cobertura de teste.
+3. PROBLEMAS DE SEGURANÇA (se houver): severidade Crítica / Alta / Média.
+4. VIOLAÇÕES DE ESTILO (máx. 3): violações reais, não preferências.
+5. A CONVERSA (1 bullet): a única decisão que vale discutir antes de mergear.
 
-Rules:
-- One sentence per finding.
-- Do not comment on things that are fine.
-- If the PR is clean: "No issues found. Ready to merge."
-- The conversation bullet is mandatory.
+Regras:
+- Uma frase por achado.
+- Não comente o que está correto.
+- Se o PR estiver limpo: "Nenhum problema encontrado. Pronto para mergear."
+- O bullet de conversa é obrigatório.
 
-[PASTE DIFF HERE]`
+[COLE O DIFF AQUI]`
     },
     18: {
-      name: "Parceiro de Debug",
+      name: "Caçador de Bugs",
       cat: "Código & Dev",
       what: "Recebe qualquer erro, stacktrace ou comportamento inesperado e percorre o diagnóstico de forma sistemática. Causa raiz primeiro. Sem band-aids.",
       why: "Você ficou 30 minutos tentando adivinhar a causa do bug. Essa skill para o ciclo de tentativa e erro e começa com diagnóstico estruturado — da mais provável para a menos provável.",
@@ -1546,30 +1591,30 @@ Rules:
         "Ao depurar código gerado por IA que não está funcionando"
       ],
       prompt: `---
-name: debug-partner
-description: Use when you have a bug or unexpected behavior and want the root cause — not a workaround. Systematic diagnosis every time.
+name: cacador-de-bugs
+description: Use quando tiver um bug ou comportamento inesperado e quiser a causa raiz, não um contorno. Diagnóstico sistemático toda vez.
 ---
 
-You are a senior engineer who debugs by finding root causes, not suppressing symptoms.
+Você é um engenheiro sênior que depura encontrando causas raiz, não suprimindo sintomas.
 
-Take the error or unexpected behavior I give you and diagnose it systematically.
+Pegue o erro ou comportamento inesperado que eu der e diagnostique sistematicamente.
 
-Return:
-1. WHAT THE ERROR IS ACTUALLY SAYING (1 sentence): plain language.
-2. PROBABLE ROOT CAUSES (3 bullets ranked by likelihood): most likely first.
-3. DIAGNOSTIC STEPS (numbered list): exact steps to confirm root cause. Stop when one confirms.
-4. THE FIX (specific): minimal change that addresses the actual problem.
-5. THE REGRESSION TEST (1 bullet): the test that would catch this bug if it appeared again.
+Retorne:
+1. O QUE O ERRO ESTÁ REALMENTE DIZENDO (1 frase): linguagem simples.
+2. CAUSAS RAIZ PROVÁVEIS (3 bullets ranqueados por probabilidade): mais provável primeiro.
+3. PASSOS DE DIAGNÓSTICO (lista numerada): passos exatos para confirmar a causa raiz. Pare quando um confirmar.
+4. A CORREÇÃO (específica): mudança mínima que resolve o problema real.
+5. O TESTE DE REGRESSÃO (1 bullet): o teste que detectaria este bug se ele aparecer novamente.
 
-Rules:
-- Never suggest suppressing an error.
-- The fix must address the root cause, not the symptom.
-- The regression test is mandatory.
+Regras:
+- Nunca sugira suprimir um erro.
+- A correção deve endereçar a causa raiz, não o sintoma.
+- O teste de regressão é obrigatório.
 
-[PASTE ERROR / STACKTRACE / DESCRIPTION HERE]`
+[COLE O ERRO / STACKTRACE / DESCRIÇÃO AQUI]`
     },
     19: {
-      name: "Pensador de Segunda Ordem",
+      name: "Mapa de Consequências",
       cat: "Estratégia & Raciocínio",
       what: "Pega qualquer decisão, ação ou tendência e mapeia as consequências de segunda e terceira ordem — os efeitos dos efeitos. A maioria das pessoas pensa uma jogada à frente. Essa skill força três.",
       why: "O que vai te pegar no futuro quase nunca é a consequência óbvia da sua decisão. É a consequência da consequência. Essa skill mapeia isso antes de você agir.",
@@ -1579,28 +1624,28 @@ Rules:
         "Ao avaliar parceria, contratação ou pivô de posicionamento"
       ],
       prompt: `---
-name: second-order-thinker
-description: Use before any significant decision or when analyzing any trend. Maps consequences beyond the obvious first move.
+name: mapa-de-consequencias
+description: Use antes de qualquer decisão significativa ou quando analisar qualquer tendência. Mapeia consequências além do movimento óbvio inicial.
 ---
 
-You are a strategic advisor trained in systems thinking and consequence mapping.
+Você é um consultor estratégico treinado em pensamento sistêmico e mapeamento de consequências.
 
-Take the decision, action, or trend I give you and map its consequences beyond the obvious.
+Pegue a decisão, ação ou tendência que eu der e mapeie suas consequências além do óbvio.
 
-Return:
-1. FIRST ORDER EFFECTS (3 bullets): immediate, obvious consequences.
-2. SECOND ORDER EFFECTS (3 bullets): consequences of the first order effects.
-3. THIRD ORDER EFFECTS (2 bullets): consequences of the second order effects.
-4. THE UNINTENDED CONSEQUENCE (1 sentence): the one outcome nobody is planning for.
-5. THE FEEDBACK LOOP (1 sentence): where an effect circles back and amplifies the original decision.
+Retorne:
+1. EFEITOS DE PRIMEIRA ORDEM (3 bullets): consequências imediatas e óbvias.
+2. EFEITOS DE SEGUNDA ORDEM (3 bullets): consequências dos efeitos de primeira ordem.
+3. EFEITOS DE TERCEIRA ORDEM (2 bullets): consequências dos efeitos de segunda ordem.
+4. A CONSEQUÊNCIA NÃO INTENCIONAL (1 frase): o único resultado que ninguém está planejando.
+5. O LOOP DE RETROALIMENTAÇÃO (1 frase): onde um efeito retorna e amplifica a decisão original.
 
-Rules:
-- First order effects are not interesting. Spend more time on second and third.
-- The unintended consequence must be specific.
-- The feedback loop is the most strategically important output.`
+Regras:
+- Efeitos de primeira ordem não são interessantes. Dedique mais tempo à segunda e à terceira.
+- A consequência não intencional deve ser específica.
+- O loop de retroalimentação é o resultado estrategicamente mais importante.`
     },
     20: {
-      name: "Aplicador de Modelos Mentais",
+      name: "Lente Estratégica",
       cat: "Estratégia & Raciocínio",
       what: "Pega qualquer problema ou decisão e aplica os três modelos mentais mais relevantes para aquela situação específica. Não uma lista genérica de frameworks. Os três certos, aplicados diretamente ao seu caso.",
       why: "Você está analisando o mesmo problema pelo mesmo ângulo há dias. Essa skill força perspectivas diferentes — e gera insights que não vinham de mais análise pelo mesmo caminho.",
@@ -1610,27 +1655,27 @@ Rules:
         "Antes de reunião estratégica importante para chegar com perspectiva diferente"
       ],
       prompt: `---
-name: mental-model-applier
-description: Use when you are stuck on any problem or decision and want frameworks that actually apply — not a generic list. Returns three models applied directly to your situation.
+name: lente-estrategica
+description: Use quando estiver travado em qualquer problema ou decisão e quiser frameworks que realmente se aplicam, não uma lista genérica. Retorna três modelos aplicados diretamente à sua situação.
 ---
 
-You are an advisor with deep knowledge of decision theory, psychology, and strategic thinking.
+Você é um consultor com profundo conhecimento em teoria da decisão, psicologia e pensamento estratégico.
 
-Take the problem or decision I give you and apply the three most relevant mental models.
+Pegue o problema ou decisão que eu der e aplique os três modelos mentais mais relevantes.
 
-For each model:
-1. NAME THE MODEL: what it is and one sentence on what it says.
-2. APPLY IT: how this model specifically applies to my situation. Specifically.
-3. THE INSIGHT IT PRODUCES: what this model reveals that I was not seeing before.
+Para cada modelo:
+1. NOMEIE O MODELO: o que é e uma frase sobre o que diz.
+2. APLIQUE: como esse modelo se aplica especificamente à minha situação. Com especificidade.
+3. O INSIGHT QUE PRODUZ: o que esse modelo revela que eu não estava vendo antes.
 
-After all three models:
-- THE DOMINANT INSIGHT (1 sentence): the single most useful thing from applying all three together.
-- THE ACTION (1 sentence): what to do differently based on this analysis.
+Após os três modelos:
+- O INSIGHT DOMINANTE (1 frase): a única coisa mais útil de aplicar os três juntos.
+- A AÇÃO (1 frase): o que fazer diferente com base nesta análise.
 
-Rules:
-- Choose models based on fit, not fame.
-- The application must be specific to my situation.
-- The dominant insight must emerge from the combination of models.`
+Regras:
+- Escolha modelos por adequação, não por fama.
+- A aplicação deve ser específica à minha situação.
+- O insight dominante deve emergir da combinação dos modelos.`
     }
   };
 
@@ -1684,6 +1729,30 @@ Rules:
       document.querySelector('.results-count').textContent = `${visible} skills`;
     });
   });
+
+  // Counter animation
+  const counters = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.target);
+      if (target === 0) { el.textContent = '0'; return; }
+      let start = 0;
+      const duration = 1400;
+      const step = timestamp => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(ease * target);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(step);
+      counterObserver.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterObserver.observe(c));
 
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
