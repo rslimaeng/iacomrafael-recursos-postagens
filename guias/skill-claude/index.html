@@ -436,7 +436,9 @@ section.section:nth-of-type(even) { background: var(--white); }
 }
 .alert-warning { background: var(--warning-bg); border-color: #e6c07a; }
 .alert-info    { background: #DEE3E8; border-color: #b8c4cc; }
-.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; width: 18px; text-align: center; }
+.alert-warning .alert-icon { color: var(--warning); }
+.alert-info    .alert-icon { color: #4A5C6A; }
 .alert-body { font-size: 14px; line-height: 1.55; }
 .alert-body strong { color: var(--warning); }
 .alert-info .alert-body strong { color: #4A5C6A; }
@@ -1048,7 +1050,7 @@ tarefas que mais repete na semana]</div>
   </div>
 
   <div class="alert alert-info" style="margin-top:8px;margin-bottom:0">
-    <div class="alert-icon">💡</div>
+    <div class="alert-icon"><i class="fa-solid fa-lightbulb"></i></div>
     <div class="alert-body">
       <strong>O que acontece depois:</strong> o Claude vai mapear suas tarefas, sugerir Habilidades com nome e objetivo e te perguntar qual quer criar primeiro. Quando você escolher uma, ele começa a fazer perguntas sobre objetivo, formato, tom e exemplos — e vai construindo o arquivo com você. Nada para escrever do zero.
     </div>
@@ -1062,7 +1064,7 @@ tarefas que mais repete na semana]</div>
   <p>Tudo via interface do claude.ai — sem código, sem arquivo manual, sem configuração técnica.</p>
 
   <div class="alert alert-info" style="margin-bottom:20px">
-    <div class="alert-icon">💬</div>
+    <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
     <div class="alert-body">
       <strong>Atenção ao idioma da interface</strong><br>
       Mesmo com o Claude em português, o menu lateral aparece como <strong>"Customize"</strong> (em inglês). Ao clicar, o submenu abre em português com o nome <strong>"Habilidades"</strong>. As instruções abaixo usam os dois nomes para você não se perder.
@@ -1070,7 +1072,7 @@ tarefas que mais repete na semana]</div>
   </div>
 
   <div class="alert alert-warning" style="margin-bottom:24px">
-    <div class="alert-icon">⚠️</div>
+    <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     <div class="alert-body">
       <strong>Antes de começar: 1 configuração necessária</strong><br>
       Vá em <strong>Configurações → Capacidades</strong> e ative <strong>"Execução de código e criação de arquivos"</strong>. Sem isso, Habilidades não aparecem no menu.
@@ -1276,7 +1278,7 @@ tarefas que mais repete na semana]</div>
   </p>
 
   <div class="alert alert-info" style="margin-top:20px;margin-bottom:0">
-    <div class="alert-icon">💡</div>
+    <div class="alert-icon"><i class="fa-solid fa-lightbulb"></i></div>
     <div class="alert-body">
       <strong>A descrição é o segredo</strong> — ela aparece no campo "Gatilho" e é o que o Claude usa para decidir quando aplicar. Quanto mais específica, mais certeira a ativação. Se a habilidade não estiver acionando, comece reescrevendo a descrição.
     </div>
