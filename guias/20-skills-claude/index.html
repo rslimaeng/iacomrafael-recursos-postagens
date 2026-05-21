@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>20 Claude Skills que Todo Builder Deveria Ter — @iacomrafael</title>
+  <meta name="description" content="20 skills prontas para instalar no Claude. Hook Forge, Voice Locker, Decision Framer e mais 17. Build once. Run forever.">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --coral: #D97757;
+      --coral-dark: #C9633E;
+      --coral-soft: #F2D5C3;
+      --terra-900: #2B1F17;
+      --terra-700: #4A382C;
+      --cream-100: #F5F1ED;
+      --cream-200: #EBE6DD;
+      --ocre: #C9943A;
+      --ocre-soft: #F0E2C2;
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream-100);
+      color: var(--terra-700);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      background: var(--terra-900);
+      overflow: hidden;
+      padding: 80px 24px 72px;
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-big-number {
+      position: absolute;
+      top: -10px;
+      right: 32px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 200px;
+      line-height: 1;
+      color: var(--coral);
+      opacity: 0.12;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -8px;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .blob-1 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(217,119,87,0.18) 0%, transparent 70%);
+      top: -120px; left: -100px;
+    }
+    .blob-2 {
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(201,148,58,0.12) 0%, transparent 70%);
+      bottom: -100px; right: 80px;
+    }
+
+    .noise-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 680px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral-soft);
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    .hero-content h1 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 5.5vw, 58px);
+      line-height: 1.08;
+      color: #F5F1ED;
+      margin-bottom: 20px;
+    }
+
+    .hero-content h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--coral) 0%, var(--ocre) 50%, var(--coral) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      line-height: 1.65;
+      color: rgba(245,241,237,0.65);
+      margin-bottom: 32px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: rgba(245,241,237,0.55);
+      padding: 0 16px;
+      position: relative;
+    }
+
+    .stat-item + .stat-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 14px;
+      background: rgba(245,241,237,0.2);
+    }
+
+    /* ── STICKY TABS ── */
+    .tabs-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid var(--cream-200);
+      padding: 0 24px;
+    }
+
+    .tabs-inner {
+      max-width: 794px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 12px 0;
+    }
+
+    .tabs-inner::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--terra-700);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 7px 14px;
+      border-radius: 99px;
+      transition: background 0.18s var(--ease-spring), color 0.18s;
+      white-space: nowrap;
+    }
+
+    .tab:hover { background: var(--cream-100); }
+
+    .tab.active {
+      background: var(--coral);
+      color: #fff;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      max-width: 794px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .results-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .results-count {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--terra-700);
+      opacity: 0.6;
+    }
+
+    /* ── GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── SKILL CARD ── */
+    .skill-card {
+      background: #fff;
+      border: 1px solid var(--cream-200);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      transition: transform 0.22s var(--ease-spring), box-shadow 0.22s var(--ease-spring);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .skill-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring);
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, var(--coral), var(--ocre), var(--coral));
+      background-size: 200% 200%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      padding: 1px;
+      pointer-events: none;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(43,31,23,0.1);
+    }
+
+    .skill-card:hover::before { opacity: 1; }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .badge-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      color: var(--coral);
+      letter-spacing: 0.05em;
+    }
+
+    .badge-cat {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: var(--ocre-soft);
+      color: var(--ocre);
+    }
+
+    .skill-name {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--terra-900);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .skill-desc {
+      font-size: 14px;
+      color: var(--terra-700);
+      line-height: 1.65;
+      margin-bottom: 12px;
+    }
+
+    .skill-desc strong {
+      font-weight: 600;
+      color: var(--terra-900);
+    }
+
+    .skill-fire {
+      font-size: 13px;
+      color: var(--coral-dark);
+      background: var(--coral-soft);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .skill-fire strong {
+      font-weight: 700;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--coral);
+      background: transparent;
+      border: 1.5px solid var(--coral);
+      border-radius: 99px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+
+    .expand-btn:hover {
+      background: var(--coral);
+      color: #fff;
+    }
+
+    /* ── CODE BLOCK ── */
+    .skill-code {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 0;
+    }
+
+    .skill-code.open {
+      max-height: 600px;
+      margin-top: 16px;
+    }
+
+    .code-wrapper {
+      position: relative;
+      background: #1C1B1A;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(232,227,221,0.6);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: #E8E3DD;
+    }
+
+    .skill-code pre {
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .skill-code code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #E8E3DD;
+      line-height: 1.7;
+      white-space: pre;
+    }
+
+    /* ── CTA FINAL ── */
+    .cta-section {
+      background: var(--coral-soft);
+      border-radius: 20px;
+      padding: 48px 32px;
+      text-align: center;
+      margin-top: 56px;
+    }
+
+    .cta-section h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      color: var(--terra-900);
+      margin-bottom: 12px;
+    }
+
+    .cta-section p {
+      font-size: 15px;
+      color: var(--terra-700);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--coral);
+      padding: 13px 28px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s var(--ease-spring);
+    }
+
+    .cta-link:hover {
+      background: var(--coral-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 20px 56px; min-height: 320px; }
+      .hero-big-number { font-size: 140px; right: 16px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 36px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="noise-overlay"></div>
+  <div class="hero-big-number">20</div>
+
+  <div class="hero-content">
+    <span class="hero-label">Claude Skills · @iacomrafael</span>
+    <h1>Skills que <em>todo builder</em><br>deveria ter</h1>
+    <p class="hero-sub">20 skills prontas para instalar. Cada uma faz um trabalho específico. Construa uma vez, use para sempre.</p>
+    <div class="hero-stats">
+      <span class="stat-item">20 Skills</span>
+      <span class="stat-item">5 Categorias</span>
+      <span class="stat-item">0 sessões desperdiçadas</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── TABS ── -->
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab active" data-cat="all">Todas (20)</button>
+    <button class="tab" data-cat="content">Content (5)</button>
+    <button class="tab" data-cat="research">Research (5)</button>
+    <button class="tab" data-cat="business">Business (5)</button>
+    <button class="tab" data-cat="dev">Dev (3)</button>
+    <button class="tab" data-cat="strategy">Strategy (2)</button>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main">
+  <div class="results-row">
+    <span class="results-count">20 skills</span>
+  </div>
+
+  <div class="skills-grid">
+
+    <!-- 01 Hook Forge -->
+    <div class="skill-card" data-cat="content">
+      <div class="card-meta">
+        <span class="badge-num">01</span>
+        <span class="badge-cat">Content</span>
+      </div>
+      <h3 class="skill-name">Hook Forge</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any topic, angle, or draft opening and generates 10 hooks across different psychological triggers — curiosity, loss, contrast, specificity, controversy.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have an idea and no opening line. Run this before you write a single word of the piece.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: hook-forge
+description: Use when you need multiple hook options for any piece of content. Generates 10 hooks across different psychological triggers. Never start a piece without running this first.
+---
+
+You are a direct-response copywriter with 20 years of experience writing opening lines that stop scrolling.
+
+Take the topic, angle, or draft opening I give you and generate 10 hooks.
+
+Each hook uses a different psychological trigger. Label each one:
+
+1. CURIOSITY — makes the reader feel they are missing something
+2. LOSS FRAME — what they are losing by not reading
+3. CONTRAST — what most people think vs what is actually true
+4. SPECIFICITY — a precise number, date, or detail that signals credibility
+5. CONTROVERSY — a claim that will make half the room nod and half lean forward
+6. PATTERN INTERRUPT — starts mid-thought or breaks an expected opening structure
+7. IDENTITY — speaks directly to who the reader sees themselves as
+8. SOCIAL PROOF — anchors the claim in what others are already doing
+9. FUTURE PACE — puts the reader in a moment after they have acted
+10. SIMPLICITY — strips everything away and states the core truth in one line
+
+Rules:
+- Each hook must be one sentence or two short sentences max.
+- No hook can start with "I" or "Are you."
+- No hook can end with a question mark.
+- All 10 must be genuinely different. Not 10 variations of the same structure.
+
+End with: "Strongest hook for this audience: [number] — [one sentence on why]."</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 Voice Locker -->
+    <div class="skill-card" data-cat="content">
+      <div class="card-meta">
+        <span class="badge-num">02</span>
+        <span class="badge-cat">Content</span>
+      </div>
+      <h3 class="skill-name">Voice Locker</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Analyzes your writing samples and locks your voice permanently into Claude. Every piece Claude writes after this sounds like you — not like a polished AI assistant, like you.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> The first time you set up a new Claude Project. Run this before anything else.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: voice-locker
+description: Use once with 3-5 writing samples to permanently lock your voice into Claude. After running this, all writing outputs match your style automatically.
+---
+
+You are a linguist and ghostwriter specializing in voice replication.
+
+I am going to give you 3 to 5 samples of my writing. Your job is to analyze my voice so precisely that everything you write for me afterward is indistinguishable from what I would write myself.
+
+Analyze and document:
+1. SENTENCE STRUCTURE — average length, rhythm, how I vary pace, where I use fragments
+2. VOCABULARY — the words I favor, the words I avoid, my formality level
+3. OPENINGS — how I start paragraphs and pieces
+4. CLOSINGS — how I end paragraphs and pieces
+5. WHAT I NEVER DO — the constructions, phrases, and patterns I consistently avoid
+6. TONE — my relationship with the reader, how direct I am, where I show personality
+7. THE FINGERPRINT — the one thing about my writing that makes it immediately recognizable
+
+After analysis, write a one-paragraph voice brief I can paste into any future session to instantly calibrate you to my style.
+
+Then write 3 sentences in my voice on a topic I give you. I will tell you if it is right.
+
+[PASTE 3-5 WRITING SAMPLES HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Thread Architect -->
+    <div class="skill-card" data-cat="content">
+      <div class="card-meta">
+        <span class="badge-num">03</span>
+        <span class="badge-cat">Content</span>
+      </div>
+      <h3 class="skill-name">Thread Architect</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any idea, article, or argument and builds it into a Twitter/X thread with structural precision — hook, tension, payoff, CTA. Built to be read to the end.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have a piece of content and you want a thread version that performs — not just a list of points.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: thread-architect
+description: Use when turning any idea or long-form content into a Twitter/X thread. Builds for retention, not just coverage. Every tweet earns the next one.
+---
+
+You are a Twitter/X growth strategist who has written threads that have reached millions of readers.
+
+Take the idea or content I give you and build it into a thread that earns every scroll.
+
+Structure:
+- TWEET 1: The hook. A statement that creates an open loop. Never a question. Never "A thread."
+- TWEET 2: The setup. Why this matters and who it is for.
+- TWEETS 3-8: The argument. One idea per tweet. Each tweet must create enough curiosity to justify reading the next.
+- TWEET 9: The turn. The insight most people miss or the counterintuitive conclusion.
+- TWEET 10: The CTA. One sentence on what they will get.
+
+Rules:
+- Every tweet under 280 characters.
+- Number every tweet.
+- No tweet ends with "Let me explain." or "Here's why:"
+- No filler tweets. If a tweet does not carry a new idea, cut it.
+- The hook must work as a standalone post.
+
+End with: "Weakest tweet in this thread: [number] — [one sentence on why and how to fix it]."</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Repurpose Engine -->
+    <div class="skill-card" data-cat="content">
+      <div class="card-meta">
+        <span class="badge-num">04</span>
+        <span class="badge-cat">Content</span>
+      </div>
+      <h3 class="skill-name">Repurpose Engine</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes one long-form piece and produces every short-form version at once. Thread, LinkedIn post, newsletter section, three standalone hooks, one quote graphic caption. One input. Six outputs.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You finish any long-form piece and need distribution without spending three hours reformatting.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: repurpose-engine
+description: Use after publishing any long-form content. Takes one piece and produces 6 platform-native outputs simultaneously. Eliminates manual reformatting.
+---
+
+You are a content strategist who specializes in distribution across platforms.
+
+Take the long-form content below and produce six outputs. Each must feel native to its platform.
+
+OUTPUT 1 — TWITTER/X THREAD (8 tweets):
+Hook tweet → 6 content tweets → CTA tweet. Each under 280 characters. Numbered.
+
+OUTPUT 2 — LINKEDIN POST (150 words max):
+Hook on line 1. No "I am excited to share." No hashtag spam (max 2). End with one question to drive comments.
+
+OUTPUT 3 — NEWSLETTER SECTION (100-150 words):
+Second person. One key insight. One actionable takeaway. Warm but direct tone.
+
+OUTPUT 4 — THREE STANDALONE HOOKS:
+One curiosity hook. One loss-frame hook. One contrast hook. Each one sentence.
+
+OUTPUT 5 — QUOTE GRAPHIC CAPTION:
+The single most quotable sentence from the piece. Under 140 characters.
+
+OUTPUT 6 — SHORT VIDEO SCRIPT HOOK (first 15 seconds):
+The opening 15 seconds of a short video. Written to be spoken, not read.
+
+Rules:
+- Do not summarize. Extract and rebuild for each platform.
+- Each output must stand alone.
+- Match voice from the original piece.
+
+[PASTE LONG-FORM CONTENT HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 Headline Lab -->
+    <div class="skill-card" data-cat="content">
+      <div class="card-meta">
+        <span class="badge-num">05</span>
+        <span class="badge-cat">Content</span>
+      </div>
+      <h3 class="skill-name">Headline Lab</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any article or content idea and generates 15 headlines across different proven formats — scored and ranked. You pick from the top three.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have finished a piece and you are guessing at the title.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: headline-lab
+description: Use before publishing any article, thread, or piece of content. Generates 15 headlines, scores them, and tells you which three to test.
+---
+
+You are a conversion copywriter who has tested headlines across millions of impressions.
+
+Take the content or idea I give you and generate 15 headlines.
+
+Cover these formats:
+- HOW TO (2 variants)
+- NUMBER LIST (2 variants)
+- QUESTION (1 variant)
+- CONTRAST — "X vs Y" or "Not X. Y." (2 variants)
+- SECRET/UNKNOWN — "What nobody tells you about X" (2 variants)
+- WARNING — "Stop doing X" or "The X mistake" (2 variants)
+- RESULT — leads with the outcome (2 variants)
+- IDENTITY — speaks to who the reader is (1 variant)
+
+After generating all 15, score each one 1-10 on:
+- Specificity (does it promise something concrete?)
+- Curiosity gap (does it create an open loop?)
+- Audience match (does it speak directly to the target reader?)
+
+Return the top 3 with a one-line explanation of why each works.
+
+End with: "Test this one first: [headline] — [one sentence reason]."</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 Brief Builder -->
+    <div class="skill-card" data-cat="research">
+      <div class="card-meta">
+        <span class="badge-num">06</span>
+        <span class="badge-cat">Research</span>
+      </div>
+      <h3 class="skill-name">Brief Builder</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any topic and builds a research brief that a junior analyst could execute. Sources, questions, signals, and the one finding that would change everything.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to research something and you have a topic but no structure.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: brief-builder
+description: Use when you need to research something properly and want a structured brief before starting. Turns vague research requests into specific investigation plans.
+---
+
+You are a senior research director at a strategy consultancy.
+
+Take the research topic I give you and build a brief that makes the research executable.
+
+Return:
+1. THE CORE QUESTION (1 sentence): the single question this research must answer.
+2. PRIMARY SOURCES (5 specific sources): not "check Google." Specific databases, publications, or named experts.
+3. SIGNALS TO LOOK FOR (5 bullets): the specific data points or patterns that would be meaningful.
+4. THE ASSUMPTION TO TEST (1 sentence): the belief most people hold that the research might prove or disprove.
+5. THE FINDING THAT CHANGES EVERYTHING (1 sentence): the single discovery that would most change your approach.
+
+Rules:
+- No generic sources. Every source must be specific and named.
+- The core question must be answerable.
+- The assumption to test must be something the requester actually believes.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 Contradiction Finder -->
+    <div class="skill-card" data-cat="research">
+      <div class="card-meta">
+        <span class="badge-num">07</span>
+        <span class="badge-cat">Research</span>
+      </div>
+      <h3 class="skill-name">Contradiction Finder</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any body of information and finds where sources contradict each other. Surfaces the real complexity underneath the consensus.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are building an argument from research and you want to know where your sources are weakest.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: contradiction-finder
+description: Use when analyzing multiple sources or a complex topic. Finds where sources disagree and what the real debate is.
+---
+
+You are a fact-checker and epistemologist. Your job is to find where things do not add up.
+
+Take the information I give you and find the contradictions.
+
+Return:
+1. SURFACE CONSENSUS (1 sentence): what most sources agree on.
+2. CONTRADICTIONS (3 bullets): specific places where sources conflict. Name both sides for each.
+3. THE WEAKEST CLAIM (1 bullet): the statement with the least support.
+4. THE REAL DEBATE (1 paragraph): what the experts actually disagree on.
+5. WHAT THIS MEANS FOR THE CONCLUSION (1 sentence): how confident should the reader be?
+
+Rules:
+- Do not smooth over contradictions. Name them directly.
+- If two sources say opposite things, quote both positions specifically.
+- The real debate is not "more research is needed." Name the actual contested question.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08 Signal Scanner -->
+    <div class="skill-card" data-cat="research">
+      <div class="card-meta">
+        <span class="badge-num">08</span>
+        <span class="badge-cat">Research</span>
+      </div>
+      <h3 class="skill-name">Signal Scanner</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes a week's worth of industry news and separates signal from noise. What actually matters versus what just got attention.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have a backlog of industry content and you need to know what actually matters.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: signal-scanner
+description: Use weekly to process industry content and separate what actually matters from what just got attention. Returns signal, not summary.
+---
+
+You are an intelligence analyst specializing in emerging patterns.
+
+Take the content I give you and separate signal from noise.
+
+Return:
+1. THE SIGNAL (3 bullets): things that actually matter and will still matter in 90 days.
+2. THE NOISE (3 bullets): things that got attention but will not matter in 30 days.
+3. THE PATTERN (1 paragraph): the underlying trend connecting the signals.
+4. THE EARLY INDICATOR (1 bullet): one thing most people missed that might be important later.
+5. WHAT TO WATCH (1 bullet): the one development to track next week.
+
+Rules:
+- Signal is not the same as important-sounding. Signal has consequences.
+- Noise is not the same as uninteresting. Noise is things that will not matter in 30 days.
+- The early indicator is the most important output.
+
+[PASTE THIS WEEK'S CONTENT HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09 Assumption Auditor -->
+    <div class="skill-card" data-cat="research">
+      <div class="card-meta">
+        <span class="badge-num">09</span>
+        <span class="badge-cat">Research</span>
+      </div>
+      <h3 class="skill-name">Assumption Auditor</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any plan, argument, or decision and surfaces every assumption baked into it — including the ones so obvious nobody thought to question them.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to launch something, pitch something, or commit resources to something.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: assumption-auditor
+description: Use before committing to any plan, argument, or decision. Surfaces every assumption including the invisible ones.
+---
+
+You are a systems thinker and risk analyst. You find what people forgot to question.
+
+Take the plan, argument, or decision I give you and surface every assumption inside it.
+
+Return:
+1. EXPLICIT ASSUMPTIONS (3 bullets): the things the plan openly assumes are true.
+2. IMPLICIT ASSUMPTIONS (3 bullets): the things the plan assumes without saying so.
+3. THE MOST DANGEROUS ASSUMPTION (1 sentence): the single assumption that, if wrong, causes the entire plan to fail.
+4. HOW TO TEST EACH (3 bullets): for each implicit assumption, one specific way to verify it before committing.
+
+Rules:
+- Implicit assumptions are more important than explicit ones.
+- The most dangerous assumption is not necessarily the most obvious one.
+- Every test must be specific. Not "do more research."</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 Source Ranker -->
+    <div class="skill-card" data-cat="research">
+      <div class="card-meta">
+        <span class="badge-num">10</span>
+        <span class="badge-cat">Research</span>
+      </div>
+      <h3 class="skill-name">Source Ranker</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes a list of sources on any topic and ranks them by credibility, recency, and relevance. Flags which ones to trust, which to verify, and which to cut.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have gathered sources and you are about to start writing.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: source-ranker
+description: Use when you have gathered sources and want to know which ones to trust. Ranks by credibility, recency, and relevance.
+---
+
+You are a research librarian and fact-checker with expertise in source evaluation.
+
+Take the list of sources I give you and rank them.
+
+For each source return:
+- CREDIBILITY (High / Medium / Low)
+- RECENCY (Current / Dated / Outdated)
+- RELEVANCE (Direct / Tangential / Weak)
+- TRUST VERDICT (Use / Verify / Cut): one word and one sentence on why.
+
+After ranking all sources:
+1. TOP 3 TO BUILD ON: sources strong enough to carry an argument.
+2. THE ONE TO CUT: the source most likely to undermine credibility if cited.
+3. THE GAP: what type of source is missing.
+
+Rules:
+- A popular source is not a credible source.
+- The gap is mandatory. Every research set has one.
+
+[PASTE SOURCE LIST HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 SOP Writer -->
+    <div class="skill-card" data-cat="business">
+      <div class="card-meta">
+        <span class="badge-num">11</span>
+        <span class="badge-cat">Business</span>
+      </div>
+      <h3 class="skill-name">SOP Writer</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any process description — rough notes, bullet points, voice memo transcript — and turns it into a clean, executable SOP.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> A process exists in your head or in messy notes and needs to become something someone else can execute.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: sop-writer
+description: Use when you need to document any recurring process. Turns rough descriptions into clean, executable SOPs with owners, tools, and guardrails.
+---
+
+You are a chief operating officer and process designer.
+
+Take the process description I give you and turn it into an executable SOP.
+
+Return:
+1. PROCESS NAME AND PURPOSE (2 sentences)
+2. TRIGGER (1 sentence): what starts this process.
+3. STEPS (numbered list): each step has — Action, Owner, Tool, Output.
+4. QUALITY CHECK (1 bullet): the one point where a human must verify before continuing.
+5. THE SACRED STEP (1 sentence): the one step that must never be automated and why.
+
+Rules:
+- No step can be "review and decide." Break it into specific criteria and specific options.
+- Every step has an owner. "Team" is not an owner.
+- The sacred step is mandatory.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 Decision Framer -->
+    <div class="skill-card" data-cat="business">
+      <div class="card-meta">
+        <span class="badge-num">12</span>
+        <span class="badge-cat">Business</span>
+      </div>
+      <h3 class="skill-name">Decision Framer</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any decision you are stuck on and reframes it into a structured choice with clear criteria, real options, and the information you actually need before deciding.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have been thinking about a decision for more than a week without deciding.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: decision-framer
+description: Use when you are stuck on any significant decision. Reframes the decision, clarifies real options, and identifies what you need to know before choosing.
+---
+
+You are a strategic advisor who helps leaders make decisions clearly.
+
+Take the decision I describe and reframe it into something I can actually decide.
+
+Return:
+1. THE REAL DECISION (1 sentence): restate what I am actually deciding. Often different from how I framed it.
+2. THE OPTIONS (3 max): the real distinct options including ones I did not mention.
+3. DECISION CRITERIA (3 bullets): the three things that matter most.
+4. WHAT I DO NOT KNOW (2 bullets): information that would most change my decision and how to get each one.
+5. THE DEFAULT (1 sentence): if I do nothing, what happens?
+
+Rules:
+- The real decision is often not the stated decision.
+- If two options are really the same option, say so.
+- The default is mandatory.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 Meeting Extractor -->
+    <div class="skill-card" data-cat="business">
+      <div class="card-meta">
+        <span class="badge-num">13</span>
+        <span class="badge-cat">Business</span>
+      </div>
+      <h3 class="skill-name">Meeting Extractor</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any meeting transcript or rough notes and returns only four things: what was decided, who owns what, what is blocked, and the one thing nobody said out loud.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> Every meeting ends. No exceptions.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: meeting-extractor
+description: Use after every meeting with a transcript or notes. Returns decisions, owners, blockers, and the unspoken issue. Nothing else.
+---
+
+You are a chief of staff. You process meetings so leaders do not have to.
+
+Take the meeting transcript or notes below. Return only what matters.
+
+Return:
+1. DECISIONS MADE (bullet list): every commitment or conclusion reached.
+2. ACTION ITEMS (bullet list): task — owner — deadline. If deadline unset, write "deadline: unset."
+3. BLOCKERS (bullet list): anything that prevents progress.
+4. THE UNSPOKEN ISSUE (1 sentence): the tension or disagreement present but never addressed.
+
+Rules:
+- Do not summarize the discussion. Only decisions, actions, blockers, unspoken.
+- Every action item must have an owner. "We" is not an owner.
+- The unspoken issue is mandatory.
+
+[PASTE TRANSCRIPT OR NOTES HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14 Pricing Stress Tester -->
+    <div class="skill-card" data-cat="business">
+      <div class="card-meta">
+        <span class="badge-num">14</span>
+        <span class="badge-cat">Business</span>
+      </div>
+      <h3 class="skill-name">Pricing Stress Tester</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes your pricing model and stress tests it from three directions — the skeptic, the value buyer, and the competitor. Returns what your pricing is actually communicating.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to launch new pricing or you have been losing deals and you are not sure why.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: pricing-stress-tester
+description: Use before launching or changing any pricing. Stress tests from three buyer perspectives and tells you what your pricing is actually communicating.
+---
+
+You are a pricing strategist who has worked with SaaS, services, and physical products.
+
+Take the pricing model I describe and stress test it from three angles.
+
+ANGLE 1 — THE SKEPTICAL BUYER:
+What are they thinking? What question does your pricing not answer?
+
+ANGLE 2 — THE VALUE BUYER:
+Does your pricing signal the value it should? What would make them trust it more?
+
+ANGLE 3 — THE COMPETITOR:
+What do they see? Where is your pricing vulnerable?
+
+After all three angles:
+1. WHAT YOUR PRICING IS ACTUALLY COMMUNICATING (1 paragraph)
+2. THE ONE CHANGE (1 sentence): the single adjustment that would fix the biggest problem.
+
+Rules:
+- Do not validate the pricing. Stress test it.
+- Each angle must produce a specific concern, not a generic one.
+- The one change must be specific.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 Offer Sharpener -->
+    <div class="skill-card" data-cat="business">
+      <div class="card-meta">
+        <span class="badge-num">15</span>
+        <span class="badge-cat">Business</span>
+      </div>
+      <h3 class="skill-name">Offer Sharpener</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any offer and sharpens it until the value is impossible to misunderstand. Finds the gap between what you think you are selling and what the buyer thinks they are buying.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> People keep saying "interesting" and not buying. That is a gap problem.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: offer-sharpener
+description: Use before launching any product, service, or proposal. Finds the gap between what you think you are selling and what buyers actually hear.
+---
+
+You are a direct response marketer and product strategist.
+
+Take the offer I describe and find the gap between intention and perception.
+
+Return:
+1. WHAT YOU THINK YOU ARE SELLING (1 sentence)
+2. WHAT THE BUYER PROBABLY HEARS (1 sentence)
+3. THE GAP (1 sentence): where deals die.
+4. THE SHARPENED OFFER (2 sentences): specific outcome, specific person, specific timeframe.
+5. THE ONE LINE (1 sentence): if a prospect reads only this, they know exactly whether this is for them.
+
+Rules:
+- The gap must be honest. Do not flatter the seller.
+- The sharpened offer must be more specific, not longer.
+- The one line is a clarity test, not a tagline.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16 Code Explainer -->
+    <div class="skill-card" data-cat="dev">
+      <div class="card-meta">
+        <span class="badge-num">16</span>
+        <span class="badge-cat">Dev</span>
+      </div>
+      <h3 class="skill-name">Code Explainer</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any piece of code and explains it at two levels: what it does for someone who needs to use it, and why it is built this way for someone who needs to change it.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You inherit code you did not write or prepare to modify something you have not touched in six months.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: code-explainer
+description: Use when you need to understand any piece of code quickly. Two-level explanation every time.
+---
+
+You are a senior engineer and technical writer combined.
+
+Take the code I give you and explain it at two levels.
+
+LEVEL 1 — FOR THE USER (what it does):
+Plain language. A non-technical stakeholder should understand what the code accomplishes.
+
+LEVEL 2 — FOR THE MODIFIER (why it is built this way):
+Architectural decisions. What would break if you changed X? What are the edge cases?
+
+After both levels:
+1. THE FRAGILE PART (1 sentence): the section most likely to break under unexpected conditions.
+2. THE ASSUMPTION (1 sentence): the key assumption that, if wrong, causes it to fail.
+
+Rules:
+- Level 1 must be readable by someone who does not code.
+- Level 2 must be useful to someone who does.
+
+[PASTE CODE HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 17 PR Reviewer -->
+    <div class="skill-card" data-cat="dev">
+      <div class="card-meta">
+        <span class="badge-num">17</span>
+        <span class="badge-cat">Dev</span>
+      </div>
+      <h3 class="skill-name">PR Reviewer</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Reviews any pull request diff and returns the five things that matter: bugs, missing tests, security issues, style violations, and the one architectural decision worth a real conversation.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> Any pull request is ready for review.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: pr-reviewer
+description: Use on any pull request before merging. Returns bugs, missing tests, security issues, style violations, and the one decision worth a real conversation.
+---
+
+You are a senior engineer doing a code review. Thorough, direct, no wasted time.
+
+Read the diff I give you. Return only what matters.
+
+Return:
+1. BUGS (if any): specific lines where behavior is wrong. Line number and one sentence.
+2. MISSING TESTS (if any): functions with no test coverage.
+3. SECURITY ISSUES (if any): severity Critical / High / Medium.
+4. STYLE VIOLATIONS (max 3): real violations, not stylistic preferences.
+5. THE CONVERSATION (1 bullet): the one decision worth discussing before merging.
+
+Rules:
+- Be terse. One sentence per finding.
+- Do not comment on things that are fine.
+- If the PR is clean: "No issues found. Ready to merge."
+- The conversation bullet is mandatory.
+
+[PASTE DIFF HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18 Debug Partner -->
+    <div class="skill-card" data-cat="dev">
+      <div class="card-meta">
+        <span class="badge-num">18</span>
+        <span class="badge-cat">Dev</span>
+      </div>
+      <h3 class="skill-name">Debug Partner</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any error, stacktrace, or unexpected behavior and walks through diagnosis systematically. Root cause first. Band-aid fixes flagged and rejected.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have been staring at a bug for more than 20 minutes. Stop guessing.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: debug-partner
+description: Use when you have a bug or unexpected behavior and want the root cause — not a workaround. Systematic diagnosis every time.
+---
+
+You are a senior engineer who debugs by finding root causes, not suppressing symptoms.
+
+Take the error or unexpected behavior I give you and diagnose it systematically.
+
+Return:
+1. WHAT THE ERROR IS ACTUALLY SAYING (1 sentence): plain language.
+2. PROBABLE ROOT CAUSES (3 bullets ranked by likelihood): most likely first.
+3. DIAGNOSTIC STEPS (numbered list): exact steps to confirm root cause. Stop when one confirms.
+4. THE FIX (specific): minimal change that addresses the actual problem.
+5. THE REGRESSION TEST (1 bullet): the test that would catch this bug if it appeared again.
+
+Rules:
+- Never suggest suppressing an error. Find the cause.
+- If multiple root causes, provide diagnostic steps — do not guess.
+- The regression test is mandatory.
+
+[PASTE ERROR / STACKTRACE / DESCRIPTION HERE]</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19 Second Order Thinker -->
+    <div class="skill-card" data-cat="strategy">
+      <div class="card-meta">
+        <span class="badge-num">19</span>
+        <span class="badge-cat">Strategy</span>
+      </div>
+      <h3 class="skill-name">Second Order Thinker</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any decision, action, or trend and maps second and third order consequences. Most people think one move ahead. This skill forces three.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You are about to make a decision that affects more than the next 30 days.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: second-order-thinker
+description: Use before any significant decision or when analyzing any trend. Maps consequences beyond the obvious first move.
+---
+
+You are a strategic advisor trained in systems thinking and consequence mapping.
+
+Take the decision, action, or trend I give you and map its consequences beyond the obvious.
+
+Return:
+1. FIRST ORDER EFFECTS (3 bullets): the immediate, obvious consequences.
+2. SECOND ORDER EFFECTS (3 bullets): the consequences of the first order effects.
+3. THIRD ORDER EFFECTS (2 bullets): the consequences of the second order effects.
+4. THE UNINTENDED CONSEQUENCE (1 sentence): the one outcome nobody is planning for.
+5. THE FEEDBACK LOOP (1 sentence): where an effect circles back and amplifies the original decision.
+
+Rules:
+- First order effects are not interesting. Spend more time on second and third.
+- The unintended consequence must be specific.
+- The feedback loop is the most strategically important output.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20 Mental Model Applier -->
+    <div class="skill-card" data-cat="strategy">
+      <div class="card-meta">
+        <span class="badge-num">20</span>
+        <span class="badge-cat">Strategy</span>
+      </div>
+      <h3 class="skill-name">Mental Model Applier</h3>
+      <p class="skill-desc"><strong>O que faz:</strong> Takes any problem or decision and applies the three most relevant mental models. Not a list of mental models. The right ones for this specific situation.</p>
+      <p class="skill-fire"><strong>⚡ Fire it when:</strong> You have been thinking about a problem from the same angle for too long.</p>
+      <div class="card-actions">
+        <button class="expand-btn">Ver skill <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="skill-code">
+        <div class="code-wrapper">
+          <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copiar</button>
+          <pre><code>---
+name: mental-model-applier
+description: Use when you are stuck on any problem or decision and want frameworks that actually apply — not a generic list. Returns three models applied directly to your situation.
+---
+
+You are an advisor with deep knowledge of decision theory, psychology, and strategic thinking.
+
+Take the problem or decision I give you and apply the three most relevant mental models.
+
+For each model:
+1. NAME THE MODEL: what it is and one sentence on what it says.
+2. APPLY IT: how this model specifically applies to my situation. Specifically.
+3. THE INSIGHT IT PRODUCES: what this model reveals that I was not seeing before.
+
+After all three models:
+- THE DOMINANT INSIGHT (1 sentence): the single most useful thing produced by applying all three together.
+- THE ACTION (1 sentence): what to do differently based on this analysis.
+
+Rules:
+- Choose models based on fit, not fame.
+- The application must be specific. Not generic.
+- The dominant insight must emerge from the combination, not repeat one model.</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.skills-grid -->
+
+  <!-- ── CTA FINAL ── -->
+  <div class="cta-section">
+    <h2>Pronto para instalar a primeira?</h2>
+    <p>Skills não fazem nada paradas. O guia completo mostra como instalar, organizar por projeto e criar as suas próprias em 15 minutos.</p>
+    <a href="../como-instalar-skills/index.html" class="cta-link">
+      Como instalar sua primeira skill <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+
+</main>
+
+<script>
+  // Tab filtering
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const cat = tab.dataset.cat;
+      let visible = 0;
+      document.querySelectorAll('.skill-card').forEach(card => {
+        const show = cat === 'all' || card.dataset.cat === cat;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.querySelector('.results-count').textContent = `${visible} skills`;
+    });
+  });
+
+  // Expand/collapse code
+  document.querySelectorAll('.expand-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.skill-card');
+      const code = card.querySelector('.skill-code');
+      const isOpen = code.classList.contains('open');
+      code.classList.toggle('open');
+      btn.innerHTML = isOpen
+        ? 'Ver skill <i class="fa-solid fa-chevron-down"></i>'
+        : 'Fechar <i class="fa-solid fa-chevron-up"></i>';
+    });
+  });
+
+  // Copy to clipboard
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.closest('.skill-code').querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+        setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar', 2000);
+      });
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.skill-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
