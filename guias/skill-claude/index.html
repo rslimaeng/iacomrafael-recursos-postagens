@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
 /* ================================================
    @iacomrafael · Guia Skills · v2 Design Premium
@@ -792,22 +793,15 @@ section.section:nth-of-type(even) { background: var(--white); }
 .col-reveal:nth-child(3) { animation-delay: .25s; }
 .col-reveal:nth-child(4) { animation-delay: .35s; }
 
-/* ─── LUCIDE ICONS ─── */
-.lucide {
-  width: 20px; height: 20px;
-  stroke: currentColor; stroke-width: 2;
-  stroke-linecap: round; stroke-linejoin: round;
-  fill: none; display: inline-block; vertical-align: middle;
-  flex-shrink: 0;
-}
+/* ─── FA SOLID ICONS ─── */
 .tip-icon-wrap {
-  width: 40px; height: 40px; border-radius: 10px;
+  width: 42px; height: 42px; border-radius: 10px;
   background: var(--coral-soft); display: flex;
   align-items: center; justify-content: center;
   margin-bottom: 14px; color: var(--coral);
 }
-.tip-icon-wrap .lucide { width: 20px; height: 20px; }
-.element-icon .lucide { width: 18px; height: 18px; color: var(--coral); }
+.tip-icon-wrap .fa-solid { font-size: 18px; }
+.element-icon .fa-solid { font-size: 16px; color: var(--coral); }
 .forma-icon-wrap {
   width: 36px; height: 36px; border-radius: 8px;
   background: var(--cream-200); display: flex;
@@ -815,10 +809,9 @@ section.section:nth-of-type(even) { background: var(--white); }
   margin-bottom: 10px; color: var(--terra-700);
 }
 .forma-card.rec .forma-icon-wrap { background: rgba(217,119,87,.18); color: var(--coral-dark); }
-.forma-icon-wrap .lucide { width: 18px; height: 18px; }
-.copy-btn .lucide { width: 14px; height: 14px; }
-.hero-wins .check { font-size: 0; }
-.hero-wins .check .lucide { width: 10px; height: 10px; color: #fff; stroke-width: 2.5; }
+.forma-icon-wrap .fa-solid { font-size: 16px; }
+.copy-btn .fa-solid { font-size: 12px; }
+.hero-wins .check .fa-solid { font-size: 9px; color: #fff; }
 
 /* ─── PRINT ─── */
 @page { size: A4 portrait; margin: 0; }
@@ -902,9 +895,9 @@ section.section:nth-of-type(even) { background: var(--white); }
   <div class="hero-wins">
     <div class="wins-label">Em 10 minutos você vai ter</div>
     <ul>
-      <li><span class="check"><i data-lucide="check" class="lucide"></i></span> Sua primeira Skill ativa no Claude</li>
-      <li><span class="check"><i data-lucide="check" class="lucide"></i></span> Template de comunicação configurado</li>
-      <li><span class="check"><i data-lucide="check" class="lucide"></i></span> 2 templates extras prontos para instalar</li>
+      <li><span class="check"><i class="fa-solid fa-check"></i></span> Sua primeira Skill ativa no Claude</li>
+      <li><span class="check"><i class="fa-solid fa-check"></i></span> Template de comunicação configurado</li>
+      <li><span class="check"><i class="fa-solid fa-check"></i></span> 2 templates extras prontos para instalar</li>
     </ul>
   </div>
 
@@ -1050,7 +1043,7 @@ Com base nas minhas respostas, sugira Habilidades específicas com:
 Meu contexto e tarefas:
 [descreva sua área, cargo, ferramentas que usa e as 5-10
 tarefas que mais repete na semana]</div>
-      <button class="copy-btn" onclick="copyText('tmpl-discovery',this)"><i data-lucide="copy" class="lucide"></i> Copiar prompt</button>
+      <button class="copy-btn" onclick="copyText('tmpl-discovery',this)"><i class="fa-solid fa-copy"></i> Copiar prompt</button>
     </div>
   </div>
 
@@ -1155,19 +1148,19 @@ tarefas que mais repete na semana]</div>
           <div class="formas-grid">
             <div class="forma-card rec">
               <span class="forma-tag rec">Recomendado</span>
-              <div class="forma-icon-wrap"><i data-lucide="wand-2" class="lucide"></i></div>
+              <div class="forma-icon-wrap"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
               <h3>Criar com o Claude</h3>
               <p>Você descreve o que quer em conversa e o Claude monta o arquivo automaticamente. Sem código, sem formatação manual.</p>
             </div>
             <div class="forma-card">
               <span class="forma-tag med">Intermediário</span>
-              <div class="forma-icon-wrap"><i data-lucide="pencil" class="lucide"></i></div>
+              <div class="forma-icon-wrap"><i class="fa-solid fa-pencil"></i></div>
               <h3>Escrever instrução</h3>
               <p>Você escreve o conteúdo diretamente em markdown. Mais controle sobre o resultado. Bom para quem já criou algumas Skills.</p>
             </div>
             <div class="forma-card">
               <span class="forma-tag adv">Avançado</span>
-              <div class="forma-icon-wrap"><i data-lucide="folder-open" class="lucide"></i></div>
+              <div class="forma-icon-wrap"><i class="fa-solid fa-folder-open"></i></div>
               <h3>Fazer upload de ZIP</h3>
               <p>Envia um arquivo com a Skill já pronta (pasta + SKILL.md). Para quem recebeu uma Skill de outra pessoa ou criou fora do Claude.</p>
             </div>
@@ -1297,27 +1290,27 @@ tarefas que mais repete na semana]</div>
   <p>Quanto mais específico, mais alinhado o resultado. Skill vaga entrega resultado vago.</p>
   <ul class="elements">
     <li class="element-row">
-      <div class="element-icon"><i data-lucide="crosshair" class="lucide"></i></div>
+      <div class="element-icon"><i class="fa-solid fa-crosshairs"></i></div>
       <div class="element-name">Objetivo</div>
       <div class="element-desc">Para que serve a Skill — a tarefa específica que ela cobre.<span class="example">Ex: "Escrever e-mails e mensagens profissionais no meu tom"</span></div>
     </li>
     <li class="element-row">
-      <div class="element-icon"><i data-lucide="pen-line" class="lucide"></i></div>
+      <div class="element-icon"><i class="fa-solid fa-pen-nib"></i></div>
       <div class="element-name">Estilo</div>
       <div class="element-desc">Como você quer que o Claude escreva — tom, linguagem, nível de formalidade.<span class="example">Ex: "Direto, profissional, sem floreio, sem introdução longa"</span></div>
     </li>
     <li class="element-row">
-      <div class="element-icon"><i data-lucide="layout-template" class="lucide"></i></div>
+      <div class="element-icon"><i class="fa-solid fa-list-ul"></i></div>
       <div class="element-name">Formato</div>
       <div class="element-desc">Como entregar a resposta — lista, parágrafo, tabela, pronto para copiar.<span class="example">Ex: "Texto pronto para copiar e colar, sem opções, sem perguntas"</span></div>
     </li>
     <li class="element-row">
-      <div class="element-icon"><i data-lucide="shield-off" class="lucide"></i></div>
+      <div class="element-icon"><i class="fa-solid fa-ban"></i></div>
       <div class="element-name">Regras</div>
       <div class="element-desc">O que o Claude nunca deve fazer nessa Skill.<span class="example">Ex: "Nunca usar 'certamente', nunca dar opções sem eu pedir"</span></div>
     </li>
     <li class="element-row">
-      <div class="element-icon"><i data-lucide="lightbulb" class="lucide"></i></div>
+      <div class="element-icon"><i class="fa-solid fa-lightbulb"></i></div>
       <div class="element-name">Exemplo</div>
       <div class="element-desc">Uma amostra do resultado bom e do resultado ruim — opcional, mas ajuda muito.<span class="example">Ex: mostrar um e-mail no tom certo e um no tom errado</span></div>
     </li>
@@ -1359,7 +1352,7 @@ Qualquer dúvida, fico à disposição."
 Exemplo ruim:
 "Olá! Espero que este e-mail te encontre muito bem.
 Venho por meio deste e-mail para compartilhar..."</div>
-      <button class="copy-btn" onclick="copyText('tmpl1',this)"><i data-lucide="copy" class="lucide"></i> Copiar template</button>
+      <button class="copy-btn" onclick="copyText('tmpl1',this)"><i class="fa-solid fa-copy"></i> Copiar template</button>
     </div>
   </div>
 
@@ -1386,7 +1379,7 @@ Formato: texto estruturado, pronto para copiar
          e enviar por e-mail
 Tom: profissional, objetivo, sem rodeios
 Evitar: repetir o que foi dito, opiniões, inferências</div>
-      <button class="copy-btn" onclick="copyText('tmpl2',this)"><i data-lucide="copy" class="lucide"></i> Copiar template</button>
+      <button class="copy-btn" onclick="copyText('tmpl2',this)"><i class="fa-solid fa-copy"></i> Copiar template</button>
     </div>
   </div>
 
@@ -1412,7 +1405,7 @@ um documento (PDF, texto, tabela), entregue:
 Tom: consultor experiente falando com gestor ocupado
 Evitar: repetir o óbvio, linguagem técnica desnecessária
 Formato: tópicos, nunca texto corrido</div>
-      <button class="copy-btn" onclick="copyText('tmpl3',this)"><i data-lucide="copy" class="lucide"></i> Copiar template</button>
+      <button class="copy-btn" onclick="copyText('tmpl3',this)"><i class="fa-solid fa-copy"></i> Copiar template</button>
     </div>
   </div>
 </section>
@@ -1423,22 +1416,22 @@ Formato: tópicos, nunca texto corrido</div>
   <h2>4 dicas rápidas</h2>
   <div class="tips-grid">
     <div class="tip-card">
-      <div class="tip-icon-wrap"><i data-lucide="focus" class="lucide"></i></div>
+      <div class="tip-icon-wrap"><i class="fa-solid fa-bullseye"></i></div>
       <h3>Uma Skill por tarefa</h3>
       <p>Não tente resolver tudo em uma. Múltiplas Skills focadas funcionam muito melhor que uma Skill genérica.</p>
     </div>
     <div class="tip-card">
-      <div class="tip-icon-wrap"><i data-lucide="key-round" class="lucide"></i></div>
+      <div class="tip-icon-wrap"><i class="fa-solid fa-key"></i></div>
       <h3>A descrição é o gatilho</h3>
       <p>O Claude usa a descrição da Skill para decidir quando aplicá-la. Se não aciona, reescreva a descrição para ser mais específica.</p>
     </div>
     <div class="tip-card">
-      <div class="tip-icon-wrap"><i data-lucide="layers" class="lucide"></i></div>
+      <div class="tip-icon-wrap"><i class="fa-solid fa-layer-group"></i></div>
       <h3>Skills se somam</h3>
       <p>O Claude pode usar duas Skills ao mesmo tempo sem você pedir. Uma Skill de tom + uma de formato trabalham juntas automaticamente.</p>
     </div>
     <div class="tip-card">
-      <div class="tip-icon-wrap"><i data-lucide="zap" class="lucide"></i></div>
+      <div class="tip-icon-wrap"><i class="fa-solid fa-bolt"></i></div>
       <h3>Comece pela comunicação</h3>
       <p>O Template 1 é o melhor ponto de entrada. 10 minutos de configuração, resultado toda semana para qualquer texto.</p>
     </div>
@@ -1475,7 +1468,6 @@ Formato: tópicos, nunca texto corrido</div>
   <img id="lb-img" src="" alt="">
 </div>
 
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script>
 function copyText(id, btn) {
   navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
@@ -1495,9 +1487,6 @@ function closeLightbox() {
   document.getElementById('lb-img').src = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-// Initialize Lucide icons
-lucide.createIcons();
 
 // Scroll reveal — sections, cards, steps
 const io = new IntersectionObserver((entries) => {
