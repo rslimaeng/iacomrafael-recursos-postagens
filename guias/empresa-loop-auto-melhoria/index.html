@@ -21,10 +21,6 @@
    Paleta: coral #D97757 / terra #2B1F17 / cream #F5F1ED
    Ícones: Font Awesome 6 Solid
    Animações: spring cubic-bezier(0.16,1,0.3,1)
-   Efeitos: falling beams, gradient text, ambient blobs,
-            noise grain, marquee, shimmer buttons,
-            scroll-reveal, gradient border cards,
-            step-line draw, pulse-glow
 ================================================ */
 
 /* ─── TOKENS ─── */
@@ -85,6 +81,7 @@ body {
 @keyframes pulseGlow   { 0%,100%{box-shadow:0 0 8px rgba(217,119,87,.35),var(--shadow-coral)} 50%{box-shadow:0 0 22px rgba(217,119,87,.65),0 0 40px rgba(217,119,87,.20),var(--shadow-coral)} }
 @keyframes ping        { 75%,100%{transform:scale(2);opacity:0} }
 @keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes loopPulse   { 0%,100%{opacity:.3} 50%{opacity:.8} }
 
 /* ─── FIXED OVERLAYS ─── */
 .noise-overlay {
@@ -96,10 +93,11 @@ body {
 .ambient-blob-2 { width:420px; height:420px; bottom:5%; right:-8%; background:radial-gradient(circle,rgba(201,148,58,.05) 0%,transparent 70%); animation:blobDrift2 19s ease-in-out infinite alternate; }
 
 /* ─── TIPOGRAFIA ─── */
-h1, h2, h3 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
 h1 { font-size:clamp(30px,5vw,46px); font-weight:800; line-height:1.05; letter-spacing:-1.5px; }
 h2 { font-size:26px; font-weight:700; line-height:1.15; letter-spacing:-.6px; }
 h3 { font-size:18px; font-weight:700; line-height:1.25; }
+h4 { font-size:15px; font-weight:700; line-height:1.3; }
 p  { margin-bottom:14px; } p:last-child { margin-bottom:0; }
 strong { font-weight:600; }
 code { font-family:'JetBrains Mono',monospace; font-size:12.5px; background:var(--cream-200); padding:2px 6px; border-radius:4px; color:var(--coral-dark); }
@@ -113,8 +111,8 @@ code { font-family:'JetBrains Mono',monospace; font-size:12.5px; background:var(
 }
 .topnav .brand { font-family:'Bricolage Grotesque',sans-serif; font-size:16px; font-weight:800; color:var(--terra-900); text-decoration:none; }
 .topnav .brand em { font-style:italic; color:var(--coral); }
-.topnav-links { display:flex; gap:20px; }
-.topnav-links a { font-size:13px; font-weight:500; color:var(--terra-700); text-decoration:none; opacity:.8; transition:color .2s var(--ease-spring),opacity .2s; }
+.topnav-links { display:flex; gap:18px; }
+.topnav-links a { font-size:12px; font-weight:500; color:var(--terra-700); text-decoration:none; opacity:.8; transition:color .2s var(--ease-spring),opacity .2s; }
 .topnav-links a:visited { color:var(--terra-700); opacity:.8; }
 .topnav-links a:hover   { color:var(--coral); opacity:1; }
 
@@ -165,7 +163,7 @@ section.section:nth-of-type(even) { background:var(--white); }
 .section > p { color:var(--terra-700); margin-bottom:24px; }
 
 /* ─── QUOTE ─── */
-.quote-block { font-family:'Inter',sans-serif; font-style:italic; font-size:18px; font-weight:400; line-height:1.6; color:var(--terra-700); border-left:3px solid var(--coral); padding-left:20px; margin:24px 0; }
+.quote-block { font-family:'Inter',sans-serif; font-style:italic; font-size:17px; font-weight:400; line-height:1.65; color:var(--terra-700); border-left:3px solid var(--coral); padding-left:20px; margin:24px 0; }
 .quote-source { display:block; font-size:13px; font-style:normal; font-weight:600; color:var(--coral); margin-top:10px; }
 
 /* ─── CARDS: block-grid ─── */
@@ -197,10 +195,12 @@ section.section:nth-of-type(even) { background:var(--white); }
 .alert { display:flex; gap:14px; padding:16px 20px; border-radius:12px; border:1px solid; margin:20px 0; }
 .alert-warning { background:var(--warning-bg); border-color:#e6c07a; }
 .alert-info    { background:#DEE3E8; border-color:#b8c4cc; }
+.alert-success { background:var(--success-bg); border-color:#b0ccA0; }
 .alert-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
 .alert-body { font-size:14px; line-height:1.55; }
 .alert-body strong { color:var(--warning); }
 .alert-info .alert-body strong { color:#4A5C6A; }
+.alert-success .alert-body strong { color:var(--success); }
 
 /* ─── STEPS ─── */
 .steps { list-style:none; display:flex; flex-direction:column; }
@@ -305,6 +305,279 @@ section.section:nth-of-type(even) { background:var(--white); }
 .caso-stat .val { font-family:'Bricolage Grotesque',sans-serif; font-size:24px; font-weight:800; color:var(--coral); line-height:1; display:block; }
 .caso-stat .lbl { font-size:10px; color:rgba(245,241,237,.4); display:block; margin-top:2px; }
 
+/* ─── EFFECT PHRASE ─── */
+.effect-phrase {
+  position:relative;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(18px,2.5vw,24px);
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:-.5px;
+  color:var(--terra-900);
+  padding:22px 28px 22px 36px;
+  margin:28px 0;
+  background:linear-gradient(135deg,var(--coral-soft) 0%,transparent 85%);
+  border-radius:12px;
+  overflow:hidden;
+}
+.effect-phrase::before {
+  content:'"';
+  font-size:100px;
+  font-weight:800;
+  color:var(--coral);
+  opacity:.12;
+  position:absolute;
+  top:-20px; left:8px;
+  font-family:'Bricolage Grotesque',sans-serif;
+  line-height:1;
+  pointer-events:none;
+}
+.effect-phrase-source {
+  display:block;
+  font-family:'Inter',sans-serif;
+  font-size:12px;
+  font-weight:600;
+  font-style:normal;
+  letter-spacing:.05em;
+  color:var(--coral-dark);
+  margin-top:10px;
+  opacity:.8;
+}
+
+/* ─── STORY BLOCK ─── */
+.story-block {
+  background:var(--white);
+  border:1px solid var(--cream-200);
+  border-left:4px solid var(--ocre);
+  border-radius:0 12px 12px 0;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.story-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ocre);
+  margin-bottom:10px;
+}
+.story-block h4 { font-size:15px; color:var(--terra-900); margin-bottom:8px; }
+.story-block p  { font-size:14px; color:var(--terra-700); line-height:1.6; }
+.story-block p + p { margin-top:8px; }
+.story-outcome {
+  margin-top:14px;
+  padding:10px 14px;
+  background:var(--ocre-soft);
+  border-radius:8px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--terra-900);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.story-outcome i { color:var(--ocre); flex-shrink:0; }
+
+/* ─── DATA TABLE ─── */
+.data-table {
+  width:100%;
+  border-collapse:collapse;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--cream-200);
+  margin:20px 0;
+  font-size:13.5px;
+}
+.data-table thead th {
+  background:var(--terra-900);
+  color:var(--cream-50);
+  padding:12px 16px;
+  text-align:left;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.data-table tbody td {
+  padding:12px 16px;
+  border-bottom:1px solid var(--cream-200);
+  color:var(--terra-700);
+  line-height:1.5;
+  vertical-align:top;
+}
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tbody tr:nth-child(even) td { background:var(--cream-50); }
+.data-table td.td-label {
+  font-weight:700;
+  color:var(--terra-900);
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:13px;
+  white-space:nowrap;
+}
+.data-table td.td-good { color:var(--success); font-weight:600; }
+.data-table td.td-bad  { color:var(--muted); }
+.tbl-tag { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:5px; background:var(--coral-soft); color:var(--coral-dark); white-space:nowrap; }
+.tbl-tag-green { background:var(--success-bg); color:var(--success); }
+
+/* ─── REFLECTION BOX ─── */
+.reflection-box {
+  background:linear-gradient(135deg,rgba(201,148,58,.08) 0%,var(--cream-100) 100%);
+  border:1px solid rgba(201,148,58,.30);
+  border-radius:12px;
+  padding:20px 24px;
+  margin:24px 0;
+}
+.reflection-title {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ocre);
+  margin-bottom:14px;
+}
+.reflection-box ol {
+  padding-left:20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.reflection-box li { font-size:14px; color:var(--terra-700); line-height:1.55; }
+.reflection-box li strong { color:var(--terra-900); }
+
+/* ─── LOOP FLOW DIAGRAM ─── */
+.loop-flow-wrap {
+  position:relative;
+  background:var(--terra-900);
+  border-radius:16px;
+  padding:28px 20px 52px;
+  margin:28px 0;
+  overflow:hidden;
+}
+.loop-flow-wrap::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(217,119,87,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.loop-flow-title {
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--coral);
+  text-align:center;
+  margin-bottom:28px;
+  position:relative;
+}
+.loop-flow {
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:0;
+  position:relative;
+}
+.loop-node {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  width:120px;
+  flex-shrink:0;
+}
+.loop-node-icon {
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  border:2px solid rgba(217,119,87,.40);
+  background:rgba(217,119,87,.10);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--coral);
+  font-size:18px;
+  position:relative;
+  transition:background .3s;
+}
+.loop-node:hover .loop-node-icon { background:rgba(217,119,87,.22); }
+.loop-node-num {
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  width:18px;
+  height:18px;
+  background:var(--coral);
+  border-radius:50%;
+  font-size:10px;
+  font-weight:800;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Bricolage Grotesque',sans-serif;
+}
+.loop-node-name {
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--cream-50);
+  text-align:center;
+  letter-spacing:-.3px;
+}
+.loop-node-desc {
+  font-size:11px;
+  color:rgba(245,241,237,.4);
+  text-align:center;
+  line-height:1.4;
+  max-width:90px;
+}
+.loop-arrow {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 20px;
+  height:54px;
+  color:rgba(217,119,87,.45);
+  font-size:13px;
+}
+.loop-return {
+  position:absolute;
+  bottom:12px;
+  left:60px;
+  right:60px;
+}
+.loop-return-line {
+  height:24px;
+  border:1.5px solid rgba(217,119,87,.22);
+  border-top:none;
+  border-radius:0 0 12px 12px;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.loop-return-text {
+  position:absolute;
+  bottom:-9px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:rgba(217,119,87,.5);
+  white-space:nowrap;
+  background:var(--terra-900);
+  padding:0 8px;
+  animation:loopPulse 3s ease-in-out infinite;
+}
+
 /* ─── FOLLOW CTA ─── */
 .follow-cta { background:var(--coral-soft); border-top:1px solid rgba(217,119,87,.2); padding:44px 48px; text-align:center; position:relative; overflow:hidden; }
 .follow-cta::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(217,119,87,.12) 0%,transparent 70%); pointer-events:none; }
@@ -352,6 +625,12 @@ section.section:nth-of-type(even) { background:var(--white); }
   .element-row{grid-template-columns:36px 90px 1fr}
   .caso-header{flex-wrap:wrap}
   .caso-stats{margin-left:0;width:100%}
+  .loop-flow{flex-wrap:wrap;justify-content:center;gap:8px}
+  .loop-arrow{display:none}
+  .loop-return{display:none}
+  .loop-flow-wrap{padding-bottom:24px}
+  .data-table{font-size:12px}
+  .data-table thead th,.data-table tbody td{padding:9px 12px}
 }
   </style>
 </head>
@@ -366,9 +645,11 @@ section.section:nth-of-type(even) { background:var(--white); }
   <a class="brand" href="https://www.instagram.com/iacomrafael/" target="_blank">IA na <em>Prática</em></a>
   <div class="topnav-links">
     <a href="#problema">O Problema</a>
+    <a href="#loop">O Loop</a>
     <a href="#camadas">5 Camadas</a>
-    <a href="#contexto">Contexto</a>
-    <a href="#agente">Agente</a>
+    <a href="#contexto">Skyvern</a>
+    <a href="#agente">Answer This</a>
+    <a href="#time">Time</a>
     <a href="#comecar">Começar</a>
   </div>
 </nav>
@@ -387,7 +668,7 @@ section.section:nth-of-type(even) { background:var(--white); }
   <div class="hero-blob"></div>
   <div class="hero-blob-2"></div>
 
-  <div class="eyebrow">Desmistificação · Guia Completo · YC Root Access 2026</div>
+  <div class="eyebrow">Guia Completo · YC Root Access 2026 · Desmistificação</div>
 
   <h1>
     <span class="hero-line">A empresa como</span>
@@ -395,7 +676,7 @@ section.section:nth-of-type(even) { background:var(--white); }
     <span class="hero-line"><em>auto-melhoria</em></span>
   </h1>
 
-  <p class="lead">Duas startups. $4M de ARR combinado. Quatro funcionários no total. O Y Combinator mostrou em 2026 que o modelo de empresa importa mais do que a ferramenta de IA que você usa.</p>
+  <p class="lead">Duas startups. $4M de ARR combinado. Quatro funcionários no total. O Y Combinator mostrou em 2026 que o modelo de empresa importa mais do que a ferramenta de IA que você usa — e que a diferença está numa mudança de arquitetura.</p>
 
   <div class="hero-stats">
     <div class="stat">
@@ -405,12 +686,17 @@ section.section:nth-of-type(even) { background:var(--white); }
     </div>
     <div class="stat">
       <span class="val">4</span>
-      <span class="lbl">funcionários</span>
+      <span class="lbl">funcionários no total</span>
       <div class="stat-line"></div>
     </div>
     <div class="stat">
       <span class="val">45</span>
-      <span class="lbl">ferramentas auto-criadas</span>
+      <span class="lbl">ferramentas criadas pelo agente</span>
+      <div class="stat-line"></div>
+    </div>
+    <div class="stat">
+      <span class="val">5×</span>
+      <span class="lbl">mais receita por funcionário vs. 18 meses atrás (YC)</span>
       <div class="stat-line"></div>
     </div>
   </div>
@@ -420,7 +706,7 @@ section.section:nth-of-type(even) { background:var(--white); }
     <span>·</span>
     <span>mai/2026</span>
     <span>·</span>
-    <span>Baseado em Ayush (Answer This) + Sachin (Skyvern) + Diana (YC)</span>
+    <span>Baseado em Ayush · Sachin · Diana · Pete — YC Root Access 2026</span>
   </div>
 </header>
 
@@ -431,42 +717,41 @@ section.section:nth-of-type(even) { background:var(--white); }
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Auto-Melhoria</span>
     <span class="marquee-item dot">·</span>
-    <span class="marquee-item accent">$2M ARR</span>
-    <span class="marquee-item dot">·</span>
-    <span class="marquee-item">2 Funcionários</span>
+    <span class="marquee-item accent">$2M ARR · 2 Funcionários</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Contexto é Tudo</span>
     <span class="marquee-item dot">·</span>
-    <span class="marquee-item accent">YC Root Access</span>
+    <span class="marquee-item accent">YC Root Access 2026</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Ayush · Answer This</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Sachin · Skyvern</span>
     <span class="marquee-item dot">·</span>
-    <span class="marquee-item accent">Diana · Y Combinator</span>
+    <span class="marquee-item accent">Diana · Pete · Y Combinator</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">5 Camadas</span>
     <span class="marquee-item dot">·</span>
-    <!-- DUPLICAR para loop perfeito -->
+    <span class="marquee-item">Queimar Tokens, Não Headcount</span>
+    <span class="marquee-item dot">·</span>
     <span class="marquee-item accent">Loop Fechado</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Auto-Melhoria</span>
     <span class="marquee-item dot">·</span>
-    <span class="marquee-item accent">$2M ARR</span>
-    <span class="marquee-item dot">·</span>
-    <span class="marquee-item">2 Funcionários</span>
+    <span class="marquee-item accent">$2M ARR · 2 Funcionários</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Contexto é Tudo</span>
     <span class="marquee-item dot">·</span>
-    <span class="marquee-item accent">YC Root Access</span>
+    <span class="marquee-item accent">YC Root Access 2026</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Ayush · Answer This</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">Sachin · Skyvern</span>
     <span class="marquee-item dot">·</span>
-    <span class="marquee-item accent">Diana · Y Combinator</span>
+    <span class="marquee-item accent">Diana · Pete · Y Combinator</span>
     <span class="marquee-item dot">·</span>
     <span class="marquee-item">5 Camadas</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Queimar Tokens, Não Headcount</span>
     <span class="marquee-item dot">·</span>
   </div>
 </div>
@@ -477,26 +762,27 @@ section.section:nth-of-type(even) { background:var(--white); }
      ═══════════════════════════════════════════════ -->
 <section class="section" id="problema">
   <div class="section-label">O Problema</div>
-  <h2>Ferramenta nova. Estrutura antiga.</h2>
-  <p>Você pode ter IA em cada reunião, cada e-mail e cada linha de código. Se a empresa ainda funciona como há cinco anos — com informação passando por camadas de humanos —, você tem um motor mais potente na mesma transmissão velha. A ferramenta não é o gargalo. O design é.</p>
+  <h2>A empresa funciona como uma legião romana — e isso é o problema.</h2>
+  <p>As legiões romanas foram projetadas para projetar poder de Roma até Hadrian's Wall — hierarquias aninhadas com spans de controle consistentes, onde humanos são o condutor da informação que sobe e desce. Se você olhar para a maioria das empresas hoje, elas estão organizadas exatamente assim.</p>
+  <p>Você pode ter IA em cada reunião, cada e-mail e cada linha de código. Se a empresa ainda funciona com informação passando por camadas de humanos, você tem um motor mais potente na mesma transmissão velha. <strong>A ferramenta não é o gargalo. O design é.</strong></p>
 
   <div class="compare">
     <div class="compare-side compare-before">
-      <div class="compare-label"><span class="compare-dot"></span>Loop Aberto (empresa tradicional)</div>
-      <div class="compare-prompt">Reunião →
+      <div class="compare-label"><span class="compare-dot"></span>Loop Aberto — empresa tradicional</div>
+      <div class="compare-prompt">Reunião acontece →
 Decisão tomada em sala →
-Executada por humano →
+Humano executa →
 Resultado gerado →
 Relatório escrito por humano →
 Enviado por e-mail ou apresentado →
 Nova reunião para atualizar todo mundo
 
 O que se perde no caminho:
-nunca chega ao sistema.</div>
-      <p class="compare-caption">Cada camada de humano é um ponto de perda. A velocidade máxima é a do humano mais lento da cadeia.</p>
+tudo que não foi escrito.</div>
+      <p class="compare-caption">Cada camada de humano é um ponto de perda, atraso e distorção. A velocidade máxima é a do humano mais lento da cadeia.</p>
     </div>
     <div class="compare-side compare-after">
-      <div class="compare-label"><span class="compare-dot"></span>Loop Fechado (empresa como sistema)</div>
+      <div class="compare-label"><span class="compare-dot"></span>Loop Fechado — empresa como sistema</div>
       <div class="compare-prompt">Informação gerada →
 Capturada automaticamente →
 Contexto disponível ao agente →
@@ -510,33 +796,152 @@ Sem perda entre as etapas.</div>
     </div>
   </div>
 
+  <div class="effect-phrase">
+    A velocidade máxima de qualquer empresa é a do humano mais lento na cadeia de informação. Toda camada de routing humano que você remove é um ganho direto de velocidade.
+    <span class="effect-phrase-source">— Princípio central do YC Root Access 2026</span>
+  </div>
+
   <blockquote class="quote-block">
-    "IA não deve ser uma ferramenta que sua empresa usa. Deve ser o sistema operacional no qual ela roda. Cada processo importante deve ser capturado por um loop fechado de auto-melhoria — que captura informação, alimenta a camada de inteligência e melhora o processo ao longo do tempo."
+    "IA não deve ser uma ferramenta que sua empresa usa. Deve ser o sistema operacional no qual ela roda. Todo workflow, toda decisão e todo processo deve fluir por uma camada inteligente que está constantemente aprendendo e melhorando."
     <span class="quote-source">— Diana, Partner no Y Combinator</span>
   </blockquote>
 
   <div class="block-grid">
     <div class="num-block col-reveal">
       <div class="num">↑</div>
-      <h3>Loop Aberto — o teto invisível</h3>
-      <p>No modelo tradicional, cada informação gerada precisa de um humano para interpretá-la e roteá-la. Gerentes médios existem para isso: coordenar informação entre times. O problema: cada camada humana é um ponto de perda, atraso e distorção. Você adiciona IA como copiloto, mas a transmissão é a mesma.</p>
+      <h3>O teto invisível do loop aberto</h3>
+      <p>No modelo tradicional, cada informação gerada precisa de um humano para interpretá-la e roteá-la. Gerentes médios existem exatamente para isso: coordenar informação entre times. O problema: cada camada humana é um ponto de perda. Você adiciona IA como copiloto, mas a transmissão é a mesma. É um motor mais potente na mesma estrutura velha.</p>
     </div>
     <div class="num-block col-reveal">
       <div class="num">→</div>
-      <h3>Loop Fechado — o novo modelo</h3>
-      <p>No modelo de loop fechado, cada informação gerada é capturada automaticamente, fica legível para o sistema e gera aprendizado. O agente não espera ser acionado: ele monitora, detecta padrões e age. Sem middleware humano. O que antes exigia um time inteiro passa a exigir um sistema bem arquitetado — e um ou dois humanos na borda.</p>
+      <h3>O novo modelo: empresa como loop</h3>
+      <p>No modelo de loop fechado, cada informação gerada é capturada automaticamente, fica legível para o sistema e gera aprendizado. O agente não espera ser acionado: ele monitora, detecta padrões e age. Sem middleware humano no meio. O que antes exigia um time inteiro passa a exigir um sistema bem arquitetado e um ou dois humanos na borda.</p>
     </div>
+  </div>
+
+  <div class="reflection-box" style="margin-top:24px;">
+    <div class="reflection-title"><i class="fa-solid fa-magnifying-glass"></i> Diagnóstico rápido — responda honestamente</div>
+    <ol>
+      <li><strong>Quanto do que acontece na sua empresa hoje está registrado onde um agente pode ler?</strong> E-mails de clientes? Decisões de reunião? Feedbacks do time?</li>
+      <li><strong>Quando você precisa de uma informação sobre um cliente ou projeto antigo, quanto tempo leva para encontrar?</strong> Minutos (está registrado) ou horas (está na cabeça de alguém)?</li>
+      <li><strong>Se um novo contratado começasse amanhã, onde estaria o contexto que ele precisa?</strong> Em documentos acessíveis ou em conversas que ele vai ter com pessoas?</li>
+      <li><strong>Quais tarefas repetitivas acontecem toda semana que ainda passam por um humano antes de chegar no próximo passo?</strong></li>
+    </ol>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════
-     SEÇÃO 2: AS 5 CAMADAS
+     SEÇÃO 2: O LOOP NA PRÁTICA — CASOS REAIS
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="loop">
+  <div class="section-label">O Loop na Prática</div>
+  <h2>Quando o sistema se auto-melhora enquanto você dorme</h2>
+  <p>Teoria é fácil. O que convence é ver o loop funcionando de verdade — com resultado mensurável no dia seguinte. Pete, Group Partner do Y Combinator, descreveu dois casos que mudaram a forma como ele pensa sobre empresas. Ambos aconteceram na YC, com sistemas que eles próprios construíram.</p>
+
+  <!-- Loop Flow Diagram -->
+  <div class="loop-flow-wrap">
+    <div class="loop-flow-title">O Loop Fechado de Auto-Melhoria — as 5 etapas</div>
+    <div class="loop-flow">
+      <div class="loop-node">
+        <div class="loop-node-icon">
+          <i class="fa-solid fa-microphone"></i>
+          <span class="loop-node-num">1</span>
+        </div>
+        <div class="loop-node-name">Captura</div>
+        <div class="loop-node-desc">Tudo vira artefato legível</div>
+      </div>
+      <div class="loop-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="loop-node">
+        <div class="loop-node-icon">
+          <i class="fa-solid fa-layer-group"></i>
+          <span class="loop-node-num">2</span>
+        </div>
+        <div class="loop-node-name">Contexto</div>
+        <div class="loop-node-desc">Agente acessa todas as fontes</div>
+      </div>
+      <div class="loop-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="loop-node">
+        <div class="loop-node-icon">
+          <i class="fa-solid fa-bolt"></i>
+          <span class="loop-node-num">3</span>
+        </div>
+        <div class="loop-node-name">Execução</div>
+        <div class="loop-node-desc">Detecta, decide, age</div>
+      </div>
+      <div class="loop-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="loop-node">
+        <div class="loop-node-icon">
+          <i class="fa-solid fa-brain"></i>
+          <span class="loop-node-num">4</span>
+        </div>
+        <div class="loop-node-name">Memória</div>
+        <div class="loop-node-desc">Aprende com cada ciclo</div>
+      </div>
+      <div class="loop-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="loop-node">
+        <div class="loop-node-icon">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span class="loop-node-num">5</span>
+        </div>
+        <div class="loop-node-name">Evolução</div>
+        <div class="loop-node-desc">Expande capacidades</div>
+      </div>
+    </div>
+    <div class="loop-return">
+      <div class="loop-return-line">
+        <span class="loop-return-text">loop contínuo · sem humano no meio · cada ciclo mais inteligente</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story: Pete's monitoring agent -->
+  <div class="story-block">
+    <div class="story-badge"><i class="fa-solid fa-star"></i> Caso Real · Y Combinator · Pete, Group Partner</div>
+    <h4>O agente que se corrigiu sozinho durante a noite — e funcionou no dia seguinte</h4>
+    <p>A YC construiu um agente para Group Partners. No começo era simples: "quando foi minha última sessão de office hours com essa empresa?" Depois ficou mais sofisticado: "para essa empresa que estou atendendo agora, quais são os 5 fundadores do portfólio relevantes para apresentar?" Isso já economizava 20-30% do tempo.</p>
+    <p>Mas o momento de virada veio quando colocaram um <strong>agente de monitoramento por cima</strong>. Esse agente observava todas as queries que cada funcionário da YC fazia — e registrava quando elas funcionavam e quando não funcionavam. Quando não funcionava, o sistema perguntava: "o que faria essa query funcionar? Precisa de novas ferramentas determinísticas? Atualizar o arquivo de skills? Uma nova view no banco? Um novo índice?"</p>
+    <p>Então, <strong>durante a noite</strong>: escrevia o código, criava o merge request, um agente de revisão aprovava, fazia o deploy. Na manhã seguinte, o funcionário que fez a mesma query que falhou no dia anterior — ela funcionava.</p>
+    <div class="story-outcome">
+      <i class="fa-solid fa-lightbulb"></i>
+      "Esse foi o meu momento de 'nossa, é isso'. Não é só a IA te tornando 20-30% mais produtivo. É a IA passando pelo loop para descobrir como se auto-melhorar." — Pete, YC
+    </div>
+  </div>
+
+  <!-- Story: YC User Manual -->
+  <div class="story-block">
+    <div class="story-badge"><i class="fa-solid fa-book"></i> Caso Real · Y Combinator · Manual do Usuário</div>
+    <h4>O manual que se reescreve sozinho — 150 páginas em um fim de semana</h4>
+    <p>O YC User Manual tinha 5 a 10 anos. Estava desatualizado. Nos últimos 3 meses, a YC acumulou aproximadamente 2.000 horas de office hours gravadas. Haj, um dos partners, teve uma ideia numa sexta à noite: por que não usar essas gravações para regenerar o manual?</p>
+    <p>Ele deu um conjunto de instruções: categorize as gravações por tema (fundraising, hiring, co-founder disputes, etc.), sintetize o que está sendo dito em cada categoria, escreva um novo manual. Até o domingo, o manual tinha <strong>150 páginas</strong> — dramaticamente melhor do que o anterior. E agora ele se atualiza todo mês.</p>
+    <p>Cada novo conselho dado em office hours é comparado com o manual existente e incorporado ou descartado. O manual virou um <strong>cérebro vivo</strong> dos conselhos que a YC dá aos fundadores — e pode ser injetado como contexto num agente.</p>
+    <div class="story-outcome">
+      <i class="fa-solid fa-lightbulb"></i>
+      Princípio: se cria um artefato que pode se auto-melhorar, é legível. Se não cria, descarte. O artefato é o ativo — não o software que o gera.
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <div class="alert-body">
+      <strong>Loops de auto-melhoria em outras funções:</strong> O princípio escala. <strong>Produto:</strong> analytics → agente identifica atrito → pesquisa melhores práticas → propõe AB test → roda por uma semana → deploya o vencedor → repete. <strong>Suporte:</strong> sugestões de clientes entram → agente CPO/CTO triagem → implementa overnight → entrega ao cliente — sem humano no meio para tarefas de baixo risco.
+    </div>
+  </div>
+
+  <div class="effect-phrase">
+    Se foi registrado, aconteceu para o sistema. Se não foi registrado — para o sistema, não existiu.
+    <span class="effect-phrase-source">— Pete, Group Partner · Y Combinator</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 3: AS 5 CAMADAS
      ═══════════════════════════════════════════════ -->
 <section class="section" id="camadas">
   <div class="section-label">O Framework</div>
   <h2>As 5 camadas do loop fechado</h2>
-  <p>Este não é um modelo teórico. É uma síntese do que Ayush (Answer This), Sachin (Skyvern) e Diana (YC) implementaram de formas independentes e chegaram ao mesmo resultado. Cada camada é uma decisão de arquitetura — e cada camada ausente é um vazamento no sistema.</p>
+  <p>Este não é um modelo teórico. É uma síntese do que Ayush (Answer This), Sachin (Skyvern), Pete e Diana (YC) implementaram de formas independentes e chegaram ao mesmo resultado. Cada camada é uma decisão de arquitetura — e cada camada ausente é um vazamento no sistema.</p>
 
   <ul class="elements">
     <li class="element-row">
@@ -545,7 +950,7 @@ Sem perda entre as etapas.</div>
       <div class="element-desc">
         <span class="element-tag">Fundação</span>
         Tudo que acontece na empresa precisa virar artefato. Decisão tomada em call? Tem que estar gravada. Pergunta respondida no chat? Tem que estar num canal público, não em DM. Feedback de cliente? Registrado e acessível. <strong>Sem captura, não há contexto. Sem contexto, não há loop.</strong>
-        <span class="example">Exemplo real: Sachin proibiu DMs internos no Skyvern. Todo mundo tem um "office channel" público. Qualquer pergunta respondida uma vez fica disponível para sempre — para o agente e para futuros contratados.</span>
+        <span class="example">Exemplo real: Sachin proibiu DMs no Skyvern. Todo mundo tem "office channel" público. Pergunta respondida uma vez fica disponível para sempre — para o agente e para futuros contratados.</span>
       </div>
     </li>
     <li class="element-row">
@@ -553,7 +958,7 @@ Sem perda entre as etapas.</div>
       <div class="element-name">Camada 2<br><strong>Contexto</strong></div>
       <div class="element-desc">
         <span class="element-tag">Acesso</span>
-        O agente precisa enxergar tudo: e-mail, Slack, Notion, gravações de calls, banco de dados, código-fonte. Contexto incompleto = agente que dá respostas genéricas. Um agente com acesso apenas ao e-mail vai falhar onde um agente com acesso a 5 fontes vai acertar — porque consegue correlacionar.
+        O agente precisa enxergar tudo: e-mail, Slack, Notion, gravações de calls, banco de dados, código-fonte. Contexto incompleto = agente que dá respostas genéricas. Um agente com acesso apenas ao e-mail vai falhar onde um agente com acesso a 5 fontes vai acertar — porque consegue <em>correlacionar</em>.
         <span class="example">Exemplo real: O agente do Sachin acessa e-mail + Slack + Notion + gravações + banco de dados para escrever um PRD. Ele volta com gravações específicas de clientes que mencionaram aquela dor — evidência, não opinião.</span>
       </div>
     </li>
@@ -562,8 +967,8 @@ Sem perda entre as etapas.</div>
       <div class="element-name">Camada 3<br><strong>Execução</strong></div>
       <div class="element-desc">
         <span class="element-tag">Ação</span>
-        O agente não espera ser chamado. Ele detecta uma tarefa, decide o que fazer, executa e reporta. O humano define o <em>o quê</em>; o agente descobre o <em>como</em>. Tarefas repetitivas saem completamente da fila humana.
-        <span class="example">Exemplo real: Ayush não precisa abrir o Intercom para responder suporte. O agente da Answer This processa 100+ e-mails por dia, já fechou mais de 400 tickets — e quando não sabe como fazer algo, cria a ferramenta necessária.</span>
+        O agente não espera ser chamado. Ele detecta uma tarefa, decide o que fazer, executa e reporta. O humano define o <em>o quê</em>; o agente descobre o <em>como</em>. Inclui também um "quality gate": o que precisa de revisão humana (alto risco), o que o agente pode executar direto, o que precisa ser logado.
+        <span class="example">Exemplo real: Ayush não precisa abrir o Intercom. O agente da Answer This processa 100+ e-mails por dia, já fechou mais de 400 tickets — e quando não sabe fazer algo, cria a ferramenta necessária.</span>
       </div>
     </li>
     <li class="element-row">
@@ -571,8 +976,8 @@ Sem perda entre as etapas.</div>
       <div class="element-name">Camada 4<br><strong>Memória</strong></div>
       <div class="element-desc">
         <span class="element-tag">Aprendizado</span>
-        Existem três tipos de memória que o agente precisa ter. <strong>Factual:</strong> o codebase e o banco de dados — como o produto funciona por dentro. <strong>Comportamental:</strong> o que você ensina via feedback — um arquivo de instruções que o agente edita sozinho após cada correção. <strong>Procedural:</strong> as tarefas recorrentes codificadas em ferramentas que o agente criou.
-        <span class="example">Exemplo real: O co-fundador Ryan (não-técnico) percebeu uma classe de erros no suporte. Mandou mensagem no Slack pro agente. O agente atualizou o próprio arquivo de instruções. O erro parou de acontecer naquele mesmo dia — sem abrir ticket, sem sprint.</span>
+        Três tipos: <strong>Factual</strong> — o codebase e o banco de dados (como o produto funciona). <strong>Comportamental</strong> — o que você ensina via feedback (um arquivo de instruções que o agente edita sozinho). <strong>Procedural</strong> — as tarefas recorrentes codificadas em ferramentas que o agente criou automaticamente.
+        <span class="example">Exemplo real: Ryan (co-fundador não-técnico) percebeu uma classe de erros no suporte. Mandou mensagem no Slack pro agente. O agente atualizou o próprio arquivo de instruções. O erro parou naquele mesmo dia — sem ticket, sem sprint.</span>
       </div>
     </li>
     <li class="element-row">
@@ -580,23 +985,69 @@ Sem perda entre as etapas.</div>
       <div class="element-name">Camada 5<br><strong>Evolução</strong></div>
       <div class="element-desc">
         <span class="element-tag">Auto-extensão</span>
-        O sistema se melhora sem intervenção de engenharia. Quando o agente encontra uma tarefa que não consegue fazer, ele pede ao sub-agente de código para criar a ferramenta — e ela fica disponível permanentemente nas próximas sessões. O agente não apenas executa: ele expande as próprias capacidades.
-        <span class="example">Exemplo real: O agente da Answer This começou como um esqueleto. Hoje tem 45 ferramentas que ele mesmo criou — do monitoramento de landing pages ao update de CRM, passando por integração com Stripe e Fathom. Nenhuma escrita por humano.</span>
+        O sistema se melhora sem intervenção de engenharia. Quando o agente encontra uma tarefa que não consegue fazer, ele pede ao sub-agente de código para criar a ferramenta — e ela fica disponível permanentemente. O agente não apenas executa: ele expande as próprias capacidades. É o que distingue um sistema vivo de um sistema estático.
+        <span class="example">Exemplo real: O agente da Answer This começou como esqueleto. Hoje tem 45 ferramentas que ele mesmo criou — do monitoramento de landing pages ao update de CRM, passando por integrações com Stripe e Fathom. Nenhuma escrita por humano.</span>
       </div>
     </li>
   </ul>
 
-  <div class="alert alert-info" style="margin-top:24px;">
+  <h3 style="margin:32px 0 12px;">Como o loop fechado se parece em cada área da empresa</h3>
+  <p style="color:var(--terra-700);margin-bottom:4px;">Não é só para engenharia ou TI. O princípio se aplica a qualquer função onde informação gera ação.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Área</th>
+        <th>Loop Aberto (hoje)</th>
+        <th>Loop Fechado (modelo)</th>
+        <th>Ponto de partida</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Engenharia</td>
+        <td class="td-bad">Manager faz status rollup manual. Sprint planning baseado em feeling.</td>
+        <td class="td-good">Agente acessa Linear + Slack + calls de clientes → propõe sprint plan baseado no que realmente foi entregue e no que clientes pedem.</td>
+        <td><span class="tbl-tag">Gravar standups</span></td>
+      </tr>
+      <tr>
+        <td class="td-label">Suporte</td>
+        <td class="td-bad">Tickets chegam → humano triagem → humano responde → feedback se perde.</td>
+        <td class="td-good">Agente triagem por urgência/categoria → responde o que sabe → escala o que não sabe → padrões viram knowledge base auto-atualizada.</td>
+        <td><span class="tbl-tag">instructions.md</span></td>
+      </tr>
+      <tr>
+        <td class="td-label">Marketing de Conteúdo</td>
+        <td class="td-bad">Alguém escreve manualmente. Raramente. Sem consistência.</td>
+        <td class="td-good">Agente varre últimas 20 calls de clientes → identifica temas → gera 5 posts/semana → fundador revisa e publica.</td>
+        <td><span class="tbl-tag">Gravar calls</span></td>
+      </tr>
+      <tr>
+        <td class="td-label">Produto</td>
+        <td class="td-bad">Feedback de cliente entra, vira ticket, vai para backlog, some.</td>
+        <td class="td-good">Agente correlaciona feedback + calls + uso → propõe priorização com evidência → DRI decide → agente implementa tickets de baixo risco.</td>
+        <td><span class="tbl-tag">Conectar Slack + Notion</span></td>
+      </tr>
+      <tr>
+        <td class="td-label">Vendas</td>
+        <td class="td-bad">Rep pesquisa lead manualmente. CRM atualizado "quando dá".</td>
+        <td class="td-good">Agente pesquisa lead → prepara briefing antes da call → atualiza CRM automaticamente após a reunião → identifica leads similares no portfólio.</td>
+        <td><span class="tbl-tag">CRM como CLI</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-info">
     <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
     <div class="alert-body">
-      <strong>Princípio central:</strong> Para ter as capacidades completas de um agente, você precisa dar a ele o mesmo nível de contexto que daria a um funcionário novo em onboarding — incluindo acesso ao histórico de decisões, ao código, aos clientes e à base de conhecimento da empresa. Um agente sem contexto age como um estagiário no primeiro dia.
+      <strong>Princípio central:</strong> Para ter as capacidades completas de um agente, você precisa dar a ele o mesmo nível de contexto que daria a um funcionário em onboarding — incluindo acesso ao histórico de decisões, ao código, aos clientes e à base de conhecimento. Um agente sem contexto age como um estagiário no primeiro dia.
     </div>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════
-     SEÇÃO 3: CONTEXTO — SACHIN / SKYVERN
+     SEÇÃO 4: CONTEXTO — SACHIN / SKYVERN
      ═══════════════════════════════════════════════ -->
 <section class="section" id="contexto">
   <div class="section-label">Caso Real · Skyvern</div>
@@ -620,7 +1071,20 @@ Sem perda entre as etapas.</div>
     </div>
   </div>
 
-  <p>Sachin não tinha um time de marketing, um time de vendas nem uma equipe de suporte. Tinha agentes. O diferencial não foi qual IA usou — foi quanto contexto deu a ela. E o contexto começa com uma decisão estrutural sobre como a empresa registra o que acontece.</p>
+  <p>Sachin não tinha um time de marketing, vendas nem suporte. Tinha agentes. O diferencial não foi qual IA usou — foi quanto contexto deu a ela. E o contexto começa com uma decisão estrutural sobre como a empresa registra o que acontece.</p>
+
+  <!-- Story: PRD workflow -->
+  <div class="story-block">
+    <div class="story-badge"><i class="fa-solid fa-file-lines"></i> Como o agente escreve um PRD com evidência real</div>
+    <h4>Do PRD manual ao PRD fundamentado — como o agente do Sachin faz</h4>
+    <p>Quando Sachin quer escrever um PRD (documento de requisitos de produto), ele não abre um Google Doc. Ele pede ao agente. O fluxo é assim:</p>
+    <p><strong>1.</strong> O agente vai às gravações de calls e faz uma busca pelo tema do PRD. <strong>2.</strong> Busca no Slack comunicações relacionadas. <strong>3.</strong> Pesquisa no Notion e nas comunicações de clientes. <strong>4.</strong> Gera um primeiro rascunho — conciso, fundamentado em evidências específicas (com links para as gravações). <strong>5.</strong> Sub-agentes fazem revisão adversarial. <strong>6.</strong> O PRD passa por um framework de priorização (RICE) para tirar requisitos que pareciam importantes mas não são.</p>
+    <p>Quando a equipe do Sachin recebeu os primeiros PRDs, disse "isso é lixo". Ele continuou refinando. Depois de algumas iterações, o feedback mudou para: "na verdade, não está mal. Vou usar como base."</p>
+    <div class="story-outcome">
+      <i class="fa-solid fa-lightbulb"></i>
+      Exemplo prático: quando estavam tendo problemas com o CAPTCHA solver, o agente gerou uma estratégia com gravações específicas de clientes que relataram o problema — os engenheiros puderam ouvir o contexto exato do problema antes de trabalhar nele.
+    </div>
+  </div>
 
   <h3 style="margin-bottom:16px;">Como o Skyvern estruturou o contexto</h3>
   <ul class="steps">
@@ -628,9 +1092,9 @@ Sem perda entre as etapas.</div>
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Proibir DMs — tudo em canais públicos</h3>
-        <p>No Skyvern, ninguém pode mandar mensagem privada. Todo mundo tem um "office channel" próprio. Toda pergunta vai para lá. Toda decisão fica registrada. Qualquer futuro contratado tem acesso ao histórico completo — e o agente também.</p>
+        <p>No Skyvern, ninguém manda mensagem privada. Todo mundo tem um "office channel" próprio. Toda pergunta vai para lá. Toda decisão fica registrada. Qualquer futuro contratado — e qualquer agente — tem acesso ao histórico completo.</p>
         <span class="step-path">DM <span class="arrow">→</span> Canal público por pessoa/projeto</span>
-        <p class="step-note">O custo: alguns dias de desconforto para os novos. O benefício: contexto permanente e pesquisável por qualquer agente.</p>
+        <p class="step-note">O custo: alguns dias de desconforto para os novos. O benefício: contexto permanente e pesquisável para sempre.</p>
       </div>
     </li>
     <li class="step">
@@ -639,28 +1103,28 @@ Sem perda entre as etapas.</div>
         <h3>Gravar absolutamente todas as calls</h3>
         <p>Calls externas com clientes, calls internas de time, e até os 1:1s do Sachin com o co-fundador — tudo gravado e transcrito. Uma empresa presencial perde esse contexto: ele é falado e some. Uma empresa que grava transforma cada conversa em contexto permanente para o agente.</p>
         <span class="step-path">Call → Gravação → Transcrição → Banco de contexto</span>
-        <p class="step-note">"Em uma empresa presencial, o contexto é falado e se perde. Em uma remota, está gravado em uma call ou em um Slack." — Sachin</p>
+        <p class="step-note">"Em uma empresa presencial, o contexto é falado e se perde. Em uma remota, está gravado em uma call ou em um Slack. O que não está registrado não existe para o sistema." — Sachin</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Conectar o agente a 5 fontes simultaneamente</h3>
-        <p>O agente do Skyvern tem acesso a: gravações de calls com clientes, Slack, Notion (documentação interna), comunicações de clientes e banco de dados da plataforma. Quando vai escrever um PRD, ele <strong>correlaciona</strong> essas fontes — não apenas cita uma.</p>
+        <p>O agente do Skyvern tem acesso a: gravações de calls, Slack, Notion, comunicações de clientes e banco de dados da plataforma. Quando vai escrever um PRD, ele <strong>correlaciona</strong> essas fontes — não apenas cita uma. Um agente com acesso só ao e-mail tem contexto unidimensional. Com 5 fontes, ele começa a raciocinar.</p>
         <span class="step-path">E-mail + Slack + Notion + Calls + DB <span class="arrow">→</span> Agente com contexto completo</span>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>Dar um agente a cada novo contratado no primeiro dia</h3>
-        <p>Quando contratou dois vendedores, Sachin os fez configurar o Claude Code na primeira hora de trabalho. Foi difícil no começo — mas em dias eles entenderam o que era esperado de alguém que trabalha nessa empresa.</p>
+        <h3>Dar um agente a cada novo contratado no dia 1</h3>
+        <p>Quando contratou dois vendedores, Sachin os fez configurar o Claude Code na primeira hora de trabalho. Foi difícil no começo — "eles estavam sofrendo na primeira hora" — mas em dias entenderam o que era esperado de alguém que trabalha nessa empresa.</p>
         <span class="step-path">Primeiro dia → Setup do agente pessoal → Onboarding no contexto da empresa</span>
       </div>
     </li>
   </ul>
 
-  <h3 style="margin:28px 0 16px;">Resultado na prática: o sistema de conteúdo</h3>
+  <h3 style="margin:28px 0 16px;">Resultado: o sistema de conteúdo que gerou um lead de nicho</h3>
 
   <div class="compare">
     <div class="compare-side compare-before">
@@ -672,13 +1136,13 @@ Sem perda entre as etapas.</div>
 - Revisar antes de publicar
 
 Resultado: raramente publicava.
-Não havia tempo.</div>
+Não havia tempo para isso.</div>
       <p class="compare-caption">Um fundador com 10 outras prioridades não consegue manter cadência de conteúdo sozinho.</p>
     </div>
     <div class="compare-side compare-after">
       <div class="compare-label"><span class="compare-dot"></span>Depois — loop automático</div>
       <div class="compare-prompt">Todo manhã, Sachin recebe um e-mail:
-"5 posts prontos baseados nas
+"5 posts baseados nas
 últimas 20 calls com clientes."
 
 O agente:
@@ -689,7 +1153,7 @@ O agente:
 → Adicionou meme quando cabível
 
 Sachin revisa, aprova, publica.</div>
-      <p class="compare-caption">5 posts por semana no piloto automático. Um deles gerou um lead qualificado de nicho que Sachin nunca teria escrito manualmente.</p>
+      <p class="compare-caption">5 posts/semana no piloto automático. Um deles gerou um lead qualificado de nicho (insurance agency / carrier portal automation) que Sachin nunca teria escrito manualmente.</p>
     </div>
   </div>
 
@@ -708,7 +1172,7 @@ Sachin revisa, aprova, publica.</div>
     <div class="tip-card">
       <div class="tip-icon-wrap"><i class="fa-solid fa-microphone"></i></div>
       <h3>Gravar toda call, sem exceção</h3>
-      <p>Inclusive 1:1s internos. A objeção ("isso é invasivo") é superada pelo benefício: cada conversa vira contexto permanente que o agente pode ler, citar e cruzar com outras fontes para gerar insights reais.</p>
+      <p>Inclusive 1:1s internos. A objeção ("invasivo") é superada pelo benefício: cada conversa vira contexto permanente que o agente pode ler, citar e cruzar com outras fontes para gerar insights reais.</p>
     </div>
     <div class="tip-card">
       <div class="tip-icon-wrap"><i class="fa-solid fa-layer-group"></i></div>
@@ -718,14 +1182,14 @@ Sachin revisa, aprova, publica.</div>
     <div class="tip-card">
       <div class="tip-icon-wrap"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
       <h3>Agente no onboarding do dia 1</h3>
-      <p>O agente não é um bônus opcional. É parte do processo de trabalho. Quem entra na empresa aprende o produto e aprende a trabalhar com o agente ao mesmo tempo — desde o primeiro dia.</p>
+      <p>O agente não é um bônus opcional. É parte do processo de trabalho. Quem entra aprende o produto e aprende a trabalhar com o agente ao mesmo tempo — desde o primeiro dia.</p>
     </div>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════
-     SEÇÃO 4: AGENTE QUE EVOLUI — AYUSH / ANSWER THIS
+     SEÇÃO 5: AGENTE QUE EVOLUI — AYUSH / ANSWER THIS
      ═══════════════════════════════════════════════ -->
 <section class="section" id="agente">
   <div class="section-label">Caso Real · Answer This</div>
@@ -744,74 +1208,73 @@ Sachin revisa, aprova, publica.</div>
       </div>
       <div class="caso-stat">
         <span class="val">45</span>
-        <span class="lbl">ferramentas geradas pelo agente</span>
+        <span class="lbl">ferramentas criadas pelo agente</span>
       </div>
     </div>
   </div>
 
-  <p>Ayush e seu co-fundador Ryan chegaram a $2M de ARR com 2 funcionários (mais 2-3 contractors para design e outbound). A maior parte do trabalho operacional — suporte, CRM, feedback de usuários, monitoramento — é feita por um agente interno que eles construíram. E que continua se construindo.</p>
+  <p>Ayush e seu co-fundador Ryan chegaram a $2M de ARR com 2 funcionários. A maior parte do trabalho operacional — suporte, CRM, feedback de usuários, monitoramento — é feita por um agente interno. E o agente continua se construindo. <strong>Ryan é não-técnico</strong> — e mesmo assim é quem mais interage com o agente para treiná-lo.</p>
 
   <h3 style="margin-bottom:16px;">Os 3 tipos de memória do agente</h3>
-  <p style="color:var(--terra-700); margin-bottom:16px;">Ayush identificou que um agente interno precisa de três tipos distintos de memória para funcionar bem — e que a maioria das pessoas implementa só o primeiro.</p>
+  <p style="color:var(--terra-700); margin-bottom:16px;">Ayush identificou que a maioria das pessoas implementa só o primeiro tipo — e fica travada. Os três juntos é o que torna o agente verdadeiramente útil.</p>
 
   <div class="formas-grid">
     <div class="forma-card">
       <div class="forma-icon-wrap"><i class="fa-solid fa-database"></i></div>
       <span class="forma-tag adv">Memória 1</span>
       <h3>Factual</h3>
-      <p>Codebase + banco de dados em modo somente-leitura. Atualizado automaticamente a cada novo release via cron job. O agente sabe como a assinatura funciona, onde estão as coisas no app, qual é a lógica de negócio — sem precisar perguntar.</p>
+      <p>Codebase + banco de dados em modo somente-leitura. Atualizado via cron job a cada release. O agente sabe como a assinatura funciona, onde estão as coisas no app, qual é a lógica de negócio — sem precisar perguntar.</p>
     </div>
     <div class="forma-card">
       <div class="forma-icon-wrap"><i class="fa-solid fa-pen-nib"></i></div>
       <span class="forma-tag med">Memória 2</span>
       <h3>Comportamental</h3>
-      <p>Um arquivo <code>instructions.md</code> carregado em cada turno do agente. Você dá feedback como daria a um funcionário; o agente atualiza o próprio arquivo. Cada correção vira instrução permanente. É aqui que o agente aprende a <em>ser</em> o que você quer.</p>
+      <p>Um arquivo <code>instructions.md</code> carregado em cada turno do agente. Você dá feedback como daria a um funcionário; o agente atualiza o próprio arquivo. É aqui que o agente aprende a <em>ser</em> o que você quer. Funciona para qualquer pessoa do time — inclusive não-técnicos.</p>
     </div>
     <div class="forma-card rec">
       <div class="forma-icon-wrap"><i class="fa-solid fa-gears"></i></div>
       <span class="forma-tag rec">Memória 3</span>
       <h3>Procedural</h3>
-      <p>As tarefas recorrentes viram ferramentas permanentes. O agente encontra algo que não consegue fazer → pede ao sub-agente de código → cria a ferramenta → disponível para sempre. É a camada que torna o agente auto-extensível: não executa tarefas fixas, ele expande o próprio repertório.</p>
+      <p>Tarefas recorrentes viram ferramentas permanentes. O agente encontra algo que não consegue fazer → pede ao sub-agente de código → cria a ferramenta → disponível para sempre. É a camada que torna o agente auto-extensível: não executa tarefas fixas, expande o próprio repertório.</p>
     </div>
   </div>
 
-  <h3 style="margin:28px 0 16px;">A arquitetura técnica — simplificada</h3>
-  <p style="color:var(--terra-700); margin-bottom:16px;">Você não precisa ser técnico para entender a lógica. O importante é o <em>princípio</em> de cada camada — a implementação pode ser adaptada ao seu contexto.</p>
+  <h3 style="margin:28px 0 16px;">A arquitetura — simplificada para não-técnicos</h3>
+  <p style="color:var(--terra-700); margin-bottom:16px;">Você não precisa ser técnico para entender o princípio. O importante é a lógica de cada camada — a implementação pode ser adaptada ao seu contexto e ferramentas.</p>
 
   <ul class="steps">
     <li class="step">
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>Claude Code como cérebro central</h3>
-        <p>O agente principal é o Claude Code CLI envolto em Python. Novas mensagens do Slack, e-mail e outros canais entram numa fila de tarefas (<em>task queue</em>). O agente pega cada tarefa e trabalha de forma iterativa até resolver — sem precisar de humano no meio.</p>
-        <span class="step-path">Slack / E-mail <span class="arrow">→</span> Task queue <span class="arrow">→</span> Agente principal</span>
-        <p class="step-note">O Claude Code já sabe inspecionar arquivos, rodar comandos e usar CLIs — o que o torna ideal como harness de agente. Mas qualquer agente com acesso a ferramentas funciona no mesmo princípio.</p>
+        <h3>O agente como central de tarefas</h3>
+        <p>O agente principal (Claude Code CLI ou similar) funciona como uma central. Novas mensagens do Slack, e-mail e outros canais entram numa fila de tarefas. O agente pega cada tarefa e trabalha de forma iterativa até resolver — sem precisar de humano no meio para cada passo.</p>
+        <span class="step-path">Slack / E-mail <span class="arrow">→</span> Fila de tarefas <span class="arrow">→</span> Agente principal</span>
+        <p class="step-note">Claude Code foi escolhido porque já sabe inspecionar arquivos, rodar comandos e usar CLIs — o que o torna ideal como "harness" de agente. O princípio funciona com outros agentes também.</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Acesso somente-leitura ao código e ao banco</h3>
-        <p>A cada release, um cron job atualiza a cópia do codebase e do banco disponível para o agente. Com isso, o agente sabe como a assinatura funciona, qual é a lógica do produto, onde cada coisa está. Quando um cliente pergunta algo específico sobre o produto, o agente consulta o código — não inventa.</p>
+        <p>A cada release, um cron job atualiza a cópia do codebase e do banco disponível para o agente. Com isso, quando um cliente pergunta sobre uma funcionalidade específica, o agente consulta o código — não inventa. Sabe a lógica da assinatura, onde cada coisa está no app, o que está disponível para cada plano.</p>
         <span class="step-path">Deploy novo <span class="arrow">→</span> Cron atualiza cópia <span class="arrow">→</span> Agente com contexto atual</span>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>CLIs para todas as ferramentas + um agente de código como CLI</h3>
-        <p>Intercom, Fathom, Stripe, CRM — tudo disponível como CLI para o agente principal. E um agente de código também é um CLI. Isso significa que quando o agente encontra uma tarefa que não tem ferramenta, ele chama o agente de código para criar — e a ferramenta fica permanente.</p>
+        <h3>CLIs para todas as ferramentas + agente de código como CLI</h3>
+        <p>Intercom, Fathom, Stripe, CRM — tudo disponível como CLI para o agente principal. E um agente de código também é um CLI. Isso significa: quando o agente encontra uma tarefa sem ferramenta disponível, ele chama o agente de código para criar. A ferramenta fica permanente.</p>
         <span class="step-path">Tarefa nova <span class="arrow">→</span> Sem ferramenta <span class="arrow">→</span> Agente de código cria CLI <span class="arrow">→</span> Disponível para sempre</span>
-        <p class="step-note">Hoje a Answer This tem 45 ferramentas criadas pelo próprio agente — do monitoramento de landing pages para anúncios a integrações com APIs de parceiros.</p>
+        <p class="step-note">Hoje a Answer This tem 45 ferramentas criadas pelo próprio agente — do monitoramento de landing pages para anúncios a integrações com APIs de parceiros. O agente criou até um cron job de monitoramento de uptime quando Ayush simplesmente mencionou que queria isso.</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">4</div></div>
       <div class="step-body">
-        <h3><code>instructions.md</code> — a memória comportamental editável</h3>
-        <p>Um arquivo de instruções carregado em todo turno do agente. O agente pode editá-lo quando recebe feedback. Você não abre um ticket nem faz um deploy: manda uma mensagem natural e o agente atualiza o próprio comportamento.</p>
+        <h3><code>instructions.md</code> — a memória que qualquer pessoa pode editar</h3>
+        <p>Um arquivo de instruções carregado em todo turno do agente. Você dá feedback como daria a um funcionário novo e o agente atualiza o próprio arquivo. Não precisa de engenheiro, não precisa abrir código. Ryan, co-fundador não-técnico, foi quem descobriu uma classe de erros no suporte — e foi ele quem corrigiu.</p>
         <span class="step-path">Feedback no Slack <span class="arrow">→</span> Agente atualiza instructions.md <span class="arrow">→</span> Próximo turno já com novo comportamento</span>
-        <p class="step-note">Ryan, co-fundador não-técnico da Answer This, foi quem descobriu uma classe de erros no suporte. Mandou mensagem pro agente no Slack. O erro parou naquele mesmo dia.</p>
       </div>
     </li>
   </ul>
@@ -819,7 +1282,7 @@ Sachin revisa, aprova, publica.</div>
   <div class="compare" style="margin-top:24px;">
     <div class="compare-side compare-before">
       <div class="compare-label"><span class="compare-dot"></span>Ciclo de correção tradicional</div>
-      <div class="compare-prompt">Erro de suporte percebido →
+      <div class="compare-prompt">Erro percebido →
 Co-fundador avisa o time →
 Alguém abre um issue →
 Issue vai para o backlog →
@@ -832,15 +1295,17 @@ Review + deploy →
     </div>
     <div class="compare-side compare-after">
       <div class="compare-label"><span class="compare-dot"></span>Ciclo de correção com agente</div>
-      <div class="compare-prompt">Erro de suporte percebido →
-Ryan manda mensagem no Slack pro agente →
-"Você está errando nessa classe de casos"
+      <div class="compare-prompt">Erro percebido →
+Ryan manda mensagem no Slack:
+"Você está errando nessa
+ classe de casos"
 → Agente atualiza instructions.md
-→ Essa classe de erros para de existir
+→ Essa classe de erros para
 
 Tempo: minutos.
-Sem ticket. Sem sprint. Sem deploy.</div>
-      <p class="compare-caption">A velocidade de melhoria do agente é a velocidade de uma mensagem no Slack.</p>
+Sem ticket. Sem sprint.
+Sem deploy. Sem engenheiro.</div>
+      <p class="compare-caption">A velocidade de melhoria do agente é a velocidade de uma mensagem no Slack — e qualquer pessoa do time pode fazer isso.</p>
     </div>
   </div>
 
@@ -852,7 +1317,7 @@ Sem ticket. Sem sprint. Sem deploy.</div>
 
 
 <!-- ═══════════════════════════════════════════════
-     SEÇÃO 5: NOVA ESTRUTURA DO TIME — DIANA / YC
+     SEÇÃO 6: NOVA ESTRUTURA DO TIME — DIANA / YC
      ═══════════════════════════════════════════════ -->
 <section class="section" id="time">
   <div class="section-label">Arquitetura Organizacional</div>
@@ -870,63 +1335,137 @@ Sem ticket. Sem sprint. Sem deploy.</div>
       <div class="forma-icon-wrap"><i class="fa-solid fa-bullseye"></i></div>
       <span class="forma-tag med">Arquétipo 2</span>
       <h3>DRI — Diretamente Responsável</h3>
-      <p>Uma pessoa, um resultado. Sem hiding. Não é gestor clássico — é quem responde pelo outcome, não pelo processo. O agente coordena e roteia informação; o DRI decide e responde pelo resultado final.</p>
+      <p>Uma pessoa, um resultado. Sem comitê, sem hiding. Não é gestor clássico — é quem responde pelo <em>outcome</em>. O agente coordena e roteia informação; o DRI decide e responde pelo resultado final.</p>
     </div>
     <div class="forma-card rec">
       <div class="forma-icon-wrap"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
       <span class="forma-tag rec">Arquétipo 3</span>
       <h3>AI Founder</h3>
-      <p>Constrói, treina o time e lidera pelo exemplo. Se você é o fundador, esse papel é seu — você não pode delegar a estratégia de IA para outra pessoa. Você usa as ferramentas na frente do time. Mostra o que é possível. É o multiplicador da capacidade de todos.</p>
+      <p>Constrói, treina o time e lidera pelo exemplo. Se você é o fundador, esse papel é seu — você não pode delegar a estratégia de IA para outra pessoa. Você usa as ferramentas na frente do time. Mostra o que é possível.</p>
     </div>
   </div>
 
-  <blockquote class="quote-block" style="margin-top:28px;">
+  <!-- Software factories -->
+  <div class="story-block" style="margin-top:28px;">
+    <div class="story-badge"><i class="fa-solid fa-industry"></i> Conceito avançado · Software Factories</div>
+    <h4>Quando o repositório não tem uma linha de código escrita por humano</h4>
+    <p>Diana descreveu um novo paradigma para construção de software: as <strong>Software Factories</strong>. É a evolução do TDD (Test-Driven Development). Funciona assim: humanos escrevem um spec e um conjunto de testes que definem o que é sucesso. Agentes de IA geram a implementação e iteram até os testes passarem. O humano define <em>o que</em> construir e julga o output. O código em si é trabalho do agente.</p>
+    <p>Algumas empresas já chegaram ao ponto onde seus repositórios contêm apenas specs e test harnesses — nenhuma linha de código escrita por humano. O Strong DM's AI team é um exemplo: o objetivo final era eliminar a necessidade de um humano escrever ou revisar código.</p>
+    <div class="story-outcome">
+      <i class="fa-solid fa-lightbulb"></i>
+      Implicação para PMEs: você não precisa ir tão longe. O princípio aplicável agora é: define o que quer, deixa o agente criar, você avalia. O custo de experimentação caiu para zero.
+    </div>
+  </div>
+
+  <blockquote class="quote-block">
     "Se você mantém o mesmo organograma e a mesma estrutura de gestão, você perdeu a virada completamente. A empresa tem que ser reconstruída como uma camada de inteligência, com humanos na borda guiando — não roteando informação através dela."
-    <span class="quote-source">— Diana, Partner no Y Combinator (citando Jack Dorsey / Block)</span>
+    <span class="quote-source">— Diana, Partner no Y Combinator (sobre Jack Dorsey / Block)</span>
   </blockquote>
+
+  <h3 style="margin:28px 0 12px;">A lógica econômica: tokens vs. headcount</h3>
+  <p style="color:var(--terra-700);margin-bottom:4px;">A YC está vendo uma mudança estrutural nos números de seus fundadores. A implicação é direta: o investimento crítico mudou.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Métrica</th>
+        <th>Empresa Tradicional</th>
+        <th>Empresa com Loop IA</th>
+        <th>Tendência YC 2026</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Receita / Funcionário</td>
+        <td class="td-bad">Baseline</td>
+        <td class="td-good">~5× maior</td>
+        <td>Empresas chegam ao Demo Day com 5× mais receita por funcionário vs. 18 meses atrás</td>
+      </tr>
+      <tr>
+        <td class="td-label">Custo de iteração</td>
+        <td class="td-bad">Sprint = 1-2 semanas + custo de engenheiro</td>
+        <td class="td-good">Minutos + custo de tokens</td>
+        <td>Tokens substituem headcount em tarefas cognitivas rotineiras</td>
+      </tr>
+      <tr>
+        <td class="td-label">Velocidade de melhoria</td>
+        <td class="td-bad">Limitada pelo backlog e pela sprint</td>
+        <td class="td-good">Limitada pela velocidade de feedback</td>
+        <td>Loop de melhoria roda overnight quando há contexto suficiente</td>
+      </tr>
+      <tr>
+        <td class="td-label">Gerência intermediária</td>
+        <td class="td-bad">Necessária para coordenar informação</td>
+        <td class="td-good">Substituída pela camada de inteligência</td>
+        <td>"Gerência intermediária acabou" — Pete, YC</td>
+      </tr>
+      <tr>
+        <td class="td-label">Vantagem competitiva</td>
+        <td class="td-bad">Legado de sistemas + processos</td>
+        <td class="td-good">Legado de contexto capturado + skills</td>
+        <td>Startups sem legado têm vantagem estrutural sobre incumbentes</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="alert alert-info" style="margin-top:8px;">
     <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
     <div class="alert-body">
-      <strong>A lógica econômica:</strong> Uma pessoa com ferramentas de IA pode ser o equivalente do que antes levava uma equipe inteira. Isso significa que o investimento crítico não é mais headcount — é <strong>uso de tokens</strong>. A empresa que maximiza o uso de tokens por funcionário vai operar a um custo estruturalmente menor do que qualquer concorrente que ainda opera com as estruturas tradicionais.
+      <strong>O "cérebro da empresa":</strong> Pete usa essa metáfora para o que realmente tem valor. No centro: todos os dados, e-mails, DMs, skills, knowhow da empresa — legível para a IA. Humanos ficam na <em>borda</em>, fazendo contato com a realidade: negociações de alto valor, situações éticas complexas, momentos de alta emoção, contextos onde a IA ainda não alcança. O software por cima de tudo isso? <strong>Efêmero</strong>. Os modelos ficam mais inteligentes em 60 dias — gere novo software, descarte o antigo. O contexto é o ativo.
     </div>
+  </div>
+
+  <div class="effect-phrase">
+    Queime tokens, não headcount. Estamos nos aproximando de um mundo onde você vai ser constrangido pelo uso de tokens — não pelo número de funcionários.
+    <span class="effect-phrase-source">— Pete, Group Partner · Y Combinator</span>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════
-     SEÇÃO 6: POR ONDE COMEÇAR
+     SEÇÃO 7: POR ONDE COMEÇAR
      ═══════════════════════════════════════════════ -->
 <section class="section" id="comecar">
   <div class="section-label">Primeiros Passos</div>
   <h2>Três decisões desta semana</h2>
-  <p>Você não precisa de um agente sofisticado para começar. O primeiro passo é estrutural — sobre como a empresa registra o que acontece. Sem registro, não há contexto. Sem contexto, não há loop. Comece pela fundação.</p>
+
+  <div class="reflection-box">
+    <div class="reflection-title"><i class="fa-solid fa-map"></i> Antes de começar — onde você está agora</div>
+    <ol>
+      <li><strong>Qual função da empresa tem a tarefa mais repetitiva?</strong> Suporte? CRM após reunião? Resumo de calls? Relatório semanal? Essa é a candidata ao primeiro loop.</li>
+      <li><strong>Essa tarefa depende de contexto espalhado em vários lugares?</strong> Se sim: qual é o menor subconjunto de fontes (e-mail + 1 canal + 1 ferramenta) que o agente precisaria para executá-la bem?</li>
+      <li><strong>Quem seria o DRI do agente?</strong> Uma pessoa específica que vai treinar, dar feedback e medir o resultado — não um comitê, não "o time de IA".</li>
+      <li><strong>Se eu der ao agente acesso somente-leitura ao contexto que tenho hoje, ele consegue fazer a tarefa?</strong> Se não: o gargalo é contexto (comece pela captura) ou ferramenta (comece pela integração)?</li>
+    </ol>
+  </div>
+
+  <p>Você não precisa de um agente sofisticado para começar. O primeiro passo é estrutural — sobre como a empresa registra o que acontece. Sem registro, não há contexto. Sem contexto, não há loop.</p>
 
   <ul class="steps">
     <li class="step">
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Estabeleça a regra de captura: proibir DMs internos</h3>
-        <p>Esta semana: escolha uma ferramenta (Slack, Teams, Discord) e estabeleça a política. Toda pergunta vai para um canal público. Toda decisão fica registrada onde o agente pode ler. O que você ganha imediatamente: decisões pesquisáveis, onboarding mais rápido para novos e contexto que qualquer agente pode acessar.</p>
+        <p>Esta semana: escolha uma ferramenta (Slack, Teams, Discord) e estabeleça a política. Toda pergunta vai para um canal público. Toda decisão fica registrada onde o agente pode ler. O que você ganha imediatamente: decisões pesquisáveis, onboarding mais rápido e contexto acumulando.</p>
         <span class="step-path">Política nova <span class="arrow">→</span> Canal público por pessoa/projeto <span class="arrow">→</span> Contexto acumulando</span>
-        <p class="step-note">Não precisa ser perfeito. Comece com uma regra simples: "qualquer pergunta que envolva mais de duas pessoas vai para o canal público."</p>
+        <p class="step-note">Comece com uma regra simples: "qualquer pergunta que envolva mais de duas pessoas vai para o canal público." Não precisa ser perfeito no começo.</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
       <div class="step-body">
         <h3>Ative a gravação de calls e conecte a um repositório</h3>
-        <p>Ferramentas como Fathom (gratuito para uso individual), Fireflies ou Otter gravam, transcrevem e podem exportar para Notion ou Google Drive automaticamente. A partir desta semana, toda reunião vira texto e vira contexto. Um agente pode ler transcrição; não pode ler memória.</p>
+        <p>Ferramentas como Fathom (gratuito para uso individual), Fireflies ou Otter gravam, transcrevem e podem exportar para Notion ou Google Drive automaticamente. A partir desta semana, toda reunião vira texto — e texto o agente consegue ler.</p>
         <span class="step-path">Call <span class="arrow">→</span> Gravação + Transcrição <span class="arrow">→</span> Notion / Drive <span class="arrow">→</span> Contexto do agente</span>
-        <p class="step-note">O acúmulo importa mais do que a qualidade inicial. Comece gravando tudo — refine o que fazer com as gravações depois.</p>
+        <p class="step-note">O acúmulo importa mais do que a qualidade inicial. Comece gravando tudo — refine o que fazer com as gravações depois. Em 90 dias, você terá um banco de contexto valioso.</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">3</div></div>
       <div class="step-body">
-        <h3>Construa o primeiro loop: uma tarefa recorrente → agente → resultado registrado</h3>
-        <p>Escolha uma tarefa repetitiva que acontece toda semana: resumo de calls, resposta a um tipo de e-mail, atualização de CRM após reunião, relatório semanal. Use Claude, GPT, Gemini ou qualquer agente com acesso ao contexto certo. Não precisa ser perfeito — precisa ser <strong>mensurável</strong>. Acompanhe por 2 semanas.</p>
-        <span class="step-path">Tarefa recorrente <span class="arrow">→</span> Agente com contexto certo <span class="arrow">→</span> Resultado <span class="arrow">→</span> Feedback <span class="arrow">→</span> Agente aprende</span>
+        <h3>Construa o primeiro loop: tarefa recorrente → agente → resultado → feedback</h3>
+        <p>Escolha uma tarefa repetitiva: resumo de calls, resposta a um tipo de e-mail, atualização de CRM após reunião, relatório semanal. Use Claude, GPT, Gemini ou qualquer agente com acesso ao contexto certo. Crie um <code>instructions.md</code> com o que você quer. Quando errar, atualize o arquivo. Acompanhe por 2 semanas.</p>
+        <span class="step-path">Tarefa recorrente <span class="arrow">→</span> Agente com contexto <span class="arrow">→</span> Resultado <span class="arrow">→</span> Feedback <span class="arrow">→</span> Agente aprende</span>
         <p class="step-note">O sinal de que está funcionando: o agente começa a surpreender você com conexões que você não faria sozinho. Esse é o ponto de inflexão.</p>
       </div>
     </li>
@@ -949,9 +1488,18 @@ Sem ticket. Sem sprint. Sem deploy.</div>
     </li>
     <li class="annotation">
       <span class="ann-num">!</span>
-      <div class="ann-text"><strong>Comece com <code>instructions.md</code>.</strong> Antes de qualquer arquitetura complexa: crie um arquivo de texto com as instruções do que você quer que o agente faça. Cole em cada sessão. Quando o agente errar, atualize o arquivo. Essa é a versão manual do loop de evolução — e já funciona.</div>
+      <div class="ann-text"><strong>Comece com <code>instructions.md</code> manual.</strong> Antes de qualquer arquitetura: crie um arquivo de texto com as instruções do que você quer que o agente faça. Cole em cada sessão. Quando errar, atualize o arquivo. Isso é a versão manual do loop de evolução — e já funciona. Ryan, co-fundador não-técnico, usa exatamente isso.</div>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">!</span>
+      <div class="ann-text"><strong>Você tem vantagem estrutural sobre as grandes empresas.</strong> Incumbentes têm sistemas legados, processos estabelecidos e equipes inteiras para retreinar. Você pode construir o sistema certo do zero — e operar 1.000× mais rápido. Essa janela fecha à medida que eles se adaptam. A pergunta do Pete: "Se você estivesse construindo sua empresa hoje, começaria nessa forma?"</div>
     </li>
   </ul>
+
+  <div class="effect-phrase" style="margin-top:28px;">
+    Se você estivesse construindo sua empresa hoje, começaria nessa forma? A maioria de vocês é pequena o suficiente para construir do jeito certo — e não tem desculpa para não fazer isso.
+    <span class="effect-phrase-source">— Pete, Group Partner · Y Combinator</span>
+  </div>
 </section>
 
 
@@ -988,7 +1536,7 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 
 document.querySelectorAll(
-  '.section, .tip-card, .template-card, .forma-card, .compare, .annotations, .elements, .caso-header, .alert'
+  '.section, .tip-card, .forma-card, .compare, .annotations, .elements, .caso-header, .alert, .story-block, .reflection-box, .loop-flow-wrap, .effect-phrase, .data-table'
 ).forEach(el => { el.classList.add('reveal'); io.observe(el); });
 
 document.querySelectorAll('.step').forEach(el => {
