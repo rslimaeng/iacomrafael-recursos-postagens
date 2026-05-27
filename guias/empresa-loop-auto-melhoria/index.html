@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A empresa como loop de auto-melhoria — @iacomrafael</title>
+  <meta name="description" content="Duas startups, $4M de ARR, quatro funcionários. O framework completo do Y Combinator para construir uma empresa que evolui sozinha com IA.">
+  <meta property="og:title" content="A empresa como loop de auto-melhoria">
+  <meta property="og:description" content="As 5 camadas, a arquitetura do agente e como começar — baseado nos casos reais do YC Root Access 2026.">
+  <meta property="og:url" content="https://rslimaeng.github.io/iacomrafael-recursos-postagens/guias/guia-empresa-loop-auto-melhoria.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+/* ================================================
+   @iacomrafael · Web Kit v1
+   Bricolage Grotesque (display 800/700) + Inter (body)
+   Paleta: coral #D97757 / terra #2B1F17 / cream #F5F1ED
+   Ícones: Font Awesome 6 Solid
+   Animações: spring cubic-bezier(0.16,1,0.3,1)
+   Efeitos: falling beams, gradient text, ambient blobs,
+            noise grain, marquee, shimmer buttons,
+            scroll-reveal, gradient border cards,
+            step-line draw, pulse-glow
+================================================ */
+
+/* ─── TOKENS ─── */
+:root {
+  --coral:      #D97757;
+  --coral-dark: #C9633E;
+  --coral-soft: #F2D5C3;
+  --terra-900:  #2B1F17;
+  --terra-700:  #4A382C;
+  --cream-50:   #FAF7F2;
+  --cream-100:  #F5F1ED;
+  --cream-200:  #EBE6DD;
+  --white:      #FFFFFF;
+  --muted:      #8A8A8A;
+  --ocre:       #C9943A;
+  --ocre-soft:  #F0E2C2;
+  --success:    #6B8E4E;
+  --success-bg: #E5EDD9;
+  --warning:    #D4953B;
+  --warning-bg: #FAEFD3;
+
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --shadow-sm:      0 1px 2px rgba(43,31,23,.04);
+  --shadow-md:      0 4px 12px rgba(43,31,23,.07);
+  --shadow-lg:      0 12px 32px rgba(43,31,23,.10);
+  --shadow-coral:   0 4px 16px rgba(217,119,87,.28);
+  --shadow-coral-h: 0 8px 28px rgba(217,119,87,.50);
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ─── BODY ─── */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px; line-height: 1.65;
+  color: var(--terra-900);
+  background:
+    radial-gradient(ellipse 65% 45% at 0% 0%, rgba(242,213,195,.50) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 100% 100%, rgba(201,148,58,.08) 0%, transparent 50%),
+    var(--cream-100);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page { max-width: 794px; margin: 0 auto; padding: 0 0 60px; }
+
+/* ─── KEYFRAMES ─── */
+@keyframes blobDrift1  { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(50px,-40px) scale(1.10)} }
+@keyframes blobDrift2  { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-40px,50px) scale(0.92)} }
+@keyframes beamFall    { 0%{transform:translateY(-100%);opacity:0} 5%{opacity:.75} 90%{opacity:.75} 100%{transform:translateY(120%);opacity:0} }
+@keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+@keyframes lineReveal  { 0%{clip-path:inset(0 0 100% 0);transform:translateY(14px);opacity:0} 100%{clip-path:inset(0 0 0% 0);transform:translateY(0);opacity:1} }
+@keyframes columnReveal{ 0%{clip-path:inset(0 0 100% 0);opacity:0} 100%{clip-path:inset(0 0 0% 0);opacity:1} }
+@keyframes floatingPoints { 0%{transform:translateY(0);opacity:1} 85%{opacity:0} 100%{transform:translateY(-55px);opacity:0} }
+@keyframes pulseGlow   { 0%,100%{box-shadow:0 0 8px rgba(217,119,87,.35),var(--shadow-coral)} 50%{box-shadow:0 0 22px rgba(217,119,87,.65),0 0 40px rgba(217,119,87,.20),var(--shadow-coral)} }
+@keyframes ping        { 75%,100%{transform:scale(2);opacity:0} }
+@keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ─── FIXED OVERLAYS ─── */
+.noise-overlay {
+  position:fixed; inset:0; pointer-events:none; z-index:9000; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.ambient-blob { position:fixed; border-radius:50%; pointer-events:none; z-index:0; filter:blur(90px); }
+.ambient-blob-1 { width:550px; height:550px; top:-12%; left:-10%; background:radial-gradient(circle,rgba(217,119,87,.07) 0%,transparent 70%); animation:blobDrift1 15s ease-in-out infinite alternate; }
+.ambient-blob-2 { width:420px; height:420px; bottom:5%; right:-8%; background:radial-gradient(circle,rgba(201,148,58,.05) 0%,transparent 70%); animation:blobDrift2 19s ease-in-out infinite alternate; }
+
+/* ─── TIPOGRAFIA ─── */
+h1, h2, h3 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+h1 { font-size:clamp(30px,5vw,46px); font-weight:800; line-height:1.05; letter-spacing:-1.5px; }
+h2 { font-size:26px; font-weight:700; line-height:1.15; letter-spacing:-.6px; }
+h3 { font-size:18px; font-weight:700; line-height:1.25; }
+p  { margin-bottom:14px; } p:last-child { margin-bottom:0; }
+strong { font-weight:600; }
+code { font-family:'JetBrains Mono',monospace; font-size:12.5px; background:var(--cream-200); padding:2px 6px; border-radius:4px; color:var(--coral-dark); }
+
+/* ─── NAV ─── */
+.topnav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(245,241,237,.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--cream-200);
+  padding:10px 48px; display:flex; align-items:center; justify-content:space-between;
+}
+.topnav .brand { font-family:'Bricolage Grotesque',sans-serif; font-size:16px; font-weight:800; color:var(--terra-900); text-decoration:none; }
+.topnav .brand em { font-style:italic; color:var(--coral); }
+.topnav-links { display:flex; gap:20px; }
+.topnav-links a { font-size:13px; font-weight:500; color:var(--terra-700); text-decoration:none; opacity:.8; transition:color .2s var(--ease-spring),opacity .2s; }
+.topnav-links a:visited { color:var(--terra-700); opacity:.8; }
+.topnav-links a:hover   { color:var(--coral); opacity:1; }
+
+/* ─── HERO ─── */
+.hero { background:var(--terra-900); color:var(--cream-100); padding:56px 48px 64px; position:relative; overflow:hidden; }
+.hero-blob   { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(217,119,87,.16) 0%,transparent 65%); filter:blur(70px); top:-140px; right:-100px; animation:blobDrift1 11s ease-in-out infinite alternate; pointer-events:none; }
+.hero-blob-2 { position:absolute; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle,rgba(201,148,58,.08) 0%,transparent 65%); filter:blur(60px); bottom:-60px; left:20%; animation:blobDrift2 13s ease-in-out infinite alternate; pointer-events:none; }
+.hero-beams  { position:absolute; inset:0; pointer-events:none; overflow:hidden; display:flex; }
+.hero-beam-col { flex:1; height:100%; border-right:1px solid rgba(255,255,255,.03); position:relative; overflow:hidden; }
+.hero-beam-col::after { content:''; position:absolute; top:0; left:-1px; right:-1px; height:200px; background:linear-gradient(to bottom,transparent,rgba(217,119,87,.65),transparent); animation:beamFall linear infinite; }
+.hero-beam-col:nth-child(1)::after{animation-duration:6s;animation-delay:.0s}
+.hero-beam-col:nth-child(2)::after{animation-duration:8s;animation-delay:2.0s}
+.hero-beam-col:nth-child(3)::after{animation-duration:7s;animation-delay:4.0s}
+.hero-beam-col:nth-child(4)::after{animation-duration:10s;animation-delay:1.0s}
+.hero-beam-col:nth-child(5)::after{animation-duration:9s;animation-delay:3.5s}
+.hero > *:not(.hero-blob):not(.hero-blob-2):not(.hero-beams) { position:relative; z-index:1; }
+.hero .eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--coral); margin-bottom:20px; }
+.hero h1 { color:var(--cream-50); margin-bottom:16px; font-weight:800; letter-spacing:-2px; }
+.hero-line { display:block; overflow:hidden; animation:lineReveal 1.0s var(--ease-spring) both; }
+.hero-line:nth-child(1){animation-delay:.15s} .hero-line:nth-child(2){animation-delay:.28s} .hero-line:nth-child(3){animation-delay:.42s}
+.hero h1 em { font-style:italic; background:linear-gradient(90deg,var(--coral),#F59E5A,#E8562A,var(--coral)); background-size:300% 100%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:gradientShift 3.5s ease infinite; }
+.hero .lead { font-size:17px; line-height:1.65; color:rgba(245,241,237,.68); max-width:520px; margin-bottom:28px; }
+.hero-meta { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.hero-meta span { font-size:13px; color:var(--muted); }
+.hero-meta .handle { font-weight:700; color:var(--coral); text-decoration:none; }
+.hero-meta .handle:hover { text-decoration:underline; }
+.hero-stats { display:flex; gap:32px; flex-wrap:wrap; margin-top:24px; }
+.stat { text-align:center; cursor:default; }
+.stat .val { font-family:'Bricolage Grotesque',sans-serif; font-size:44px; font-weight:800; color:var(--coral); line-height:1; display:block; letter-spacing:-2px; }
+.stat .lbl { font-size:11px; color:rgba(245,241,237,.5); margin-top:5px; display:block; }
+.stat .stat-line { height:2px; width:20px; background:rgba(217,119,87,.3); margin:7px auto 0; border-radius:1px; transition:width .7s var(--ease-spring),background .3s; }
+.stat:hover .stat-line { width:100%; background:var(--coral); }
+
+/* ─── MARQUEE ─── */
+.marquee-strip { border-top:1px solid var(--cream-200); border-bottom:1px solid var(--cream-200); padding:11px 0; overflow:hidden; background:var(--cream-50); }
+.marquee-track { display:flex; white-space:nowrap; animation:marqueeScroll 40s linear infinite; }
+.marquee-item { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--terra-700); opacity:.55; padding:0 28px; }
+.marquee-item.dot { opacity:.3; }
+.marquee-item.accent { color:var(--coral); opacity:.75; }
+
+/* ─── SECTIONS ─── */
+.section { padding:40px 48px; border-bottom:none; position:relative; }
+.section::after { content:''; display:block; height:1px; margin-top:12px; background:linear-gradient(90deg,transparent,rgba(43,31,23,.10) 50%,transparent); }
+.section:last-of-type::after { display:none; }
+section.section:nth-of-type(even) { background:var(--white); }
+.section-label { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral); margin-bottom:8px; }
+.section h2 { margin-bottom:8px; }
+.section > p { color:var(--terra-700); margin-bottom:24px; }
+
+/* ─── QUOTE ─── */
+.quote-block { font-family:'Inter',sans-serif; font-style:italic; font-size:18px; font-weight:400; line-height:1.6; color:var(--terra-700); border-left:3px solid var(--coral); padding-left:20px; margin:24px 0; }
+.quote-source { display:block; font-size:13px; font-style:normal; font-weight:600; color:var(--coral); margin-top:10px; }
+
+/* ─── CARDS: block-grid ─── */
+.block-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+.num-block { background:var(--white); border:1px solid var(--cream-200); border-radius:14px; padding:20px; box-shadow:var(--shadow-sm); position:relative; overflow:hidden; transition:transform .35s var(--ease-spring),box-shadow .35s ease; }
+.num-block::before { content:''; position:absolute; inset:0; padding:1px; border-radius:14px; background:linear-gradient(135deg,rgba(217,119,87,.85),rgba(217,119,87,.08),rgba(217,119,87,.55)); -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity .35s; pointer-events:none; }
+.num-block:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
+.num-block:hover::before { opacity:1; }
+.num-block .num { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:linear-gradient(135deg,var(--coral),var(--coral-dark)); color:#fff; font-family:'Bricolage Grotesque',sans-serif; font-size:15px; font-weight:800; border-radius:50%; margin-bottom:12px; animation:pulseGlow 3.5s ease-in-out infinite; }
+.num-block h3 { font-size:15px; margin-bottom:7px; }
+.num-block p  { font-size:13.5px; color:var(--terra-700); line-height:1.55; }
+
+/* ─── COMPARE ─── */
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:14px; overflow:hidden; border:1px solid var(--cream-200); box-shadow:var(--shadow-md); margin-bottom:24px; }
+.compare-side { padding:22px; }
+.compare-before { background:var(--cream-50); border-right:1px solid var(--cream-200); }
+.compare-after  { background:var(--white); }
+.compare-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:7px; }
+.compare-before .compare-label { color:var(--muted); }
+.compare-after  .compare-label { color:var(--success); }
+.compare-dot { width:7px; height:7px; border-radius:50%; display:inline-block; }
+.compare-before .compare-dot { background:var(--muted); }
+.compare-after  .compare-dot { background:var(--success); }
+.compare-prompt { font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.70; color:var(--terra-700); background:var(--cream-100); padding:14px; border-radius:8px; white-space:pre-wrap; border:1px solid var(--cream-200); }
+.compare-after .compare-prompt { background:var(--success-bg); border-color:#c2d9b0; color:var(--terra-900); font-weight:500; }
+.compare-caption { font-size:12px; color:var(--muted); margin-top:9px; font-style:italic; }
+
+/* ─── ALERT ─── */
+.alert { display:flex; gap:14px; padding:16px 20px; border-radius:12px; border:1px solid; margin:20px 0; }
+.alert-warning { background:var(--warning-bg); border-color:#e6c07a; }
+.alert-info    { background:#DEE3E8; border-color:#b8c4cc; }
+.alert-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.alert-body { font-size:14px; line-height:1.55; }
+.alert-body strong { color:var(--warning); }
+.alert-info .alert-body strong { color:#4A5C6A; }
+
+/* ─── STEPS ─── */
+.steps { list-style:none; display:flex; flex-direction:column; }
+.step  { display:flex; gap:18px; }
+.step-left { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+.step-num { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--coral),var(--coral-dark)); color:#fff; font-family:'Bricolage Grotesque',sans-serif; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; z-index:1; animation:pulseGlow 3.5s ease-in-out infinite; }
+.step:nth-child(2) .step-num{animation-delay:.7s} .step:nth-child(3) .step-num{animation-delay:1.4s} .step:nth-child(4) .step-num{animation-delay:2.1s} .step:nth-child(5) .step-num{animation-delay:2.8s}
+.step-line { width:2px; flex:1; background:var(--cream-200); margin:4px 0; min-height:20px; position:relative; overflow:hidden; }
+.step-line::after { content:''; position:absolute; top:0; left:0; right:0; height:0%; background:linear-gradient(180deg,var(--coral),var(--coral-soft)); transition:height 1.2s var(--ease-spring) .5s; }
+.step.visible .step-line::after { height:100%; }
+.step:last-child .step-line { display:none; }
+.step-body { padding:4px 0 28px; flex:1; }
+.step-body h3 { font-size:17px; margin-bottom:8px; }
+.step-body p  { font-size:14px; color:var(--terra-700); margin-bottom:10px; }
+.step-path { display:inline-flex; align-items:center; gap:6px; background:var(--cream-200); padding:6px 12px; border-radius:8px; font-size:13px; font-weight:500; color:var(--terra-900); margin-bottom:10px; }
+.step-path .arrow { color:var(--coral); font-weight:700; }
+.step-note { font-size:12.5px; color:var(--muted); font-style:italic; margin-top:4px; }
+
+/* ─── ELEMENTS TABLE ─── */
+.elements { list-style:none; display:flex; flex-direction:column; gap:1px; background:var(--cream-200); border-radius:14px; overflow:hidden; border:1px solid var(--cream-200); }
+.element-row { display:grid; grid-template-columns:44px 120px 1fr; background:var(--white); align-items:start; }
+.element-icon { padding:18px 0 18px 14px; font-size:16px; line-height:1; color:var(--coral); }
+.element-name { padding:18px 12px 18px 8px; font-weight:600; font-size:14px; color:var(--coral-dark); border-right:1px solid var(--cream-200); }
+.element-desc { padding:18px; font-size:14px; color:var(--terra-700); line-height:1.5; }
+.element-desc .example { display:block; margin-top:6px; font-size:12px; color:var(--muted); font-style:italic; }
+.element-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:2px 8px; border-radius:6px; background:var(--coral-soft); color:var(--coral-dark); margin-bottom:6px; }
+
+/* ─── 3 FORMAS ─── */
+.formas-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:16px; }
+.forma-card { background:var(--white); border:1px solid var(--cream-200); border-radius:12px; padding:18px 16px; box-shadow:var(--shadow-sm); transition:transform .3s var(--ease-spring),box-shadow .3s ease; }
+.forma-card:not(.rec):hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+.forma-card.rec { border-color:var(--coral); background:var(--coral-soft); }
+.forma-icon-wrap { width:36px; height:36px; border-radius:8px; background:var(--cream-200); display:flex; align-items:center; justify-content:center; margin-bottom:10px; color:var(--terra-700); }
+.forma-card.rec .forma-icon-wrap { background:rgba(217,119,87,.18); color:var(--coral-dark); }
+.forma-icon-wrap .fa-solid { font-size:16px; }
+.forma-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:2px 8px; border-radius:6px; margin-bottom:8px; }
+.forma-tag.rec { background:var(--coral); color:#fff; }
+.forma-tag.med { background:var(--ocre-soft); color:var(--ocre); }
+.forma-tag.adv { background:var(--cream-200); color:var(--terra-700); }
+.forma-card h3 { font-size:14px; margin-bottom:6px; }
+.forma-card p  { font-size:12.5px; color:var(--terra-700); line-height:1.5; }
+
+/* ─── TIP CARDS ─── */
+.tips-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+.tip-card { background:var(--white); border:1px solid var(--cream-200); border-radius:12px; padding:18px; box-shadow:var(--shadow-sm); position:relative; overflow:hidden; transition:transform .35s var(--ease-spring),box-shadow .35s ease; }
+.tip-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--coral),var(--coral-soft)); transform:scaleX(0); transform-origin:left; transition:transform .4s var(--ease-spring); }
+.tip-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+.tip-card:hover::before { transform:scaleX(1); }
+.tip-icon-wrap { width:42px; height:42px; border-radius:10px; background:var(--coral-soft); display:flex; align-items:center; justify-content:center; margin-bottom:14px; color:var(--coral); }
+.tip-icon-wrap .fa-solid { font-size:18px; }
+.tip-card h3 { font-size:14px; margin-bottom:6px; }
+.tip-card p  { font-size:13px; color:var(--terra-700); line-height:1.55; }
+
+/* ─── ANNOTATIONS ─── */
+.annotations { list-style:none; display:flex; flex-direction:column; gap:0; margin-top:20px; border:1px solid var(--cream-200); border-radius:12px; overflow:hidden; }
+.annotation { display:flex; align-items:flex-start; gap:14px; padding:14px 18px; background:var(--white); border-bottom:1px solid var(--cream-200); font-size:13.5px; }
+.annotation:last-child { border-bottom:none; }
+.annotation .ann-num { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; min-width:22px; background:var(--coral); color:#fff; font-size:11px; font-weight:700; border-radius:50%; }
+.annotation .ann-text { color:var(--terra-700); line-height:1.55; }
+.annotation .ann-text strong { color:var(--terra-900); }
+
+/* ─── BADGES ─── */
+.badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 9px; border-radius:7px; }
+.badge-coral { background:var(--coral-soft); color:var(--coral-dark); }
+.badge-ocre  { background:var(--ocre-soft);  color:var(--ocre); }
+
+/* ─── BOTÕES ─── */
+.btn-cta {
+  display:inline-flex; align-items:center; gap:8px;
+  background:linear-gradient(135deg,var(--coral),var(--coral-dark));
+  color:#fff; border:none; border-radius:99px;
+  font-family:'Inter',sans-serif; font-weight:600; font-size:15px;
+  padding:14px 32px; cursor:pointer; text-decoration:none;
+  box-shadow:var(--shadow-coral);
+  transition:all .2s var(--ease-spring);
+  position:relative; overflow:hidden;
+}
+.btn-cta::before {
+  content:''; position:absolute; top:0; left:-120%; width:60%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+  transform:skewX(-20deg); transition:left .5s ease;
+}
+.btn-cta:hover { transform:translateY(-2px); box-shadow:var(--shadow-coral-h); }
+.btn-cta:hover::before { left:150%; }
+.points-wrap { overflow:hidden; width:100%; height:100%; pointer-events:none; position:absolute; z-index:0; }
+.point { bottom:-10px; position:absolute; animation:floatingPoints infinite ease-in-out; pointer-events:none; width:3px; height:3px; background:rgba(255,255,255,.85); border-radius:9999px; }
+.point:nth-child(1){left:10%;opacity:1;animation-duration:2.35s;animation-delay:.20s}
+.point:nth-child(2){left:30%;opacity:.7;animation-duration:2.50s;animation-delay:.50s}
+.point:nth-child(3){left:25%;opacity:.8;animation-duration:2.20s;animation-delay:.10s}
+.point:nth-child(4){left:44%;opacity:.6;animation-duration:2.05s}
+.point:nth-child(5){left:55%;opacity:1;animation-duration:1.90s}
+.point:nth-child(6){left:75%;opacity:.5;animation-duration:1.50s;animation-delay:1.5s}
+.point:nth-child(7){left:88%;opacity:.9;animation-duration:2.20s;animation-delay:.20s}
+
+/* ─── CASO-REAL HEADER ─── */
+.caso-header { display:flex; align-items:center; gap:16px; background:var(--terra-900); border-radius:14px; padding:20px 24px; margin-bottom:24px; }
+.caso-avatar { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--coral),var(--coral-dark)); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:18px; flex-shrink:0; }
+.caso-info h3 { color:var(--cream-50); font-size:17px; margin-bottom:2px; }
+.caso-info p { color:rgba(245,241,237,.55); font-size:13px; margin:0; }
+.caso-stats { margin-left:auto; display:flex; gap:20px; }
+.caso-stat { text-align:center; }
+.caso-stat .val { font-family:'Bricolage Grotesque',sans-serif; font-size:24px; font-weight:800; color:var(--coral); line-height:1; display:block; }
+.caso-stat .lbl { font-size:10px; color:rgba(245,241,237,.4); display:block; margin-top:2px; }
+
+/* ─── FOLLOW CTA ─── */
+.follow-cta { background:var(--coral-soft); border-top:1px solid rgba(217,119,87,.2); padding:44px 48px; text-align:center; position:relative; overflow:hidden; }
+.follow-cta::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(217,119,87,.12) 0%,transparent 70%); pointer-events:none; }
+.follow-cta p { font-size:16px; color:var(--terra-700); margin-bottom:20px; line-height:1.65; position:relative; z-index:1; }
+.follow-cta p strong { color:var(--terra-900); }
+.follow-btn-wrap { display:inline-block; position:relative; z-index:1; }
+
+/* ─── FOOTER ─── */
+.footer { background:var(--terra-900); color:var(--cream-200); padding:36px 48px; text-align:center; }
+.footer .brand { font-family:'Bricolage Grotesque',sans-serif; font-size:22px; font-weight:800; color:var(--cream-50); margin-bottom:6px; }
+.footer .brand em { font-style:italic; color:var(--coral); }
+.footer p { font-size:14px; color:var(--muted); margin-bottom:14px; }
+.footer .handle { display:inline-block; background:var(--coral); color:#fff; font-weight:700; font-size:14px; padding:8px 20px; border-radius:99px; text-decoration:none; transition:all .2s var(--ease-spring); }
+.footer .handle:hover { background:var(--coral-dark); transform:translateY(-2px); }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal { opacity:0; transform:translateY(24px); filter:blur(6px); transition:opacity .85s var(--ease-spring),transform .85s var(--ease-spring),filter .65s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); filter:blur(0); }
+.col-reveal { animation:columnReveal 1.1s var(--ease-spring) both; will-change:clip-path; }
+.col-reveal:nth-child(1){animation-delay:.05s} .col-reveal:nth-child(2){animation-delay:.15s} .col-reveal:nth-child(3){animation-delay:.25s}
+
+/* ─── PRINT ─── */
+@page { size:A4 portrait; margin:0; }
+@media print {
+  .topnav,.follow-cta,.noise-overlay,.ambient-blob-1,.ambient-blob-2,.marquee-strip{display:none}
+  body{font-size:14px;background:#fff}
+  .page{max-width:100%;padding:0}
+  .hero{padding:36px 48px 40px}
+  .hero-beams,.hero-blob,.hero-blob-2{display:none}
+  .section{padding:26px 48px;background:#fff!important}
+  .reveal{opacity:1!important;transform:none!important;filter:none!important}
+  .hero h1 em{-webkit-text-fill-color:var(--coral)!important}
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width:600px) {
+  .topnav{padding:10px 20px}
+  .topnav-links{display:none}
+  .hero,.section{padding-left:20px;padding-right:20px}
+  .follow-cta{padding:32px 20px}
+  .footer{padding:28px 20px}
+  .block-grid,.compare,.tips-grid,.formas-grid{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .stat .val{font-size:36px}
+  .element-row{grid-template-columns:36px 90px 1fr}
+  .caso-header{flex-wrap:wrap}
+  .caso-stats{margin-left:0;width:100%}
+}
+  </style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+<div class="ambient-blob ambient-blob-1"></div>
+<div class="ambient-blob ambient-blob-2"></div>
+
+<!-- ── NAV ── -->
+<nav class="topnav">
+  <a class="brand" href="https://www.instagram.com/iacomrafael/" target="_blank">IA na <em>Prática</em></a>
+  <div class="topnav-links">
+    <a href="#problema">O Problema</a>
+    <a href="#camadas">5 Camadas</a>
+    <a href="#contexto">Contexto</a>
+    <a href="#agente">Agente</a>
+    <a href="#comecar">Começar</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-beams">
+    <div class="hero-beam-col"></div>
+    <div class="hero-beam-col"></div>
+    <div class="hero-beam-col"></div>
+    <div class="hero-beam-col"></div>
+    <div class="hero-beam-col"></div>
+  </div>
+  <div class="hero-blob"></div>
+  <div class="hero-blob-2"></div>
+
+  <div class="eyebrow">Desmistificação · Guia Completo · YC Root Access 2026</div>
+
+  <h1>
+    <span class="hero-line">A empresa como</span>
+    <span class="hero-line">loop de</span>
+    <span class="hero-line"><em>auto-melhoria</em></span>
+  </h1>
+
+  <p class="lead">Duas startups. $4M de ARR combinado. Quatro funcionários no total. O Y Combinator mostrou em 2026 que o modelo de empresa importa mais do que a ferramenta de IA que você usa.</p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="val">$4M</span>
+      <span class="lbl">ARR combinado</span>
+      <div class="stat-line"></div>
+    </div>
+    <div class="stat">
+      <span class="val">4</span>
+      <span class="lbl">funcionários</span>
+      <div class="stat-line"></div>
+    </div>
+    <div class="stat">
+      <span class="val">45</span>
+      <span class="lbl">ferramentas auto-criadas</span>
+      <div class="stat-line"></div>
+    </div>
+  </div>
+
+  <div class="hero-meta" style="margin-top:28px;">
+    <span>por <a class="handle" href="https://www.instagram.com/iacomrafael/" target="_blank">@iacomrafael</a></span>
+    <span>·</span>
+    <span>mai/2026</span>
+    <span>·</span>
+    <span>Baseado em Ayush (Answer This) + Sachin (Skyvern) + Diana (YC)</span>
+  </div>
+</header>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item accent">Loop Fechado</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Auto-Melhoria</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item accent">$2M ARR</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">2 Funcionários</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Contexto é Tudo</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item accent">YC Root Access</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Ayush · Answer This</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Sachin · Skyvern</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item accent">Diana · Y Combinator</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">5 Camadas</span>
+    <span class="marquee-item dot">·</span>
+    <!-- DUPLICAR para loop perfeito -->
+    <span class="marquee-item accent">Loop Fechado</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Auto-Melhoria</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item accent">$2M ARR</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">2 Funcionários</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Contexto é Tudo</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item accent">YC Root Access</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Ayush · Answer This</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">Sachin · Skyvern</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item accent">Diana · Y Combinator</span>
+    <span class="marquee-item dot">·</span>
+    <span class="marquee-item">5 Camadas</span>
+    <span class="marquee-item dot">·</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 1: O PROBLEMA
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="problema">
+  <div class="section-label">O Problema</div>
+  <h2>Ferramenta nova. Estrutura antiga.</h2>
+  <p>Você pode ter IA em cada reunião, cada e-mail e cada linha de código. Se a empresa ainda funciona como há cinco anos — com informação passando por camadas de humanos —, você tem um motor mais potente na mesma transmissão velha. A ferramenta não é o gargalo. O design é.</p>
+
+  <div class="compare">
+    <div class="compare-side compare-before">
+      <div class="compare-label"><span class="compare-dot"></span>Loop Aberto (empresa tradicional)</div>
+      <div class="compare-prompt">Reunião →
+Decisão tomada em sala →
+Executada por humano →
+Resultado gerado →
+Relatório escrito por humano →
+Enviado por e-mail ou apresentado →
+Nova reunião para atualizar todo mundo
+
+O que se perde no caminho:
+nunca chega ao sistema.</div>
+      <p class="compare-caption">Cada camada de humano é um ponto de perda. A velocidade máxima é a do humano mais lento da cadeia.</p>
+    </div>
+    <div class="compare-side compare-after">
+      <div class="compare-label"><span class="compare-dot"></span>Loop Fechado (empresa como sistema)</div>
+      <div class="compare-prompt">Informação gerada →
+Capturada automaticamente →
+Contexto disponível ao agente →
+Agente detecta, decide, executa →
+Resultado registrado →
+Sistema aprende e melhora →
+Próximo ciclo mais inteligente
+
+Sem perda entre as etapas.</div>
+      <p class="compare-caption">Cada ciclo é mais inteligente que o anterior. Velocidade máxima = velocidade de processamento da IA.</p>
+    </div>
+  </div>
+
+  <blockquote class="quote-block">
+    "IA não deve ser uma ferramenta que sua empresa usa. Deve ser o sistema operacional no qual ela roda. Cada processo importante deve ser capturado por um loop fechado de auto-melhoria — que captura informação, alimenta a camada de inteligência e melhora o processo ao longo do tempo."
+    <span class="quote-source">— Diana, Partner no Y Combinator</span>
+  </blockquote>
+
+  <div class="block-grid">
+    <div class="num-block col-reveal">
+      <div class="num">↑</div>
+      <h3>Loop Aberto — o teto invisível</h3>
+      <p>No modelo tradicional, cada informação gerada precisa de um humano para interpretá-la e roteá-la. Gerentes médios existem para isso: coordenar informação entre times. O problema: cada camada humana é um ponto de perda, atraso e distorção. Você adiciona IA como copiloto, mas a transmissão é a mesma.</p>
+    </div>
+    <div class="num-block col-reveal">
+      <div class="num">→</div>
+      <h3>Loop Fechado — o novo modelo</h3>
+      <p>No modelo de loop fechado, cada informação gerada é capturada automaticamente, fica legível para o sistema e gera aprendizado. O agente não espera ser acionado: ele monitora, detecta padrões e age. Sem middleware humano. O que antes exigia um time inteiro passa a exigir um sistema bem arquitetado — e um ou dois humanos na borda.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 2: AS 5 CAMADAS
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="camadas">
+  <div class="section-label">O Framework</div>
+  <h2>As 5 camadas do loop fechado</h2>
+  <p>Este não é um modelo teórico. É uma síntese do que Ayush (Answer This), Sachin (Skyvern) e Diana (YC) implementaram de formas independentes e chegaram ao mesmo resultado. Cada camada é uma decisão de arquitetura — e cada camada ausente é um vazamento no sistema.</p>
+
+  <ul class="elements">
+    <li class="element-row">
+      <div class="element-icon"><i class="fa-solid fa-microphone"></i></div>
+      <div class="element-name">Camada 1<br><strong>Captura</strong></div>
+      <div class="element-desc">
+        <span class="element-tag">Fundação</span>
+        Tudo que acontece na empresa precisa virar artefato. Decisão tomada em call? Tem que estar gravada. Pergunta respondida no chat? Tem que estar num canal público, não em DM. Feedback de cliente? Registrado e acessível. <strong>Sem captura, não há contexto. Sem contexto, não há loop.</strong>
+        <span class="example">Exemplo real: Sachin proibiu DMs internos no Skyvern. Todo mundo tem um "office channel" público. Qualquer pergunta respondida uma vez fica disponível para sempre — para o agente e para futuros contratados.</span>
+      </div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div class="element-name">Camada 2<br><strong>Contexto</strong></div>
+      <div class="element-desc">
+        <span class="element-tag">Acesso</span>
+        O agente precisa enxergar tudo: e-mail, Slack, Notion, gravações de calls, banco de dados, código-fonte. Contexto incompleto = agente que dá respostas genéricas. Um agente com acesso apenas ao e-mail vai falhar onde um agente com acesso a 5 fontes vai acertar — porque consegue correlacionar.
+        <span class="example">Exemplo real: O agente do Sachin acessa e-mail + Slack + Notion + gravações + banco de dados para escrever um PRD. Ele volta com gravações específicas de clientes que mencionaram aquela dor — evidência, não opinião.</span>
+      </div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon"><i class="fa-solid fa-bolt"></i></div>
+      <div class="element-name">Camada 3<br><strong>Execução</strong></div>
+      <div class="element-desc">
+        <span class="element-tag">Ação</span>
+        O agente não espera ser chamado. Ele detecta uma tarefa, decide o que fazer, executa e reporta. O humano define o <em>o quê</em>; o agente descobre o <em>como</em>. Tarefas repetitivas saem completamente da fila humana.
+        <span class="example">Exemplo real: Ayush não precisa abrir o Intercom para responder suporte. O agente da Answer This processa 100+ e-mails por dia, já fechou mais de 400 tickets — e quando não sabe como fazer algo, cria a ferramenta necessária.</span>
+      </div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon"><i class="fa-solid fa-brain"></i></div>
+      <div class="element-name">Camada 4<br><strong>Memória</strong></div>
+      <div class="element-desc">
+        <span class="element-tag">Aprendizado</span>
+        Existem três tipos de memória que o agente precisa ter. <strong>Factual:</strong> o codebase e o banco de dados — como o produto funciona por dentro. <strong>Comportamental:</strong> o que você ensina via feedback — um arquivo de instruções que o agente edita sozinho após cada correção. <strong>Procedural:</strong> as tarefas recorrentes codificadas em ferramentas que o agente criou.
+        <span class="example">Exemplo real: O co-fundador Ryan (não-técnico) percebeu uma classe de erros no suporte. Mandou mensagem no Slack pro agente. O agente atualizou o próprio arquivo de instruções. O erro parou de acontecer naquele mesmo dia — sem abrir ticket, sem sprint.</span>
+      </div>
+    </li>
+    <li class="element-row">
+      <div class="element-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+      <div class="element-name">Camada 5<br><strong>Evolução</strong></div>
+      <div class="element-desc">
+        <span class="element-tag">Auto-extensão</span>
+        O sistema se melhora sem intervenção de engenharia. Quando o agente encontra uma tarefa que não consegue fazer, ele pede ao sub-agente de código para criar a ferramenta — e ela fica disponível permanentemente nas próximas sessões. O agente não apenas executa: ele expande as próprias capacidades.
+        <span class="example">Exemplo real: O agente da Answer This começou como um esqueleto. Hoje tem 45 ferramentas que ele mesmo criou — do monitoramento de landing pages ao update de CRM, passando por integração com Stripe e Fathom. Nenhuma escrita por humano.</span>
+      </div>
+    </li>
+  </ul>
+
+  <div class="alert alert-info" style="margin-top:24px;">
+    <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <div class="alert-body">
+      <strong>Princípio central:</strong> Para ter as capacidades completas de um agente, você precisa dar a ele o mesmo nível de contexto que daria a um funcionário novo em onboarding — incluindo acesso ao histórico de decisões, ao código, aos clientes e à base de conhecimento da empresa. Um agente sem contexto age como um estagiário no primeiro dia.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 3: CONTEXTO — SACHIN / SKYVERN
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="contexto">
+  <div class="section-label">Caso Real · Skyvern</div>
+  <h2>Como Sachin chegou a $2M de ARR sendo PM, marketing, vendas e suporte ao mesmo tempo</h2>
+
+  <div class="caso-header">
+    <div class="caso-avatar">S</div>
+    <div class="caso-info">
+      <h3>Sachin Yadav — Skyvern</h3>
+      <p>Automação de processos no navegador para empresas de saúde · Open source · YC Root Access 2026</p>
+    </div>
+    <div class="caso-stats">
+      <div class="caso-stat">
+        <span class="val">$2M</span>
+        <span class="lbl">ARR</span>
+      </div>
+      <div class="caso-stat">
+        <span class="val">2</span>
+        <span class="lbl">funcionários</span>
+      </div>
+    </div>
+  </div>
+
+  <p>Sachin não tinha um time de marketing, um time de vendas nem uma equipe de suporte. Tinha agentes. O diferencial não foi qual IA usou — foi quanto contexto deu a ela. E o contexto começa com uma decisão estrutural sobre como a empresa registra o que acontece.</p>
+
+  <h3 style="margin-bottom:16px;">Como o Skyvern estruturou o contexto</h3>
+  <ul class="steps">
+    <li class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Proibir DMs — tudo em canais públicos</h3>
+        <p>No Skyvern, ninguém pode mandar mensagem privada. Todo mundo tem um "office channel" próprio. Toda pergunta vai para lá. Toda decisão fica registrada. Qualquer futuro contratado tem acesso ao histórico completo — e o agente também.</p>
+        <span class="step-path">DM <span class="arrow">→</span> Canal público por pessoa/projeto</span>
+        <p class="step-note">O custo: alguns dias de desconforto para os novos. O benefício: contexto permanente e pesquisável por qualquer agente.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Gravar absolutamente todas as calls</h3>
+        <p>Calls externas com clientes, calls internas de time, e até os 1:1s do Sachin com o co-fundador — tudo gravado e transcrito. Uma empresa presencial perde esse contexto: ele é falado e some. Uma empresa que grava transforma cada conversa em contexto permanente para o agente.</p>
+        <span class="step-path">Call → Gravação → Transcrição → Banco de contexto</span>
+        <p class="step-note">"Em uma empresa presencial, o contexto é falado e se perde. Em uma remota, está gravado em uma call ou em um Slack." — Sachin</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Conectar o agente a 5 fontes simultaneamente</h3>
+        <p>O agente do Skyvern tem acesso a: gravações de calls com clientes, Slack, Notion (documentação interna), comunicações de clientes e banco de dados da plataforma. Quando vai escrever um PRD, ele <strong>correlaciona</strong> essas fontes — não apenas cita uma.</p>
+        <span class="step-path">E-mail + Slack + Notion + Calls + DB <span class="arrow">→</span> Agente com contexto completo</span>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Dar um agente a cada novo contratado no primeiro dia</h3>
+        <p>Quando contratou dois vendedores, Sachin os fez configurar o Claude Code na primeira hora de trabalho. Foi difícil no começo — mas em dias eles entenderam o que era esperado de alguém que trabalha nessa empresa.</p>
+        <span class="step-path">Primeiro dia → Setup do agente pessoal → Onboarding no contexto da empresa</span>
+      </div>
+    </li>
+  </ul>
+
+  <h3 style="margin:28px 0 16px;">Resultado na prática: o sistema de conteúdo</h3>
+
+  <div class="compare">
+    <div class="compare-side compare-before">
+      <div class="compare-label"><span class="compare-dot"></span>Antes — conteúdo manual</div>
+      <div class="compare-prompt">Sachin precisava:
+- Abrir as gravações de calls
+- Identificar temas relevantes
+- Escrever cada post manualmente
+- Revisar antes de publicar
+
+Resultado: raramente publicava.
+Não havia tempo.</div>
+      <p class="compare-caption">Um fundador com 10 outras prioridades não consegue manter cadência de conteúdo sozinho.</p>
+    </div>
+    <div class="compare-side compare-after">
+      <div class="compare-label"><span class="compare-dot"></span>Depois — loop automático</div>
+      <div class="compare-prompt">Todo manhã, Sachin recebe um e-mail:
+"5 posts prontos baseados nas
+últimas 20 calls com clientes."
+
+O agente:
+→ Vasculhou as 20 calls recentes
+→ Agrupou temas recorrentes
+→ Redigiu 5 posts (Twitter + LinkedIn)
+→ Rodou filtro anti-jargão
+→ Adicionou meme quando cabível
+
+Sachin revisa, aprova, publica.</div>
+      <p class="compare-caption">5 posts por semana no piloto automático. Um deles gerou um lead qualificado de nicho que Sachin nunca teria escrito manualmente.</p>
+    </div>
+  </div>
+
+  <blockquote class="quote-block">
+    "Empresas remotas têm uma vantagem injusta. O contexto de uma empresa presencial é falado — e se perde. Em uma empresa remota, está gravado em uma call ou em um Slack. O que não está registrado não existe para o sistema. Você tem que redesenhar a empresa para aproveitar isso."
+    <span class="quote-source">— Sachin Yadav, Skyvern</span>
+  </blockquote>
+
+  <h3 style="margin-bottom:16px;">As 4 regras do Skyvern para contexto que funciona</h3>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon-wrap"><i class="fa-solid fa-ban"></i></div>
+      <h3>Proibir DMs internos</h3>
+      <p>Toda comunicação vai para canais públicos. Cada pergunta respondida uma vez fica disponível para sempre — para o agente e para futuros contratados. Parece microgestão; na prática, é arquitetura de contexto.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-wrap"><i class="fa-solid fa-microphone"></i></div>
+      <h3>Gravar toda call, sem exceção</h3>
+      <p>Inclusive 1:1s internos. A objeção ("isso é invasivo") é superada pelo benefício: cada conversa vira contexto permanente que o agente pode ler, citar e cruzar com outras fontes para gerar insights reais.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-wrap"><i class="fa-solid fa-layer-group"></i></div>
+      <h3>Conectar ao menos 3 fontes</h3>
+      <p>Agente com acesso só ao e-mail tem contexto unidimensional. Com e-mail + Slack + gravações, ele começa a <em>correlacionar</em>: "esse cliente reclamou em call, teve erro X, provavelmente precisa de Y."</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-wrap"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <h3>Agente no onboarding do dia 1</h3>
+      <p>O agente não é um bônus opcional. É parte do processo de trabalho. Quem entra na empresa aprende o produto e aprende a trabalhar com o agente ao mesmo tempo — desde o primeiro dia.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 4: AGENTE QUE EVOLUI — AYUSH / ANSWER THIS
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="agente">
+  <div class="section-label">Caso Real · Answer This</div>
+  <h2>Como Ayush construiu um agente que cria as próprias ferramentas — e chegou a 45 delas</h2>
+
+  <div class="caso-header">
+    <div class="caso-avatar">A</div>
+    <div class="caso-info">
+      <h3>Ayush Chaturvedi — Answer This</h3>
+      <p>Agentes de IA para workflows científicos com base em evidências · YC Root Access 2026</p>
+    </div>
+    <div class="caso-stats">
+      <div class="caso-stat">
+        <span class="val">$2M</span>
+        <span class="lbl">ARR</span>
+      </div>
+      <div class="caso-stat">
+        <span class="val">45</span>
+        <span class="lbl">ferramentas geradas pelo agente</span>
+      </div>
+    </div>
+  </div>
+
+  <p>Ayush e seu co-fundador Ryan chegaram a $2M de ARR com 2 funcionários (mais 2-3 contractors para design e outbound). A maior parte do trabalho operacional — suporte, CRM, feedback de usuários, monitoramento — é feita por um agente interno que eles construíram. E que continua se construindo.</p>
+
+  <h3 style="margin-bottom:16px;">Os 3 tipos de memória do agente</h3>
+  <p style="color:var(--terra-700); margin-bottom:16px;">Ayush identificou que um agente interno precisa de três tipos distintos de memória para funcionar bem — e que a maioria das pessoas implementa só o primeiro.</p>
+
+  <div class="formas-grid">
+    <div class="forma-card">
+      <div class="forma-icon-wrap"><i class="fa-solid fa-database"></i></div>
+      <span class="forma-tag adv">Memória 1</span>
+      <h3>Factual</h3>
+      <p>Codebase + banco de dados em modo somente-leitura. Atualizado automaticamente a cada novo release via cron job. O agente sabe como a assinatura funciona, onde estão as coisas no app, qual é a lógica de negócio — sem precisar perguntar.</p>
+    </div>
+    <div class="forma-card">
+      <div class="forma-icon-wrap"><i class="fa-solid fa-pen-nib"></i></div>
+      <span class="forma-tag med">Memória 2</span>
+      <h3>Comportamental</h3>
+      <p>Um arquivo <code>instructions.md</code> carregado em cada turno do agente. Você dá feedback como daria a um funcionário; o agente atualiza o próprio arquivo. Cada correção vira instrução permanente. É aqui que o agente aprende a <em>ser</em> o que você quer.</p>
+    </div>
+    <div class="forma-card rec">
+      <div class="forma-icon-wrap"><i class="fa-solid fa-gears"></i></div>
+      <span class="forma-tag rec">Memória 3</span>
+      <h3>Procedural</h3>
+      <p>As tarefas recorrentes viram ferramentas permanentes. O agente encontra algo que não consegue fazer → pede ao sub-agente de código → cria a ferramenta → disponível para sempre. É a camada que torna o agente auto-extensível: não executa tarefas fixas, ele expande o próprio repertório.</p>
+    </div>
+  </div>
+
+  <h3 style="margin:28px 0 16px;">A arquitetura técnica — simplificada</h3>
+  <p style="color:var(--terra-700); margin-bottom:16px;">Você não precisa ser técnico para entender a lógica. O importante é o <em>princípio</em> de cada camada — a implementação pode ser adaptada ao seu contexto.</p>
+
+  <ul class="steps">
+    <li class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Claude Code como cérebro central</h3>
+        <p>O agente principal é o Claude Code CLI envolto em Python. Novas mensagens do Slack, e-mail e outros canais entram numa fila de tarefas (<em>task queue</em>). O agente pega cada tarefa e trabalha de forma iterativa até resolver — sem precisar de humano no meio.</p>
+        <span class="step-path">Slack / E-mail <span class="arrow">→</span> Task queue <span class="arrow">→</span> Agente principal</span>
+        <p class="step-note">O Claude Code já sabe inspecionar arquivos, rodar comandos e usar CLIs — o que o torna ideal como harness de agente. Mas qualquer agente com acesso a ferramentas funciona no mesmo princípio.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Acesso somente-leitura ao código e ao banco</h3>
+        <p>A cada release, um cron job atualiza a cópia do codebase e do banco disponível para o agente. Com isso, o agente sabe como a assinatura funciona, qual é a lógica do produto, onde cada coisa está. Quando um cliente pergunta algo específico sobre o produto, o agente consulta o código — não inventa.</p>
+        <span class="step-path">Deploy novo <span class="arrow">→</span> Cron atualiza cópia <span class="arrow">→</span> Agente com contexto atual</span>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>CLIs para todas as ferramentas + um agente de código como CLI</h3>
+        <p>Intercom, Fathom, Stripe, CRM — tudo disponível como CLI para o agente principal. E um agente de código também é um CLI. Isso significa que quando o agente encontra uma tarefa que não tem ferramenta, ele chama o agente de código para criar — e a ferramenta fica permanente.</p>
+        <span class="step-path">Tarefa nova <span class="arrow">→</span> Sem ferramenta <span class="arrow">→</span> Agente de código cria CLI <span class="arrow">→</span> Disponível para sempre</span>
+        <p class="step-note">Hoje a Answer This tem 45 ferramentas criadas pelo próprio agente — do monitoramento de landing pages para anúncios a integrações com APIs de parceiros.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">4</div></div>
+      <div class="step-body">
+        <h3><code>instructions.md</code> — a memória comportamental editável</h3>
+        <p>Um arquivo de instruções carregado em todo turno do agente. O agente pode editá-lo quando recebe feedback. Você não abre um ticket nem faz um deploy: manda uma mensagem natural e o agente atualiza o próprio comportamento.</p>
+        <span class="step-path">Feedback no Slack <span class="arrow">→</span> Agente atualiza instructions.md <span class="arrow">→</span> Próximo turno já com novo comportamento</span>
+        <p class="step-note">Ryan, co-fundador não-técnico da Answer This, foi quem descobriu uma classe de erros no suporte. Mandou mensagem pro agente no Slack. O erro parou naquele mesmo dia.</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="compare" style="margin-top:24px;">
+    <div class="compare-side compare-before">
+      <div class="compare-label"><span class="compare-dot"></span>Ciclo de correção tradicional</div>
+      <div class="compare-prompt">Erro de suporte percebido →
+Co-fundador avisa o time →
+Alguém abre um issue →
+Issue vai para o backlog →
+Sprint planning →
+Dev aloca tempo →
+Corrige o código →
+Review + deploy →
+1 a 2 semanas depois</div>
+      <p class="compare-caption">Cada erro menor compete com features no backlog. A maioria nunca é corrigida.</p>
+    </div>
+    <div class="compare-side compare-after">
+      <div class="compare-label"><span class="compare-dot"></span>Ciclo de correção com agente</div>
+      <div class="compare-prompt">Erro de suporte percebido →
+Ryan manda mensagem no Slack pro agente →
+"Você está errando nessa classe de casos"
+→ Agente atualiza instructions.md
+→ Essa classe de erros para de existir
+
+Tempo: minutos.
+Sem ticket. Sem sprint. Sem deploy.</div>
+      <p class="compare-caption">A velocidade de melhoria do agente é a velocidade de uma mensagem no Slack.</p>
+    </div>
+  </div>
+
+  <blockquote class="quote-block">
+    "O mais importante não é que o agente executa um conjunto fixo de tarefas. É que ele é auto-extensível. Quando encontra uma tarefa repetida que não consegue fazer, ele cria a ferramenta — e ela fica disponível nas próximas sessões para sempre."
+    <span class="quote-source">— Ayush Chaturvedi, Answer This</span>
+  </blockquote>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 5: NOVA ESTRUTURA DO TIME — DIANA / YC
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="time">
+  <div class="section-label">Arquitetura Organizacional</div>
+  <h2>Três papéis. Nenhum middleware humano.</h2>
+  <p>Diana, Partner do Y Combinator, mapeou os três arquétipos que existem em empresas nativas em IA. O princípio central: a camada de inteligência (o agente) faz o trabalho dos gerentes médios — rotear informação e coordenar contexto. Cada camada de humano que você remove é um ganho direto de velocidade.</p>
+
+  <div class="formas-grid">
+    <div class="forma-card">
+      <div class="forma-icon-wrap"><i class="fa-solid fa-hammer"></i></div>
+      <span class="forma-tag adv">Arquétipo 1</span>
+      <h3>IC — Builder / Operator</h3>
+      <p>Constrói e opera diretamente. Não é só engenheiro — em uma empresa nativa em IA, <em>todos</em> produzem e operam. Reuniões começam com protótipos, não decks. Usa IA para executar, não para delegar execução.</p>
+    </div>
+    <div class="forma-card">
+      <div class="forma-icon-wrap"><i class="fa-solid fa-bullseye"></i></div>
+      <span class="forma-tag med">Arquétipo 2</span>
+      <h3>DRI — Diretamente Responsável</h3>
+      <p>Uma pessoa, um resultado. Sem hiding. Não é gestor clássico — é quem responde pelo outcome, não pelo processo. O agente coordena e roteia informação; o DRI decide e responde pelo resultado final.</p>
+    </div>
+    <div class="forma-card rec">
+      <div class="forma-icon-wrap"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <span class="forma-tag rec">Arquétipo 3</span>
+      <h3>AI Founder</h3>
+      <p>Constrói, treina o time e lidera pelo exemplo. Se você é o fundador, esse papel é seu — você não pode delegar a estratégia de IA para outra pessoa. Você usa as ferramentas na frente do time. Mostra o que é possível. É o multiplicador da capacidade de todos.</p>
+    </div>
+  </div>
+
+  <blockquote class="quote-block" style="margin-top:28px;">
+    "Se você mantém o mesmo organograma e a mesma estrutura de gestão, você perdeu a virada completamente. A empresa tem que ser reconstruída como uma camada de inteligência, com humanos na borda guiando — não roteando informação através dela."
+    <span class="quote-source">— Diana, Partner no Y Combinator (citando Jack Dorsey / Block)</span>
+  </blockquote>
+
+  <div class="alert alert-info" style="margin-top:8px;">
+    <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <div class="alert-body">
+      <strong>A lógica econômica:</strong> Uma pessoa com ferramentas de IA pode ser o equivalente do que antes levava uma equipe inteira. Isso significa que o investimento crítico não é mais headcount — é <strong>uso de tokens</strong>. A empresa que maximiza o uso de tokens por funcionário vai operar a um custo estruturalmente menor do que qualquer concorrente que ainda opera com as estruturas tradicionais.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SEÇÃO 6: POR ONDE COMEÇAR
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="comecar">
+  <div class="section-label">Primeiros Passos</div>
+  <h2>Três decisões desta semana</h2>
+  <p>Você não precisa de um agente sofisticado para começar. O primeiro passo é estrutural — sobre como a empresa registra o que acontece. Sem registro, não há contexto. Sem contexto, não há loop. Comece pela fundação.</p>
+
+  <ul class="steps">
+    <li class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Estabeleça a regra de captura: proibir DMs internos</h3>
+        <p>Esta semana: escolha uma ferramenta (Slack, Teams, Discord) e estabeleça a política. Toda pergunta vai para um canal público. Toda decisão fica registrada onde o agente pode ler. O que você ganha imediatamente: decisões pesquisáveis, onboarding mais rápido para novos e contexto que qualquer agente pode acessar.</p>
+        <span class="step-path">Política nova <span class="arrow">→</span> Canal público por pessoa/projeto <span class="arrow">→</span> Contexto acumulando</span>
+        <p class="step-note">Não precisa ser perfeito. Comece com uma regra simples: "qualquer pergunta que envolva mais de duas pessoas vai para o canal público."</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h3>Ative a gravação de calls e conecte a um repositório</h3>
+        <p>Ferramentas como Fathom (gratuito para uso individual), Fireflies ou Otter gravam, transcrevem e podem exportar para Notion ou Google Drive automaticamente. A partir desta semana, toda reunião vira texto e vira contexto. Um agente pode ler transcrição; não pode ler memória.</p>
+        <span class="step-path">Call <span class="arrow">→</span> Gravação + Transcrição <span class="arrow">→</span> Notion / Drive <span class="arrow">→</span> Contexto do agente</span>
+        <p class="step-note">O acúmulo importa mais do que a qualidade inicial. Comece gravando tudo — refine o que fazer com as gravações depois.</p>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-left"><div class="step-num">3</div></div>
+      <div class="step-body">
+        <h3>Construa o primeiro loop: uma tarefa recorrente → agente → resultado registrado</h3>
+        <p>Escolha uma tarefa repetitiva que acontece toda semana: resumo de calls, resposta a um tipo de e-mail, atualização de CRM após reunião, relatório semanal. Use Claude, GPT, Gemini ou qualquer agente com acesso ao contexto certo. Não precisa ser perfeito — precisa ser <strong>mensurável</strong>. Acompanhe por 2 semanas.</p>
+        <span class="step-path">Tarefa recorrente <span class="arrow">→</span> Agente com contexto certo <span class="arrow">→</span> Resultado <span class="arrow">→</span> Feedback <span class="arrow">→</span> Agente aprende</span>
+        <p class="step-note">O sinal de que está funcionando: o agente começa a surpreender você com conexões que você não faria sozinho. Esse é o ponto de inflexão.</p>
+      </div>
+    </li>
+  </ul>
+
+  <h3 style="margin:12px 0 4px;">O que observar enquanto o loop está rodando</h3>
+
+  <ul class="annotations">
+    <li class="annotation">
+      <span class="ann-num">!</span>
+      <div class="ann-text"><strong>Empresas presenciais têm desvantagem estrutural.</strong> O contexto é falado, não gravado. Se você trabalha presencialmente, você precisa criar sistemas de registro <em>ativos</em> — não esperar que as pessoas façam isso espontaneamente. Comece pela gravação de calls e pela política de canais públicos.</div>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">!</span>
+      <div class="ann-text"><strong>Ferramenta nova sem contexto é o erro mais comum.</strong> Um agente com acesso só ao e-mail mas sem acesso ao histórico de calls com aquele cliente vai dar respostas genéricas. O ganho vem do cruzamento de fontes — não de uma fonte isolada.</div>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">!</span>
+      <div class="ann-text"><strong>O sinal de que o loop está funcionando:</strong> seu agente começa a trazer conexões que você não teria feito sozinho. O PRD do Sachin voltou com gravações específicas de clientes. O agente do Ayush criou um monitor de landing page que ninguém pediu. Quando o agente surpreende — ele está operando com contexto real.</div>
+    </li>
+    <li class="annotation">
+      <span class="ann-num">!</span>
+      <div class="ann-text"><strong>Comece com <code>instructions.md</code>.</strong> Antes de qualquer arquitetura complexa: crie um arquivo de texto com as instruções do que você quer que o agente faça. Cole em cada sessão. Quando o agente errar, atualize o arquivo. Essa é a versão manual do loop de evolução — e já funciona.</div>
+    </li>
+  </ul>
+</section>
+
+
+<!-- ── FOLLOW CTA ── -->
+<div class="follow-cta">
+  <p>Todo post que publico no Instagram tem um guia como esse por trás.<br><strong>Segue o @iacomrafael para receber o próximo na hora em que sair.</strong></p>
+  <div class="follow-btn-wrap">
+    <a class="btn-cta" href="https://www.instagram.com/iacomrafael/" target="_blank">
+      <div class="points-wrap">
+        <i class="point"></i><i class="point"></i><i class="point"></i>
+        <i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i>
+      </div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      <span style="position:relative;z-index:1">Seguir @iacomrafael</span>
+    </a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="brand">IA na <em>Prática</em></div>
+  <p>Rafael Lima · Fortaleza, BR · baseado em YC Root Access 2026</p>
+  <a class="handle" href="https://www.instagram.com/iacomrafael/" target="_blank">@iacomrafael</a>
+</footer>
+
+</div><!-- .page -->
+
+<script>
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll(
+  '.section, .tip-card, .template-card, .forma-card, .compare, .annotations, .elements, .caso-header, .alert'
+).forEach(el => { el.classList.add('reveal'); io.observe(el); });
+
+document.querySelectorAll('.step').forEach(el => {
+  el.classList.add('reveal'); io.observe(el);
+});
+
+document.querySelectorAll('.block-grid, .tips-grid, .formas-grid').forEach(grid => {
+  Array.from(grid.children).forEach((child, i) => { child.style.transitionDelay = (i * 90) + 'ms'; });
+});
+</script>
+</body>
+</html>
