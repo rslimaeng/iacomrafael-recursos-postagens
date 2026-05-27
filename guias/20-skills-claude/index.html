@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>20 Skills que Uso no Claude — Todo Dia · @iacomrafael</title>
   <meta name="description" content="20 skills prontas para instalar no Claude. Você instala uma vez e o Claude já sabe como trabalhar com você. Sem sessões desperdiçadas.">
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -19,19 +19,122 @@
       --ocre: #C9943A;
       --ocre-soft: #F0E2C2;
       --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-coral: 0 8px 28px rgba(217,119,87,.35);
+      --shadow-coral-h: 0 12px 36px rgba(217,119,87,.50);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--cream-100);
+      font-family: 'Inter Tight', sans-serif;
       color: var(--terra-700);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(ellipse 65% 45% at 0% 0%, rgba(242,213,195,.50) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 30% at 100% 100%, rgba(201,148,58,.08) 0%, transparent 50%),
+        var(--cream-100);
     }
+
+    /* ── NOISE OVERLAY (fixed, body level) ── */
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: .035;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── AMBIENT BLOBS (fixed) ── */
+    .ambient-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-blob-1 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(242,213,195,.45) 0%, transparent 70%);
+      top: -180px; left: -180px;
+      animation: blobDrift1 18s ease-in-out infinite;
+    }
+    .ambient-blob-2 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(201,148,58,.10) 0%, transparent 70%);
+      bottom: -140px; right: -140px;
+      animation: blobDrift2 22s ease-in-out infinite;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes blobDrift1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(30px, 20px) scale(1.05); }
+      66%       { transform: translate(-20px, 30px) scale(.97); }
+    }
+    @keyframes blobDrift2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(-25px, -15px) scale(.95); }
+      66%       { transform: translate(15px, -25px) scale(1.04); }
+    }
+    @keyframes beamFall {
+      0%   { transform: translateY(0); opacity: 0; }
+      20%  { opacity: 1; }
+      80%  { opacity: 1; }
+      100% { transform: translateY(500px); opacity: 0; }
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes lineReveal {
+      0%   { transform: scaleX(1); }
+      100% { transform: scaleX(0); }
+    }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── TOPNAV ── */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(245,241,237,.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(43,31,23,.07);
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topnav .brand {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--terra-900);
+      text-decoration: none;
+      letter-spacing: -.01em;
+    }
+    .topnav .brand em { font-style: italic; color: var(--coral); }
+    .topnav-links { display: flex; gap: 4px; }
+    .topnav-links a {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--terra-700);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background .15s var(--ease-spring), color .15s;
+    }
+    .topnav-links a:hover { background: var(--cream-200); color: var(--terra-900); }
 
     /* ── HERO ── */
     .hero {
@@ -39,45 +142,61 @@
       background: var(--terra-900);
       overflow: hidden;
       padding: 80px 24px 72px;
-      min-height: 380px;
+      min-height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    .hero-beams {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-beam {
+      position: absolute;
+      top: -60px;
+      width: 1px;
+      height: 200px;
+      background: linear-gradient(180deg, transparent 0%, rgba(217,119,87,.55) 50%, transparent 100%);
+      animation: beamFall 3.5s ease-in infinite;
+    }
+    .hero-beam:nth-child(1) { left: 18%; animation-delay: 0s; }
+    .hero-beam:nth-child(2) { left: 42%; animation-delay: .9s; height: 240px; }
+    .hero-beam:nth-child(3) { left: 68%; animation-delay: 1.7s; }
+    .hero-beam:nth-child(4) { left: 84%; animation-delay: .4s; height: 170px; }
 
     .hero-big-number {
       position: absolute;
       top: -10px;
       right: 32px;
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
       font-size: 200px;
       line-height: 1;
       color: var(--coral);
-      opacity: 0.12;
+      opacity: 0.10;
       pointer-events: none;
       user-select: none;
       letter-spacing: -8px;
     }
-
-    .blob {
+    .hero-blob {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
       pointer-events: none;
     }
-    .blob-1 {
+    .hero-blob-1 {
       width: 420px; height: 420px;
       background: radial-gradient(circle, rgba(217,119,87,0.18) 0%, transparent 70%);
       top: -120px; left: -100px;
     }
-    .blob-2 {
+    .hero-blob-2 {
       width: 360px; height: 360px;
       background: radial-gradient(circle, rgba(201,148,58,0.12) 0%, transparent 70%);
       bottom: -100px; right: 80px;
     }
-
-    .noise-overlay {
+    .hero-noise {
       position: absolute;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -85,129 +204,187 @@
       opacity: 0.5;
       pointer-events: none;
     }
-
     .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
-      max-width: 680px;
+      max-width: 700px;
     }
-
     .hero-label {
       display: inline-block;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--coral-soft);
       opacity: 0.7;
       margin-bottom: 20px;
     }
-
     .hero-content h1 {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-      font-weight: 800;
-      font-size: clamp(36px, 5.5vw, 58px);
-      line-height: 1.08;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(36px, 5.5vw, 60px);
+      line-height: 1.10;
+      letter-spacing: -0.02em;
       color: #F5F1ED;
       margin-bottom: 20px;
     }
-
+    .hero-line {
+      display: block;
+      overflow: hidden;
+    }
+    .hero-line::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--coral);
+      transform-origin: left;
+      animation: lineReveal .7s var(--ease-spring) forwards;
+    }
+    .hero-line:nth-child(1)::after { animation-delay: .1s; }
+    .hero-line:nth-child(2)::after { animation-delay: .25s; }
+    .hero-line:nth-child(3)::after { animation-delay: .4s; }
     .hero-content h1 em {
-      font-style: normal;
+      font-style: italic;
       background: linear-gradient(90deg, var(--coral) 0%, var(--ocre) 50%, var(--coral) 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: shimmer 3s linear infinite;
+      animation: gradientShift 4s linear infinite;
     }
-
-    @keyframes shimmer {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-
     .hero-sub {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 16px;
+      font-weight: 400;
       line-height: 1.65;
       color: rgba(245,241,237,0.65);
-      margin-bottom: 32px;
-      max-width: 520px;
+      margin-bottom: 36px;
+      max-width: 540px;
       margin-left: auto;
       margin-right: auto;
     }
-
     .hero-stats {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
+      gap: 40px;
       flex-wrap: wrap;
     }
-
-    .stat-item {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      color: rgba(245,241,237,0.55);
-      padding: 0 16px;
-      position: relative;
-    }
-
-    .stat-item + .stat-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1px;
-      height: 14px;
-      background: rgba(245,241,237,0.2);
-    }
-
-    /* ── HERO STATS ── */
-    .hero-stats {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-
-    .hero-stat {
-      text-align: center;
-    }
-
+    .hero-stat { text-align: center; }
     .hero-stat .counter {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
-      font-size: 36px;
+      font-size: 40px;
       color: var(--coral);
       display: block;
       line-height: 1;
-      transition: all 0.1s ease;
     }
-
     .hero-stat p {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: rgba(245,241,237,0.55);
+      color: rgba(245,241,237,0.50);
       margin-top: 4px;
     }
 
-    /* ── STICKY TABS — ANIMAÇÃO PREMIUM ── */
+    /* ── MARQUEE ── */
+    .marquee-strip {
+      background: var(--coral);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 35s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 0 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .marquee-item::after { content: '·'; opacity: .5; font-size: 16px; }
+
+    /* ── HOW STRIP (3 passos) ── */
+    .how-strip {
+      max-width: 794px;
+      margin: 0 auto;
+      padding: 32px 24px 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .how-step {
+      background: rgba(245,241,237,.85);
+      border: 1px solid rgba(43,31,23,.07);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: box-shadow .25s var(--ease-spring), transform .25s var(--ease-spring);
+    }
+    .how-step:hover {
+      box-shadow: 0 4px 16px rgba(43,31,23,.08);
+      transform: translateY(-2px);
+    }
+    .how-step-icon {
+      width: 36px; height: 36px;
+      background: var(--coral-soft);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--coral);
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .how-step-num {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--coral);
+    }
+    .how-step h4 {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--terra-900);
+      line-height: 1.3;
+    }
+    .how-step p {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--terra-700);
+      line-height: 1.6;
+    }
+
+    /* ── TABS STRIP ── */
     .tabs-strip {
       position: sticky;
-      top: 0;
+      top: 52px;
       z-index: 100;
-      background: #fff;
+      background: rgba(245,241,237,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--cream-200);
-      padding: 12px 24px;
+      padding: 10px 24px;
       display: flex;
       justify-content: center;
       gap: 8px;
@@ -215,16 +392,14 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
-
     .tabs-strip::-webkit-scrollbar { display: none; }
-
     .tab {
       position: relative;
       border: none;
       cursor: pointer;
       background: transparent;
       color: var(--terra-700);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-size: 13px;
       font-weight: 600;
       padding: 8px 16px;
@@ -234,7 +409,6 @@
       z-index: 1;
       flex-shrink: 0;
     }
-
     .tab::before {
       content: '';
       position: absolute;
@@ -246,9 +420,7 @@
       transition: opacity .2s, transform .25s var(--ease-spring);
       z-index: -1;
     }
-
     .tab:hover::before { opacity: 1; transform: scale(1); }
-
     .tab::after {
       content: '';
       position: absolute;
@@ -260,25 +432,23 @@
       transition: opacity .25s, transform .3s var(--ease-spring);
       z-index: -1;
     }
-
     .tab.active { color: #fff; }
     .tab.active::after { opacity: 1; transform: scale(1); }
 
-    /* ── MAIN CONTENT ── */
+    /* ── MAIN ── */
     .main {
       max-width: 794px;
       margin: 0 auto;
-      padding: 40px 24px 80px;
+      padding: 32px 24px 80px;
     }
-
     .results-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
-
     .results-count {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 13px;
       font-weight: 500;
       color: var(--terra-700);
@@ -292,7 +462,7 @@
       gap: 16px;
     }
 
-    /* ── SKILL CARD — SIMPLIFICADO ── */
+    /* ── SKILL CARD ── */
     .skill-card {
       background: #fff;
       border: 1px solid var(--cream-200);
@@ -301,17 +471,16 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      transition: box-shadow .25s var(--ease-spring), transform .25s var(--ease-spring);
       opacity: 0;
       transform: translateY(20px);
+      transition: box-shadow .25s var(--ease-spring), transform .25s var(--ease-spring);
     }
-
     .skill-card.visible {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring), box-shadow .25s var(--ease-spring);
+      transition: opacity 0.4s var(--ease-spring), transform 0.4s var(--ease-spring),
+                  box-shadow .25s var(--ease-spring);
     }
-
     .skill-card::before {
       content: '';
       position: absolute;
@@ -327,16 +496,8 @@
       padding: 1px;
       pointer-events: none;
     }
-
-    .skill-card:hover {
-      box-shadow: 0 8px 24px rgba(43,31,23,.09);
-      transform: translateY(-2px);
-    }
-
-    .skill-card.visible:hover {
-      transform: translateY(-2px);
-    }
-
+    .skill-card.visible:hover { transform: translateY(-2px); }
+    .skill-card:hover { box-shadow: 0 8px 24px rgba(43,31,23,.09); }
     .skill-card:hover::before { opacity: 1; }
 
     .skill-header {
@@ -345,16 +506,15 @@
       gap: 10px;
       margin-bottom: 14px;
     }
-
     .skill-num {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
       font-size: 11px;
       color: var(--coral);
       letter-spacing: .06em;
     }
-
     .skill-cat-badge {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .10em;
@@ -364,25 +524,26 @@
       padding: 3px 10px;
       border-radius: 99px;
     }
-
     .skill-card h3 {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
       font-size: 17px;
       color: var(--terra-900);
       margin-bottom: 8px;
       line-height: 1.3;
     }
-
     .skill-desc {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 13px;
+      font-weight: 400;
       color: var(--terra-700);
       line-height: 1.6;
       margin-bottom: 16px;
     }
-
     .skill-fire {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 12px;
+      font-weight: 400;
       color: var(--coral);
       background: var(--coral-soft);
       border-radius: 8px;
@@ -393,11 +554,11 @@
       align-items: flex-start;
       line-height: 1.5;
     }
-
     .skill-open-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      font-family: 'Inter Tight', sans-serif;
       font-size: 13px;
       font-weight: 600;
       color: var(--coral);
@@ -406,16 +567,11 @@
       padding: 8px 16px;
       border-radius: 99px;
       cursor: pointer;
-      transition: background .2s, border-color .2s;
-      font-family: 'Inter', sans-serif;
+      transition: background .2s var(--ease-spring), border-color .2s;
     }
+    .skill-open-btn:hover { background: var(--coral-soft); border-color: var(--coral); }
 
-    .skill-open-btn:hover {
-      background: var(--coral-soft);
-      border-color: var(--coral);
-    }
-
-    /* ── MODAL OVERLAY ── */
+    /* ── MODAL ── */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -431,12 +587,7 @@
       pointer-events: none;
       transition: opacity .3s;
     }
-
-    .modal-backdrop.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
     .modal {
       background: #fff;
       border-radius: 20px;
@@ -449,20 +600,14 @@
       transition: transform .4s var(--ease-spring);
       position: relative;
     }
-
-    .modal-backdrop.open .modal {
-      transform: none;
-    }
-
+    .modal-backdrop.open .modal { transform: none; }
     .modal-close {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 20px; right: 20px;
       background: var(--cream-100);
       border: none;
       cursor: pointer;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -471,24 +616,21 @@
       font-size: 14px;
       transition: background .15s;
     }
-
     .modal-close:hover { background: var(--cream-200); }
-
     .modal-meta {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 16px;
     }
-
     .modal-num {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
       font-size: 13px;
       color: var(--coral);
     }
-
     .modal-cat-badge {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .10em;
@@ -498,50 +640,46 @@
       padding: 3px 10px;
       border-radius: 99px;
     }
-
     .modal h2 {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 26px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: 28px;
+      letter-spacing: -0.02em;
       color: var(--terra-900);
       margin-bottom: 12px;
     }
-
     .modal-what {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 15px;
+      font-weight: 400;
       color: var(--terra-700);
       line-height: 1.65;
       margin-bottom: 24px;
     }
-
-    .modal-section {
-      margin-bottom: 24px;
-    }
-
+    .modal-section { margin-bottom: 24px; }
     .modal-section h4 {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 11px;
       color: var(--coral);
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: .10em;
       margin-bottom: 10px;
     }
-
     .modal-section p,
     .modal-section li {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 14px;
+      font-weight: 400;
       color: var(--terra-700);
       line-height: 1.65;
     }
-
     .modal-section ul {
       padding-left: 16px;
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
-
     .modal-prompt {
       background: var(--cream-100);
       border-radius: 12px;
@@ -549,7 +687,6 @@
       border: 1px solid var(--cream-200);
       margin-top: 8px;
     }
-
     .modal-prompt-header {
       display: flex;
       justify-content: space-between;
@@ -558,8 +695,8 @@
       border-bottom: 1px solid var(--cream-200);
       gap: 12px;
     }
-
     .modal-prompt-header span {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 12px;
       font-weight: 700;
       color: var(--terra-700);
@@ -567,11 +704,11 @@
       text-transform: uppercase;
       flex: 1;
     }
-
     .modal-copy-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      font-family: 'Inter Tight', sans-serif;
       font-size: 12px;
       font-weight: 600;
       color: #fff;
@@ -582,26 +719,67 @@
       border-radius: 99px;
       transition: background .15s;
       white-space: nowrap;
-      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 12px rgba(217,119,87,.30);
     }
-
     .modal-copy-btn:hover { background: var(--coral-dark); }
-
     .modal-prompt pre {
       padding: 20px;
       margin: 0;
       overflow-x: auto;
-      max-height: 300px;
+      max-height: 280px;
       overflow-y: auto;
       background: #1C1B1A;
     }
-
     .modal-prompt code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       color: #E8E3DD;
       line-height: 1.6;
       white-space: pre;
+    }
+
+    /* ── MODAL INSTALL BLOCK ── */
+    .modal-install {
+      background: var(--ocre-soft);
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-top: 16px;
+    }
+    .modal-install h4 {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--terra-900);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--terra-900);
+    }
+    .modal-install h4 i { color: var(--coral); }
+    .modal-install ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .modal-install li {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--terra-700);
+      line-height: 1.55;
+    }
+    .modal-install li strong { font-weight: 700; color: var(--terra-900); }
+    .install-note {
+      margin-top: 12px;
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--terra-700);
+      opacity: 0.75;
     }
 
     /* ── CTA FINAL ── */
@@ -612,79 +790,110 @@
       text-align: center;
       margin: 48px 0 0;
     }
-
-    .cta-section .cta-label {
+    .cta-label {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--coral);
       margin-bottom: 8px;
+      display: block;
     }
-
     .cta-section h2 {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 28px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: 32px;
+      letter-spacing: -0.02em;
       color: var(--terra-900);
       margin-bottom: 12px;
     }
-
     .cta-section p {
+      font-family: 'Inter Tight', sans-serif;
       font-size: 15px;
+      font-weight: 400;
       color: var(--terra-700);
       margin-bottom: 28px;
       line-height: 1.6;
     }
-
     .btn-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: var(--coral);
       color: #fff;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-weight: 700;
       font-size: 14px;
       padding: 14px 28px;
       border-radius: 99px;
       text-decoration: none;
-      transition: background .2s, box-shadow .2s;
-      box-shadow: 0 4px 16px rgba(217,119,87,.35);
+      transition: background .2s var(--ease-spring), box-shadow .2s;
+      box-shadow: var(--shadow-coral);
     }
+    .btn-cta:hover { background: var(--coral-dark); box-shadow: var(--shadow-coral-h); }
 
-    .btn-cta:hover {
-      background: var(--coral-dark);
-      box-shadow: 0 8px 28px rgba(217,119,87,.50);
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--terra-700);
+      opacity: 0.5;
+      border-top: 1px solid var(--cream-200);
     }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      .hero { padding: 60px 20px 56px; min-height: 320px; }
+      .hero { padding: 60px 20px 56px; min-height: 340px; }
       .hero-big-number { font-size: 140px; right: 16px; }
       .skills-grid { grid-template-columns: 1fr; }
+      .how-strip { grid-template-columns: 1fr; }
       .cta-section { padding: 36px 20px; }
       .modal { padding: 28px 20px; }
-      .modal h2 { font-size: 20px; }
+      .modal h2 { font-size: 22px; }
+      .topnav-links { display: none; }
     }
-    /* ── Bricolage Grotesque — pesos por nível ── */
-    h1, h2 { font-weight: 300; letter-spacing: -0.02em; }
-    h3, h4  { font-weight: 400; }
-</style>
+  </style>
 </head>
 <body>
 
+<div class="noise-overlay"></div>
+<div class="ambient-blob ambient-blob-1"></div>
+<div class="ambient-blob ambient-blob-2"></div>
+
+<!-- ── TOPNAV ── -->
+<nav class="topnav">
+  <a class="brand" href="../../">IA na <em>Prática</em></a>
+  <div class="topnav-links">
+    <a href="#grid">Ver skills</a>
+    <a href="../skill-claude/">Como instalar</a>
+  </div>
+</nav>
+
 <!-- ── HERO ── -->
 <section class="hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="noise-overlay"></div>
+  <div class="hero-beams">
+    <div class="hero-beam"></div>
+    <div class="hero-beam"></div>
+    <div class="hero-beam"></div>
+    <div class="hero-beam"></div>
+  </div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-noise"></div>
   <div class="hero-big-number">20</div>
 
   <div class="hero-content">
-    <span class="hero-label">PRATICANTES DE IA</span>
-    <h1>20 funções que resolvem os<br>20 problemas que você ainda<br><em>resolve na mão</em></h1>
-    <p class="hero-sub">Uma para cada situação que consome seu tempo toda semana — instala uma vez, o Claude carrega sozinho.</p>
+    <span class="hero-label">Praticantes de IA</span>
+    <h1>
+      <span class="hero-line">20 funções que resolvem os</span>
+      <span class="hero-line">20 problemas que você ainda</span>
+      <span class="hero-line"><em>resolve na mão</em></span>
+    </h1>
+    <p class="hero-sub">Você recebeu acesso a 20 prompts especializados. Cada um faz uma coisa com precisão que um prompt genérico nunca vai fazer. Escolha pelo problema que você tem agora.</p>
     <div class="hero-stats">
       <div class="hero-stat"><span class="counter" data-target="20">0</span><p>Skills</p></div>
       <div class="hero-stat"><span class="counter" data-target="5">0</span><p>Categorias</p></div>
@@ -693,8 +902,56 @@
   </div>
 </section>
 
+<!-- ── MARQUEE ── -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Conteúdo</span>
+    <span class="marquee-item">Pesquisa</span>
+    <span class="marquee-item">Negócio</span>
+    <span class="marquee-item">Estratégia</span>
+    <span class="marquee-item">Dev</span>
+    <span class="marquee-item">Instala uma vez</span>
+    <span class="marquee-item">Funciona em todos os chats</span>
+    <span class="marquee-item">Prompt especializado</span>
+    <span class="marquee-item">Sem repetir contexto</span>
+    <span class="marquee-item">Claude que aprende seu trabalho</span>
+    <span class="marquee-item">Conteúdo</span>
+    <span class="marquee-item">Pesquisa</span>
+    <span class="marquee-item">Negócio</span>
+    <span class="marquee-item">Estratégia</span>
+    <span class="marquee-item">Dev</span>
+    <span class="marquee-item">Instala uma vez</span>
+    <span class="marquee-item">Funciona em todos os chats</span>
+    <span class="marquee-item">Prompt especializado</span>
+    <span class="marquee-item">Sem repetir contexto</span>
+    <span class="marquee-item">Claude que aprende seu trabalho</span>
+  </div>
+</div>
+
+<!-- ── COMO FUNCIONA ── -->
+<section class="how-strip" aria-label="Como usar as skills">
+  <div class="how-step">
+    <div class="how-step-icon"><i class="fa-solid fa-eye"></i></div>
+    <span class="how-step-num">Passo 1</span>
+    <h4>Leia o que a skill faz</h4>
+    <p>Cada card mostra o problema resolvido e quando usar. Filtre por categoria para encontrar a certa mais rápido.</p>
+  </div>
+  <div class="how-step">
+    <div class="how-step-icon"><i class="fa-solid fa-arrow-pointer"></i></div>
+    <span class="how-step-num">Passo 2</span>
+    <h4>Clique em "Ver skill"</h4>
+    <p>Você vê o prompt completo, os casos de uso e um botão para copiar com um clique.</p>
+  </div>
+  <div class="how-step">
+    <div class="how-step-icon"><i class="fa-solid fa-paste"></i></div>
+    <span class="how-step-num">Passo 3</span>
+    <h4>Cole no Claude e salve</h4>
+    <p>Configurações → Personalização → Skills → + Adicionar. Feito. A skill fica ativa em todos os seus chats.</p>
+  </div>
+</section>
+
 <!-- ── TABS ── -->
-<div class="tabs-strip">
+<div class="tabs-strip" id="grid">
   <button class="tab active" data-cat="all">Todas (20)</button>
   <button class="tab" data-cat="content">Conteúdo (5)</button>
   <button class="tab" data-cat="research">Pesquisa (5)</button>
@@ -711,8 +968,7 @@
 
   <div class="skills-grid">
 
-    <!-- 01 Forja de Ganchos -->
-    <article class="skill-card reveal" data-cat="content" data-skill="1">
+    <article class="skill-card" data-cat="content" data-skill="1">
       <div class="skill-header">
         <span class="skill-num">01</span>
         <span class="skill-cat-badge">Conteúdo</span>
@@ -723,8 +979,7 @@
       <button class="skill-open-btn" onclick="openModal(1)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 02 Trava de Voz -->
-    <article class="skill-card reveal" data-cat="content" data-skill="2">
+    <article class="skill-card" data-cat="content" data-skill="2">
       <div class="skill-header">
         <span class="skill-num">02</span>
         <span class="skill-cat-badge">Conteúdo</span>
@@ -735,8 +990,7 @@
       <button class="skill-open-btn" onclick="openModal(2)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 03 Arquiteto de Threads -->
-    <article class="skill-card reveal" data-cat="content" data-skill="3">
+    <article class="skill-card" data-cat="content" data-skill="3">
       <div class="skill-header">
         <span class="skill-num">03</span>
         <span class="skill-cat-badge">Conteúdo</span>
@@ -747,8 +1001,7 @@
       <button class="skill-open-btn" onclick="openModal(3)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 04 Motor de Reaproveitamento -->
-    <article class="skill-card reveal" data-cat="content" data-skill="4">
+    <article class="skill-card" data-cat="content" data-skill="4">
       <div class="skill-header">
         <span class="skill-num">04</span>
         <span class="skill-cat-badge">Conteúdo</span>
@@ -759,8 +1012,7 @@
       <button class="skill-open-btn" onclick="openModal(4)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 05 Laboratório de Títulos -->
-    <article class="skill-card reveal" data-cat="content" data-skill="5">
+    <article class="skill-card" data-cat="content" data-skill="5">
       <div class="skill-header">
         <span class="skill-num">05</span>
         <span class="skill-cat-badge">Conteúdo</span>
@@ -771,8 +1023,7 @@
       <button class="skill-open-btn" onclick="openModal(5)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 06 Construtor de Briefing -->
-    <article class="skill-card reveal" data-cat="research" data-skill="6">
+    <article class="skill-card" data-cat="research" data-skill="6">
       <div class="skill-header">
         <span class="skill-num">06</span>
         <span class="skill-cat-badge">Pesquisa</span>
@@ -783,8 +1034,7 @@
       <button class="skill-open-btn" onclick="openModal(6)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 07 Caçador de Contradições -->
-    <article class="skill-card reveal" data-cat="research" data-skill="7">
+    <article class="skill-card" data-cat="research" data-skill="7">
       <div class="skill-header">
         <span class="skill-num">07</span>
         <span class="skill-cat-badge">Pesquisa</span>
@@ -795,8 +1045,7 @@
       <button class="skill-open-btn" onclick="openModal(7)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 08 Radar de Sinais -->
-    <article class="skill-card reveal" data-cat="research" data-skill="8">
+    <article class="skill-card" data-cat="research" data-skill="8">
       <div class="skill-header">
         <span class="skill-num">08</span>
         <span class="skill-cat-badge">Pesquisa</span>
@@ -807,8 +1056,7 @@
       <button class="skill-open-btn" onclick="openModal(8)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 09 Auditor de Premissas -->
-    <article class="skill-card reveal" data-cat="research" data-skill="9">
+    <article class="skill-card" data-cat="research" data-skill="9">
       <div class="skill-header">
         <span class="skill-num">09</span>
         <span class="skill-cat-badge">Pesquisa</span>
@@ -819,8 +1067,7 @@
       <button class="skill-open-btn" onclick="openModal(9)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 10 Ranqueador de Fontes -->
-    <article class="skill-card reveal" data-cat="research" data-skill="10">
+    <article class="skill-card" data-cat="research" data-skill="10">
       <div class="skill-header">
         <span class="skill-num">10</span>
         <span class="skill-cat-badge">Pesquisa</span>
@@ -831,8 +1078,7 @@
       <button class="skill-open-btn" onclick="openModal(10)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 11 Escritor de SOPs -->
-    <article class="skill-card reveal" data-cat="business" data-skill="11">
+    <article class="skill-card" data-cat="business" data-skill="11">
       <div class="skill-header">
         <span class="skill-num">11</span>
         <span class="skill-cat-badge">Negócio</span>
@@ -843,8 +1089,7 @@
       <button class="skill-open-btn" onclick="openModal(11)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 12 Enquadrador de Decisões -->
-    <article class="skill-card reveal" data-cat="business" data-skill="12">
+    <article class="skill-card" data-cat="business" data-skill="12">
       <div class="skill-header">
         <span class="skill-num">12</span>
         <span class="skill-cat-badge">Negócio</span>
@@ -855,8 +1100,7 @@
       <button class="skill-open-btn" onclick="openModal(12)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 13 Extrator de Reunião -->
-    <article class="skill-card reveal" data-cat="business" data-skill="13">
+    <article class="skill-card" data-cat="business" data-skill="13">
       <div class="skill-header">
         <span class="skill-num">13</span>
         <span class="skill-cat-badge">Negócio</span>
@@ -867,8 +1111,7 @@
       <button class="skill-open-btn" onclick="openModal(13)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 14 Teste de Estresse de Preço -->
-    <article class="skill-card reveal" data-cat="business" data-skill="14">
+    <article class="skill-card" data-cat="business" data-skill="14">
       <div class="skill-header">
         <span class="skill-num">14</span>
         <span class="skill-cat-badge">Negócio</span>
@@ -879,8 +1122,7 @@
       <button class="skill-open-btn" onclick="openModal(14)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 15 Afiador de Oferta -->
-    <article class="skill-card reveal" data-cat="business" data-skill="15">
+    <article class="skill-card" data-cat="business" data-skill="15">
       <div class="skill-header">
         <span class="skill-num">15</span>
         <span class="skill-cat-badge">Negócio</span>
@@ -891,8 +1133,7 @@
       <button class="skill-open-btn" onclick="openModal(15)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 16 Explicador de Código -->
-    <article class="skill-card reveal" data-cat="dev" data-skill="16">
+    <article class="skill-card" data-cat="dev" data-skill="16">
       <div class="skill-header">
         <span class="skill-num">16</span>
         <span class="skill-cat-badge">Dev</span>
@@ -903,8 +1144,7 @@
       <button class="skill-open-btn" onclick="openModal(16)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 17 Revisor de PR -->
-    <article class="skill-card reveal" data-cat="dev" data-skill="17">
+    <article class="skill-card" data-cat="dev" data-skill="17">
       <div class="skill-header">
         <span class="skill-num">17</span>
         <span class="skill-cat-badge">Dev</span>
@@ -915,8 +1155,7 @@
       <button class="skill-open-btn" onclick="openModal(17)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 18 Parceiro de Debug -->
-    <article class="skill-card reveal" data-cat="dev" data-skill="18">
+    <article class="skill-card" data-cat="dev" data-skill="18">
       <div class="skill-header">
         <span class="skill-num">18</span>
         <span class="skill-cat-badge">Dev</span>
@@ -927,8 +1166,7 @@
       <button class="skill-open-btn" onclick="openModal(18)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 19 Pensador de Segunda Ordem -->
-    <article class="skill-card reveal" data-cat="strategy" data-skill="19">
+    <article class="skill-card" data-cat="strategy" data-skill="19">
       <div class="skill-header">
         <span class="skill-num">19</span>
         <span class="skill-cat-badge">Estratégia</span>
@@ -939,8 +1177,7 @@
       <button class="skill-open-btn" onclick="openModal(19)">Ver skill <i class="fa-solid fa-arrow-right"></i></button>
     </article>
 
-    <!-- 20 Aplicador de Modelos Mentais -->
-    <article class="skill-card reveal" data-cat="strategy" data-skill="20">
+    <article class="skill-card" data-cat="strategy" data-skill="20">
       <div class="skill-header">
         <span class="skill-num">20</span>
         <span class="skill-cat-badge">Estratégia</span>
@@ -955,9 +1192,9 @@
 
   <!-- ── CTA FINAL ── -->
   <section class="cta-section">
-    <p class="cta-label">Próximo passo</p>
+    <span class="cta-label">Próximo passo</span>
     <h2>Pronto para instalar?</h2>
-    <p>Copie qualquer prompt acima e siga o guia de 5 passos para instalar sua primeira skill.</p>
+    <p>O guia de 5 passos mostra exatamente onde colar o prompt no Claude.</p>
     <a class="btn-cta" href="../skill-claude/">
       Ver como instalar <i class="fa-solid fa-arrow-right"></i>
     </a>
@@ -965,7 +1202,7 @@
 
 </main>
 
-<!-- ── MODAL (único, reutilizado) ── -->
+<!-- ── MODAL ── -->
 <div class="modal-backdrop" id="modal-backdrop">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -987,16 +1224,27 @@
       <h4>Prompt completo</h4>
       <div class="modal-prompt">
         <div class="modal-prompt-header">
-          <span>Prompt completo — copie e instale no Claude</span>
+          <span>Copie e cole no Claude</span>
           <button class="modal-copy-btn" id="copy-btn" onclick="copyPrompt()">
             <i class="fa-solid fa-copy"></i> Copiar prompt
           </button>
         </div>
         <pre><code id="modal-code"></code></pre>
       </div>
+      <div class="modal-install">
+        <h4><i class="fa-solid fa-bolt"></i> Como instalar em 3 passos</h4>
+        <ol>
+          <li>Clique em <strong>Copiar prompt</strong> acima</li>
+          <li>No Claude: <strong>Configurações</strong> → <strong>Personalização</strong> → <strong>Skills</strong></li>
+          <li>Clique em <strong>+ Adicionar skill</strong>, cole o prompt e salve</li>
+        </ol>
+        <p class="install-note">Feito. A skill fica ativa em todos os seus chats automaticamente.</p>
+      </div>
     </div>
   </div>
 </div>
+
+<footer>por <strong>@iacomrafael</strong> · Rafael Lima · mai/2026</footer>
 
 <script>
   const skills = {
@@ -1096,16 +1344,15 @@ Pegue a ideia ou conteúdo que eu der e construa uma thread que conquiste cada s
 Estrutura:
 - TWEET 1: O gancho. Uma afirmação que cria um loop aberto. Nunca uma pergunta. Nunca "Uma thread."
 - TWEET 2: A preparação. Por que isso importa e para quem é.
-- TWEETS 3 A 8: O argumento. Uma ideia por tweet. Cada tweet deve criar curiosidade suficiente para justificar a leitura do próximo. Se um tweet poderia ser o último, reescreva.
+- TWEETS 3 A 8: O argumento. Uma ideia por tweet. Cada tweet deve criar curiosidade suficiente para justificar a leitura do próximo.
 - TWEET 9: A virada. O insight que a maioria perde ou a conclusão contraintuitiva.
 - TWEET 10: O CTA. Uma frase sobre o que vão ganhar.
 
 Regras:
 - Todo tweet com menos de 280 caracteres.
 - Numere cada tweet.
-- Nenhum tweet termina com "Vou explicar." ou "Aqui está o porquê:" — o próximo tweet explica.
+- Nenhum tweet termina com "Vou explicar." — o próximo tweet explica.
 - Sem tweets de enchimento. Se um tweet não carrega uma ideia nova, corte.
-- O gancho deve funcionar como post isolado.
 
 Termine com: "Tweet mais fraco desta thread: [número] — [uma frase sobre por quê e como corrigir]."`
     },
@@ -1113,7 +1360,7 @@ Termine com: "Tweet mais fraco desta thread: [número] — [uma frase sobre por 
       name: "Multiplicador de Conteúdo",
       cat: "Conteúdo & Escrita",
       what: "Pega um conteúdo longo e produz seis formatos de uma vez: thread, post LinkedIn, seção de newsletter, três ganchos avulsos, legenda de citação e gancho de vídeo. Uma entrada, seis saídas.",
-      why: "Você criou um bom conteúdo e está reformatando na mão para cada plataforma. Essa skill elimina três horas de trabalho manual e ainda deixa cada versão nativa da plataforma — não copiar e colar.",
+      why: "Você criou um bom conteúdo e está reformatando na mão para cada plataforma. Essa skill elimina três horas de trabalho manual e ainda deixa cada versão nativa da plataforma.",
       cases: [
         "Depois de publicar qualquer artigo, guia ou post longo",
         "Para distribuir um webinar ou aula em múltiplos formatos",
@@ -1132,24 +1379,19 @@ FORMATO 1 — THREAD TWITTER/X (8 tweets):
 Tweet gancho → 6 tweets de conteúdo → tweet CTA. Cada um com menos de 280 caracteres. Numerados.
 
 FORMATO 2 — POST LINKEDIN (máx. 150 palavras):
-Gancho na primeira linha. Sem "Estou animado em compartilhar." Sem spam de hashtags (máx. 2). Termine com uma pergunta para gerar comentários.
+Gancho na primeira linha. Sem "Estou animado em compartilhar." Máx. 2 hashtags. Termine com pergunta para gerar comentários.
 
 FORMATO 3 — SEÇÃO DE NEWSLETTER (100 a 150 palavras):
 Segunda pessoa. Um insight principal. Um aprendizado acionável. Tom caloroso mas direto.
 
 FORMATO 4 — TRÊS GANCHOS AVULSOS:
-Um gancho de curiosidade. Um gancho de perda. Um gancho de contraste. Cada um em uma frase.
+Um gancho de curiosidade. Um de perda. Um de contraste. Cada um em uma frase.
 
 FORMATO 5 — LEGENDA DE CITAÇÃO GRÁFICA:
 A frase mais citável do conteúdo. Menos de 140 caracteres.
 
 FORMATO 6 — GANCHO DE ROTEIRO DE VÍDEO CURTO (primeiros 15 segundos):
-Os 15 segundos iniciais de um vídeo curto. Escrito para ser falado, não lido. Gancho nos primeiros 3 segundos.
-
-Regras:
-- Não resuma. Extraia e reconstrua para cada plataforma.
-- Cada formato deve funcionar de forma independente.
-- Mantenha a voz do conteúdo original.
+Os 15 segundos iniciais. Escrito para ser falado, não lido. Gancho nos primeiros 3 segundos.
 
 [COLE O CONTEÚDO LONGO AQUI]`
     },
@@ -1177,45 +1419,45 @@ Cubra estes formatos:
 - LISTA NUMERADA (2 variantes)
 - PERGUNTA (1 variante)
 - CONTRASTE — "X vs Y" ou "Não X. Y." (2 variantes)
-- SEGREDO/DESCONHECIDO — "O que ninguém te conta sobre X" (2 variantes)
-- ALERTA — "Pare de fazer X" ou "O erro de X" (2 variantes)
+- SEGREDO/DESCONHECIDO (2 variantes)
+- ALERTA — "Pare de fazer X" (2 variantes)
 - RESULTADO — começa pelo resultado (2 variantes)
 - IDENTIDADE — fala com quem o leitor é (1 variante)
 
 Após gerar os 15, pontue cada um de 1 a 10 em:
 - Especificidade (promete algo concreto?)
 - Gap de curiosidade (cria um loop aberto?)
-- Alinhamento com o público (fala diretamente com o leitor-alvo?)
+- Alinhamento com o público
 
 Retorne os 3 melhores com uma linha explicando por que cada um funciona.
 
-Termine com: "Teste este primeiro: [título] — [uma frase explicando o motivo]."`
+Termine com: "Teste este primeiro: [título] — [motivo]."`
     },
     6: {
       name: "Plano de Pesquisa",
       cat: "Pesquisa & Análise",
-      what: "Pega qualquer tema de pesquisa e transforma em um briefing executável: pergunta central, 5 fontes específicas, 5 sinais a buscar, premissa a testar e descoberta que mudaria tudo. Não começa pesquisa sem estrutura.",
+      what: "Pega qualquer tema de pesquisa e transforma em um briefing executável: pergunta central, 5 fontes específicas, 5 sinais a buscar, premissa a testar e descoberta que mudaria tudo.",
       why: "Pesquisa sem briefing vira pesquisa sem fim. Você passa horas lendo e não sabe o que estava procurando. Essa skill define a estrutura antes de você abrir o primeiro link.",
       cases: [
         "Antes de pesquisar mercado, concorrente ou tendência",
         "Para estruturar uma análise de viabilidade de produto",
-        "Quando precisa orientar um estagiário ou equipe para fazer pesquisa"
+        "Quando precisa orientar um estagiário para fazer pesquisa"
       ],
       prompt: `---
 name: plano-de-pesquisa
-description: Use quando precisar pesquisar algo adequadamente e quiser um briefing estruturado antes de começar. Transforma pedidos vagos de pesquisa em planos de investigação específicos.
+description: Use quando precisar pesquisar algo e quiser um briefing estruturado antes de começar. Transforma pedidos vagos em planos de investigação específicos.
 ---
 
 Você é um diretor sênior de pesquisa em uma consultoria estratégica.
 
-Pegue o tema de pesquisa que eu der e construa um briefing que torne a pesquisa executável.
+Pegue o tema de pesquisa que eu der e construa um briefing executável.
 
 Retorne:
-1. A PERGUNTA CENTRAL (1 frase): a única pergunta que esta pesquisa deve responder. Não o tema. A pergunta.
-2. FONTES PRIMÁRIAS (5 fontes específicas): não "pesquise no Google." Específicas: bancos de dados, publicações, órgãos governamentais, revistas acadêmicas ou especialistas nomeados. Uma linha sobre por que cada fonte importa.
-3. SINAIS A BUSCAR (5 bullets): os dados, padrões ou descobertas que seriam relevantes. Como uma boa resposta se parece.
-4. A PREMISSA A TESTAR (1 frase): a crença que a maioria tem sobre esse tema que a pesquisa pode provar ou refutar.
-5. A DESCOBERTA QUE MUDA TUDO (1 frase): a única descoberta que, se verdadeira, mudaria mais a forma de abordar o tema.
+1. A PERGUNTA CENTRAL (1 frase): a única pergunta que esta pesquisa deve responder.
+2. FONTES PRIMÁRIAS (5 fontes específicas): não "pesquise no Google." Específicas: bancos de dados, publicações, órgãos governamentais. Uma linha sobre por que cada fonte importa.
+3. SINAIS A BUSCAR (5 bullets): os dados ou padrões que indicariam uma boa resposta.
+4. A PREMISSA A TESTAR (1 frase): a crença que a maioria tem sobre esse tema.
+5. A DESCOBERTA QUE MUDA TUDO (1 frase): a única descoberta que mudaria mais a abordagem.
 
 Regras:
 - Sem fontes genéricas. Toda fonte deve ser específica e nomeada.
@@ -1234,7 +1476,7 @@ Regras:
       ],
       prompt: `---
 name: detector-de-brechas
-description: Use quando analisar múltiplas fontes ou um tema complexo. Encontra onde as fontes discordam, onde o consenso é mais fraco do que parece e qual é o debate real.
+description: Use quando analisar múltiplas fontes ou um tema complexo. Encontra onde as fontes discordam e qual é o debate real.
 ---
 
 Você é um verificador de fatos e epistemologista. Seu trabalho é encontrar onde as coisas não fecham.
@@ -1243,14 +1485,13 @@ Pegue as informações que eu der e encontre as contradições.
 
 Retorne:
 1. CONSENSO APARENTE (1 frase): no que a maioria das fontes concorda.
-2. CONTRADIÇÕES (3 bullets): lugares específicos onde fontes, dados ou argumentos conflitam. Nomeie os dois lados de cada um.
-3. A AFIRMAÇÃO MAIS FRACA (1 bullet): a declaração com menos suporte e mais provável de estar errada.
-4. O DEBATE REAL (1 parágrafo): no que os especialistas realmente discordam — a pergunta que o campo não resolveu.
-5. O QUE ISSO SIGNIFICA PARA A CONCLUSÃO (1 frase): quão confiante o leitor deve estar no argumento geral?
+2. CONTRADIÇÕES (3 bullets): lugares onde fontes, dados ou argumentos conflitam. Nomeie os dois lados.
+3. A AFIRMAÇÃO MAIS FRACA (1 bullet): a declaração com menos suporte.
+4. O DEBATE REAL (1 parágrafo): no que os especialistas realmente discordam.
+5. O QUE ISSO SIGNIFICA (1 frase): quão confiante o leitor deve estar no argumento geral?
 
 Regras:
 - Não suavize contradições. Nomeie-as diretamente.
-- Se duas fontes dizem coisas opostas, cite as duas posições especificamente.
 - O debate real não é "mais pesquisa é necessária." Nomeie a questão contestada de verdade.`
     },
     8: {
@@ -1261,16 +1502,16 @@ Regras:
       cases: [
         "Toda semana para processar seu backlog de conteúdo de IA e automação",
         "Antes de criar conteúdo sobre tendências de mercado",
-        "Para preparar resumo executivo de movimentos do setor para cliente"
+        "Para preparar resumo executivo de movimentos do setor"
       ],
       prompt: `---
 name: filtro-de-mercado
-description: Use semanalmente para processar conteúdo do setor e separar o que realmente importa do que apenas ganhou atenção. Retorna sinal, não resumo.
+description: Use semanalmente para processar conteúdo do setor e separar o que realmente importa do que apenas ganhou atenção.
 ---
 
 Você é um analista de inteligência especializado em padrões emergentes.
 
-Pegue o conteúdo que eu der — notícias, posts, artigos, atualizações — e separe o sinal do ruído.
+Pegue o conteúdo que eu der e separe o sinal do ruído.
 
 Retorne:
 1. O SINAL (3 bullets): coisas que realmente importam e ainda vão importar em 90 dias.
@@ -1278,11 +1519,6 @@ Retorne:
 3. O PADRÃO (1 parágrafo): a tendência subjacente que conecta os sinais.
 4. O INDICADOR ANTECIPADO (1 bullet): uma coisa que a maioria perdeu e que pode ser importante depois.
 5. O QUE ACOMPANHAR (1 bullet): o único desenvolvimento para monitorar na próxima semana.
-
-Regras:
-- Sinal não é a mesma coisa que "parece importante." Sinal tem consequências.
-- Ruído não é a mesma coisa que sem interesse. Ruído é o que não vai importar em 30 dias.
-- O indicador antecipado é o resultado mais importante.
 
 [COLE O CONTEÚDO DA SEMANA AQUI]`
     },
@@ -1298,7 +1534,7 @@ Regras:
       ],
       prompt: `---
 name: detector-de-suposicoes-ocultas
-description: Use antes de se comprometer com qualquer plano, argumento ou decisão. Revela cada suposição, inclusive as invisíveis. A verificação pré-lançamento mais importante que você não está fazendo.
+description: Use antes de se comprometer com qualquer plano ou decisão. Revela cada suposição, inclusive as invisíveis.
 ---
 
 Você é um pensador sistêmico e analista de riscos. Você encontra o que as pessoas esqueceram de questionar.
@@ -1308,12 +1544,11 @@ Pegue o plano, argumento ou decisão que eu der e revele cada suposição embuti
 Retorne:
 1. SUPOSIÇÕES EXPLÍCITAS (3 bullets): as coisas que o plano abertamente assume serem verdadeiras.
 2. SUPOSIÇÕES IMPLÍCITAS (3 bullets): as coisas que o plano assume sem dizer.
-3. A SUPOSIÇÃO MAIS PERIGOSA (1 frase): a única suposição que, se errada, faz o plano inteiro falhar.
-4. COMO TESTAR CADA UMA (3 bullets): uma forma específica de verificar cada suposição implícita antes de se comprometer.
+3. A SUPOSIÇÃO MAIS PERIGOSA (1 frase): a única que, se errada, faz o plano inteiro falhar.
+4. COMO TESTAR CADA UMA (3 bullets): uma forma específica de verificar cada suposição implícita.
 
 Regras:
 - Suposições implícitas são mais importantes do que explícitas.
-- A suposição mais perigosa não é necessariamente a mais óbvia.
 - Todo teste deve ser específico. Não "faça mais pesquisa."`
     },
     10: {
@@ -1328,7 +1563,7 @@ Regras:
       ],
       prompt: `---
 name: validador-de-fontes
-description: Use quando tiver reunido fontes e quiser saber em quais confiar. Classifica por credibilidade, atualidade e relevância antes de construir em cima delas.
+description: Use quando tiver reunido fontes e quiser saber em quais confiar. Classifica por credibilidade, atualidade e relevância.
 ---
 
 Você é um bibliotecário de pesquisa e verificador de fatos com expertise em avaliação de fontes.
@@ -1339,16 +1574,12 @@ Para cada fonte retorne:
 - CREDIBILIDADE (Alta / Média / Baixa)
 - ATUALIDADE (Atual / Datada / Desatualizada)
 - RELEVÂNCIA (Direta / Tangencial / Fraca)
-- VEREDICTO DE CONFIANÇA (Usar / Verificar / Cortar): uma palavra e uma frase explicando por quê.
+- VEREDICTO (Usar / Verificar / Cortar): uma palavra e uma frase explicando por quê.
 
-Após classificar todas as fontes:
+Após classificar todas:
 1. TOP 3 PARA CONSTRUIR: fontes fortes o suficiente para sustentar um argumento.
-2. A QUE CORTAR: a fonte mais provável de prejudicar a credibilidade se citada.
+2. A QUE CORTAR: a fonte mais provável de prejudicar a credibilidade.
 3. A LACUNA: que tipo de fonte está faltando para tornar o argumento mais forte.
-
-Regras:
-- Fonte popular não é fonte confiável.
-- A lacuna é obrigatória. Todo conjunto de pesquisa tem uma.
 
 [COLE A LISTA DE FONTES AQUI]`
     },
@@ -1364,24 +1595,23 @@ Regras:
       ],
       prompt: `---
 name: gerador-de-processos
-description: Use quando precisar documentar qualquer processo recorrente. Transforma descrições brutas em SOPs limpos e executáveis com responsáveis, ferramentas e pontos de controle.
+description: Use quando precisar documentar qualquer processo recorrente. Transforma descrições brutas em SOPs executáveis.
 ---
 
 Você é um diretor de operações e designer de processos.
 
-Pegue a descrição de processo que eu der — por mais bruta que seja — e transforme em um SOP executável.
+Pegue a descrição de processo que eu der e transforme em um SOP executável.
 
 Retorne:
 1. NOME E OBJETIVO DO PROCESSO (2 frases)
 2. GATILHO (1 frase): o que inicia este processo.
 3. PASSOS (lista numerada): Ação — Responsável — Ferramenta — Resultado. Sem passos vagos.
-4. PONTO DE VERIFICAÇÃO DE QUALIDADE (1 bullet): o único ponto onde um humano deve verificar antes de continuar.
+4. PONTO DE VERIFICAÇÃO DE QUALIDADE (1 bullet): onde um humano deve verificar antes de continuar.
 5. O PASSO SAGRADO (1 frase): o único passo que nunca deve ser automatizado e por quê.
 
 Regras:
-- Nenhum passo pode ser "revisar e decidir." Divida em critérios específicos e opções específicas.
-- Todo passo tem um responsável. "Time" não é um responsável.
-- O passo sagrado é obrigatório.`
+- Nenhum passo pode ser "revisar e decidir." Divida em critérios específicos.
+- Todo passo tem um responsável. "Time" não é um responsável.`
     },
     12: {
       name: "Desbloqueador de Decisões",
@@ -1395,7 +1625,7 @@ Regras:
       ],
       prompt: `---
 name: desbloqueador-de-decisoes
-description: Use quando estiver travado em qualquer decisão significativa. Reenquadra a decisão, clarifica as opções reais e identifica o que você precisa saber antes de escolher.
+description: Use quando estiver travado em qualquer decisão significativa. Reenquadra a decisão e clarifica as opções reais.
 ---
 
 Você é um consultor estratégico que ajuda líderes a tomarem decisões com clareza.
@@ -1403,15 +1633,14 @@ Você é um consultor estratégico que ajuda líderes a tomarem decisões com cl
 Pegue a decisão que eu descrever e reenquadre em algo que eu possa de fato decidir.
 
 Retorne:
-1. A DECISÃO REAL (1 frase): reafirme o que estou realmente decidindo. Geralmente diferente de como enquadrei.
+1. A DECISÃO REAL (1 frase): o que estou realmente decidindo. Geralmente diferente de como enquadrei.
 2. AS OPÇÕES (máx. 3): as opções distintas reais, incluindo as que não mencionei.
 3. CRITÉRIOS DE DECISÃO (3 bullets): as três coisas que mais importam.
-4. O QUE NÃO SEI (2 bullets): informações que mais mudariam minha decisão e como obter cada uma.
+4. O QUE NÃO SEI (2 bullets): informações que mais mudariam minha decisão.
 5. O PADRÃO (1 frase): se eu não fizer nada, o que acontece?
 
 Regras:
 - A decisão real geralmente não é a decisão declarada.
-- Se duas opções são a mesma opção, diga isso.
 - O padrão é obrigatório.`
     },
     13: {
@@ -1426,7 +1655,7 @@ Regras:
       ],
       prompt: `---
 name: resumo-inteligente-de-reuniao
-description: Use após toda reunião com transcrição ou notas. Retorna decisões, responsáveis, bloqueios e o problema não dito. Nada mais.
+description: Use após toda reunião com transcrição ou notas. Retorna decisões, responsáveis, bloqueios e o problema não dito.
 ---
 
 Você é um chefe de gabinete. Você processa reuniões para que líderes não precisem.
@@ -1434,10 +1663,10 @@ Você é um chefe de gabinete. Você processa reuniões para que líderes não p
 Pegue a transcrição ou notas da reunião abaixo. Retorne apenas o que importa.
 
 Retorne:
-1. DECISÕES TOMADAS (lista de bullets): todo compromisso ou conclusão alcançada.
-2. ITENS DE AÇÃO (lista de bullets): tarefa — responsável — prazo. Se prazo não definido, escreva "prazo: não definido."
-3. BLOQUEIOS (lista de bullets): qualquer coisa que impede o progresso.
-4. O PROBLEMA NÃO DITO (1 frase): a tensão ou discordância presente mas nunca abordada diretamente.
+1. DECISÕES TOMADAS (bullets): todo compromisso ou conclusão alcançada.
+2. ITENS DE AÇÃO (bullets): tarefa — responsável — prazo.
+3. BLOQUEIOS (bullets): qualquer coisa que impede o progresso.
+4. O PROBLEMA NÃO DITO (1 frase): a tensão presente mas nunca abordada diretamente.
 
 Regras:
 - Não resuma a discussão.
@@ -1449,7 +1678,7 @@ Regras:
     14: {
       name: "Validador de Preço",
       cat: "Negócio & Operações",
-      what: "Analisa seu modelo de precificação sob três ângulos: o comprador desconfiado, o comprador que vê preço como qualidade e o concorrente. Diz o que seu preço está comunicando de verdade — não o que você acha que está.",
+      what: "Analisa seu modelo de precificação sob três ângulos: o comprador desconfiado, o comprador que vê preço como qualidade e o concorrente. Diz o que seu preço está comunicando de verdade.",
       why: "Preço comunica antes do produto. Se o preço não está alinhado com a percepção de valor, o problema não é o produto — é o sinal que o preço emite.",
       cases: [
         "Antes de lançar ou alterar qualquer precificação",
@@ -1458,12 +1687,12 @@ Regras:
       ],
       prompt: `---
 name: validador-de-preco
-description: Use antes de lançar ou alterar qualquer precificação. Testa sob três perspectivas de comprador e diz o que seu preço está realmente comunicando.
+description: Use antes de lançar ou alterar qualquer precificação. Testa sob três perspectivas de comprador.
 ---
 
 Você é um estrategista de precificação com experiência em SaaS, serviços e produtos físicos.
 
-Pegue o modelo de precificação que eu descrever e faça o teste de estresse sob três ângulos.
+Pegue o modelo de precificação que eu descrever e faça o teste de estresse.
 
 ÂNGULO 1 — O COMPRADOR DESCONFIADO:
 O que ele está pensando? Que pergunta seu preço não responde?
@@ -1476,12 +1705,7 @@ O que ele vê? Onde seu preço está vulnerável?
 
 Após os três ângulos:
 1. O QUE SEU PREÇO ESTÁ REALMENTE COMUNICANDO (1 parágrafo)
-2. A MUDANÇA ÚNICA (1 frase): o único ajuste que resolve o maior problema.
-
-Regras:
-- Não valide o preço. Faça o teste de estresse.
-- Cada ângulo deve produzir uma preocupação específica.
-- A mudança única deve ser específica.`
+2. A MUDANÇA ÚNICA (1 frase): o único ajuste que resolve o maior problema.`
     },
     15: {
       name: "Afiador de Proposta",
@@ -1495,7 +1719,7 @@ Regras:
       ],
       prompt: `---
 name: afiador-de-proposta
-description: Use antes de lançar qualquer produto, serviço ou proposta. Encontra a distância entre o que você acha que está vendendo e o que os compradores realmente ouvem.
+description: Use antes de lançar qualquer produto, serviço ou proposta. Encontra o gap entre o que você vende e o que os compradores ouvem.
 ---
 
 Você é um profissional de marketing de resposta direta e estrategista de produto.
@@ -1511,8 +1735,7 @@ Retorne:
 
 Regras:
 - O gap deve ser honesto.
-- A proposta afiada deve ser mais específica, não mais longa.
-- A linha única é um teste de clareza, não um slogan.`
+- A proposta afiada deve ser mais específica, não mais longa.`
     },
     16: {
       name: "Tradutor de Código",
@@ -1543,10 +1766,6 @@ Após os dois níveis:
 1. A PARTE FRÁGIL (1 frase): mais provável de quebrar em condições inesperadas.
 2. A SUPOSIÇÃO (1 frase): a suposição central que, se errada, causa falha.
 
-Regras:
-- O nível 1 deve ser legível por alguém que não programa.
-- O nível 2 deve ser útil para quem programa.
-
 [COLE O CÓDIGO AQUI]`
     },
     17: {
@@ -1561,7 +1780,7 @@ Regras:
       ],
       prompt: `---
 name: revisor-de-codigo
-description: Use em qualquer pull request antes de mergear. Retorna bugs, testes ausentes, problemas de segurança, violações de estilo e a decisão que vale uma conversa real.
+description: Use em qualquer pull request antes de mergear. Retorna bugs, testes ausentes, problemas de segurança e a decisão que vale conversa.
 ---
 
 Você é um engenheiro sênior fazendo revisão de código. Minucioso, direto, sem tempo perdido.
@@ -1579,7 +1798,6 @@ Regras:
 - Uma frase por achado.
 - Não comente o que está correto.
 - Se o PR estiver limpo: "Nenhum problema encontrado. Pronto para mergear."
-- O bullet de conversa é obrigatório.
 
 [COLE O DIFF AQUI]`
     },
@@ -1587,7 +1805,7 @@ Regras:
       name: "Caçador de Bugs",
       cat: "Código & Dev",
       what: "Recebe qualquer erro, stacktrace ou comportamento inesperado e percorre o diagnóstico de forma sistemática. Causa raiz primeiro. Sem band-aids.",
-      why: "Você ficou 30 minutos tentando adivinhar a causa do bug. Essa skill para o ciclo de tentativa e erro e começa com diagnóstico estruturado — da mais provável para a menos provável.",
+      why: "Você ficou 30 minutos tentando adivinhar a causa do bug. Essa skill para o ciclo de tentativa e erro e começa com diagnóstico estruturado.",
       cases: [
         "Quando você está travado em um bug há mais de 20 minutos",
         "Para diagnosticar comportamento inesperado em automação n8n",
@@ -1595,7 +1813,7 @@ Regras:
       ],
       prompt: `---
 name: cacador-de-bugs
-description: Use quando tiver um bug ou comportamento inesperado e quiser a causa raiz, não um contorno. Diagnóstico sistemático toda vez.
+description: Use quando tiver um bug ou comportamento inesperado. Diagnóstico sistemático toda vez. Causa raiz, não contorno.
 ---
 
 Você é um engenheiro sênior que depura encontrando causas raiz, não suprimindo sintomas.
@@ -1605,14 +1823,13 @@ Pegue o erro ou comportamento inesperado que eu der e diagnostique sistematicame
 Retorne:
 1. O QUE O ERRO ESTÁ REALMENTE DIZENDO (1 frase): linguagem simples.
 2. CAUSAS RAIZ PROVÁVEIS (3 bullets ranqueados por probabilidade): mais provável primeiro.
-3. PASSOS DE DIAGNÓSTICO (lista numerada): passos exatos para confirmar a causa raiz. Pare quando um confirmar.
+3. PASSOS DE DIAGNÓSTICO (lista numerada): passos exatos para confirmar a causa raiz.
 4. A CORREÇÃO (específica): mudança mínima que resolve o problema real.
-5. O TESTE DE REGRESSÃO (1 bullet): o teste que detectaria este bug se ele aparecer novamente.
+5. O TESTE DE REGRESSÃO (1 bullet): o teste que detectaria este bug se voltar.
 
 Regras:
 - Nunca sugira suprimir um erro.
 - A correção deve endereçar a causa raiz, não o sintoma.
-- O teste de regressão é obrigatório.
 
 [COLE O ERRO / STACKTRACE / DESCRIÇÃO AQUI]`
     },
@@ -1628,10 +1845,10 @@ Regras:
       ],
       prompt: `---
 name: mapa-de-consequencias
-description: Use antes de qualquer decisão significativa ou quando analisar qualquer tendência. Mapeia consequências além do movimento óbvio inicial.
+description: Use antes de qualquer decisão significativa. Mapeia consequências além do movimento óbvio inicial.
 ---
 
-Você é um consultor estratégico treinado em pensamento sistêmico e mapeamento de consequências.
+Você é um consultor estratégico treinado em pensamento sistêmico.
 
 Pegue a decisão, ação ou tendência que eu der e mapeie suas consequências além do óbvio.
 
@@ -1644,7 +1861,6 @@ Retorne:
 
 Regras:
 - Efeitos de primeira ordem não são interessantes. Dedique mais tempo à segunda e à terceira.
-- A consequência não intencional deve ser específica.
 - O loop de retroalimentação é o resultado estrategicamente mais importante.`
     },
     20: {
@@ -1659,7 +1875,7 @@ Regras:
       ],
       prompt: `---
 name: lente-estrategica
-description: Use quando estiver travado em qualquer problema ou decisão e quiser frameworks que realmente se aplicam, não uma lista genérica. Retorna três modelos aplicados diretamente à sua situação.
+description: Use quando estiver travado em qualquer problema ou decisão. Retorna três modelos mentais aplicados diretamente à sua situação.
 ---
 
 Você é um consultor com profundo conhecimento em teoria da decisão, psicologia e pensamento estratégico.
@@ -1668,16 +1884,15 @@ Pegue o problema ou decisão que eu der e aplique os três modelos mentais mais 
 
 Para cada modelo:
 1. NOMEIE O MODELO: o que é e uma frase sobre o que diz.
-2. APLIQUE: como esse modelo se aplica especificamente à minha situação. Com especificidade.
-3. O INSIGHT QUE PRODUZ: o que esse modelo revela que eu não estava vendo antes.
+2. APLIQUE: como esse modelo se aplica especificamente à minha situação.
+3. O INSIGHT: o que esse modelo revela que eu não estava vendo antes.
 
 Após os três modelos:
-- O INSIGHT DOMINANTE (1 frase): a única coisa mais útil de aplicar os três juntos.
+- O INSIGHT DOMINANTE (1 frase): a coisa mais útil de aplicar os três juntos.
 - A AÇÃO (1 frase): o que fazer diferente com base nesta análise.
 
 Regras:
 - Escolha modelos por adequação, não por fama.
-- A aplicação deve ser específica à minha situação.
 - O insight dominante deve emergir da combinação dos modelos.`
     }
   };
@@ -1729,7 +1944,7 @@ Regras:
         card.style.display = show ? '' : 'none';
         if (show) visible++;
       });
-      document.querySelector('.results-count').textContent = `${visible} skills`;
+      document.querySelector('.results-count').textContent = `${visible} skill${visible !== 1 ? 's' : ''}`;
     });
   });
 
@@ -1740,7 +1955,7 @@ Regras:
       if (!entry.isIntersecting) return;
       const el = entry.target;
       const target = parseInt(el.dataset.target);
-      if (target === 0) { el.textContent = '0'; return; }
+      if (target === 0) { el.textContent = '0'; counterObserver.unobserve(el); return; }
       let start = 0;
       const duration = 1400;
       const step = timestamp => {
@@ -1757,16 +1972,16 @@ Regras:
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
+  // Scroll reveal for cards
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('visible');
-        observer.unobserve(e.target);
+        revealObserver.unobserve(e.target);
       }
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.skill-card').forEach(el => observer.observe(el));
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.skill-card').forEach(el => revealObserver.observe(el));
 </script>
 </body>
 </html>
