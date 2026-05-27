@@ -676,7 +676,7 @@ section.section:nth-of-type(even) { background:var(--white); }
     <span class="hero-line"><em>auto-melhoria</em></span>
   </h1>
 
-  <p class="lead">Duas startups. $4M de ARR combinado. Quatro funcionários no total. O Y Combinator mostrou em 2026 que o modelo de empresa importa mais do que a ferramenta de IA que você usa — e que a diferença está numa mudança de arquitetura.</p>
+  <p class="lead">Duas startups. $4M de ARR combinado. Quatro funcionários no total. O Y Combinator mostrou em 2026 que o modelo de empresa importa mais do que a ferramenta de IA que você usa — e que a diferença está numa mudança de arquitetura. Neste guia: o framework completo, dois casos reais com resultados mensuráveis e três primeiros passos que qualquer empresa pode implementar esta semana — sem contratar um engenheiro.</p>
 
   <div class="hero-stats">
     <div class="stat">
@@ -763,6 +763,7 @@ section.section:nth-of-type(even) { background:var(--white); }
 <section class="section" id="problema">
   <div class="section-label">O Problema</div>
   <h2>A empresa funciona como uma legião romana — e isso é o problema.</h2>
+  <p>Você já usa IA no dia a dia. No e-mail, nas análises, talvez até no código. Mas sua empresa ainda opera como 2019. Decisões ainda passam por três camadas de aprovação antes de virar ação. O suporte ainda depende de alguém estar online. O relatório semanal ainda é escrito por um humano para ser lido por outro humano. O problema não é a ferramenta que você usa. É como a empresa está arquitetada para usar qualquer ferramenta.</p>
   <p>As legiões romanas foram projetadas para projetar poder de Roma até Hadrian's Wall — hierarquias aninhadas com spans de controle consistentes, onde humanos são o condutor da informação que sobe e desce. Se você olhar para a maioria das empresas hoje, elas estão organizadas exatamente assim.</p>
   <p>Você pode ter IA em cada reunião, cada e-mail e cada linha de código. Se a empresa ainda funciona com informação passando por camadas de humanos, você tem um motor mais potente na mesma transmissão velha. <strong>A ferramenta não é o gargalo. O design é.</strong></p>
 
@@ -816,6 +817,13 @@ Sem perda entre as etapas.</div>
       <div class="num">→</div>
       <h3>O novo modelo: empresa como loop</h3>
       <p>No modelo de loop fechado, cada informação gerada é capturada automaticamente, fica legível para o sistema e gera aprendizado. O agente não espera ser acionado: ele monitora, detecta padrões e age. Sem middleware humano no meio. O que antes exigia um time inteiro passa a exigir um sistema bem arquitetado e um ou dois humanos na borda.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" style="margin-top:24px;">
+    <div class="alert-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+    <div class="alert-body">
+      <strong>"Isso é para startup de tecnologia — não para minha empresa."</strong> O loop fechado se aplica a qualquer empresa onde informação gera ação: clínica médica, escritório de contabilidade, agência de marketing, imobiliária, PME de serviços. As ferramentas variam; o princípio é idêntico. O Skyvern tem 2 funcionários e $2M de ARR não porque é uma startup do Vale — mas porque tomou decisões estruturais sobre como o contexto é capturado e usado. Essas decisões não exigem capital, só intenção.
     </div>
   </div>
 
@@ -950,6 +958,7 @@ Sem perda entre as etapas.</div>
       <div class="element-desc">
         <span class="element-tag">Fundação</span>
         Tudo que acontece na empresa precisa virar artefato. Decisão tomada em call? Tem que estar gravada. Pergunta respondida no chat? Tem que estar num canal público, não em DM. Feedback de cliente? Registrado e acessível. <strong>Sem captura, não há contexto. Sem contexto, não há loop.</strong>
+        <span class="example"><strong>Funciona porque:</strong> o que não é artefato não é recuperável. Humanos esquecem, distorcem e saem da empresa. Artefatos ficam — e podem ser consultados por qualquer agente, a qualquer hora, em qualquer combinação com outras fontes.</span>
         <span class="example">Exemplo real: Sachin proibiu DMs no Skyvern. Todo mundo tem "office channel" público. Pergunta respondida uma vez fica disponível para sempre — para o agente e para futuros contratados.</span>
       </div>
     </li>
@@ -959,6 +968,7 @@ Sem perda entre as etapas.</div>
       <div class="element-desc">
         <span class="element-tag">Acesso</span>
         O agente precisa enxergar tudo: e-mail, Slack, Notion, gravações de calls, banco de dados, código-fonte. Contexto incompleto = agente que dá respostas genéricas. Um agente com acesso apenas ao e-mail vai falhar onde um agente com acesso a 5 fontes vai acertar — porque consegue <em>correlacionar</em>.
+        <span class="example"><strong>Funciona porque:</strong> cada fonte adicional não soma capacidade — multiplica. Um agente com 3 fontes não é 3× mais útil: é potencialmente 9× (cada fonte cruza com as outras duas). O salto qualitativo é exatamente quando o agente começa a encontrar conexões que nenhum humano conectaria manualmente.</span>
         <span class="example">Exemplo real: O agente do Sachin acessa e-mail + Slack + Notion + gravações + banco de dados para escrever um PRD. Ele volta com gravações específicas de clientes que mencionaram aquela dor — evidência, não opinião.</span>
       </div>
     </li>
@@ -968,6 +978,7 @@ Sem perda entre as etapas.</div>
       <div class="element-desc">
         <span class="element-tag">Ação</span>
         O agente não espera ser chamado. Ele detecta uma tarefa, decide o que fazer, executa e reporta. O humano define o <em>o quê</em>; o agente descobre o <em>como</em>. Inclui também um "quality gate": o que precisa de revisão humana (alto risco), o que o agente pode executar direto, o que precisa ser logado.
+        <span class="example"><strong>Funciona porque:</strong> humano no meio de tarefa rotineira não agrega valor — agrega latência. A pergunta certa não é "preciso de humano aqui?" mas "o que acontece de errado se o agente errar nessa tarefa?" Se a resposta for "pouca coisa corrigível" — remova o middleware. Se for "consequência grave" — mantenha o humano.</span>
         <span class="example">Exemplo real: Ayush não precisa abrir o Intercom. O agente da Answer This processa 100+ e-mails por dia, já fechou mais de 400 tickets — e quando não sabe fazer algo, cria a ferramenta necessária.</span>
       </div>
     </li>
@@ -977,6 +988,7 @@ Sem perda entre as etapas.</div>
       <div class="element-desc">
         <span class="element-tag">Aprendizado</span>
         Três tipos: <strong>Factual</strong> — o codebase e o banco de dados (como o produto funciona). <strong>Comportamental</strong> — o que você ensina via feedback (um arquivo de instruções que o agente edita sozinho). <strong>Procedural</strong> — as tarefas recorrentes codificadas em ferramentas que o agente criou automaticamente.
+        <span class="example"><strong>Funciona porque:</strong> sem memória, o agente começa do zero em cada sessão — como um funcionário que apaga tudo que aprendeu toda noite antes de dormir. Os 3 tipos de memória juntos criam acúmulo real: cada interação deposita aprendizado que fica disponível permanentemente.</span>
         <span class="example">Exemplo real: Ryan (co-fundador não-técnico) percebeu uma classe de erros no suporte. Mandou mensagem no Slack pro agente. O agente atualizou o próprio arquivo de instruções. O erro parou naquele mesmo dia — sem ticket, sem sprint.</span>
       </div>
     </li>
@@ -986,6 +998,7 @@ Sem perda entre as etapas.</div>
       <div class="element-desc">
         <span class="element-tag">Auto-extensão</span>
         O sistema se melhora sem intervenção de engenharia. Quando o agente encontra uma tarefa que não consegue fazer, ele pede ao sub-agente de código para criar a ferramenta — e ela fica disponível permanentemente. O agente não apenas executa: ele expande as próprias capacidades. É o que distingue um sistema vivo de um sistema estático.
+        <span class="example"><strong>Funciona porque:</strong> um sistema que se auto-estende cresce em capacidade mesmo quando você não está trabalhando. A diferença entre Camada 3 (execução) e Camada 5 (evolução) é que na Camada 5 o teto não existe — quanto mais o agente usa, mais capaz ele se torna de usar o próximo.</span>
         <span class="example">Exemplo real: O agente da Answer This começou como esqueleto. Hoje tem 45 ferramentas que ele mesmo criou — do monitoramento de landing pages ao update de CRM, passando por integrações com Stripe e Fathom. Nenhuma escrita por humano.</span>
       </div>
     </li>
@@ -1445,28 +1458,28 @@ Sem deploy. Sem engenheiro.</div>
     <li class="step">
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>Estabeleça a regra de captura: proibir DMs internos</h3>
-        <p>Esta semana: escolha uma ferramenta (Slack, Teams, Discord) e estabeleça a política. Toda pergunta vai para um canal público. Toda decisão fica registrada onde o agente pode ler. O que você ganha imediatamente: decisões pesquisáveis, onboarding mais rápido e contexto acumulando.</p>
+        <h3>Estabeleça hoje: nenhum DM interno a partir desta semana</h3>
+        <p>Escolha uma ferramenta (Slack, Teams, Discord) e publique a política agora. Toda pergunta vai para um canal público. Toda decisão fica registrada onde o agente pode ler. O que você ganha imediatamente: decisões pesquisáveis, onboarding mais rápido e contexto acumulando.</p>
         <span class="step-path">Política nova <span class="arrow">→</span> Canal público por pessoa/projeto <span class="arrow">→</span> Contexto acumulando</span>
-        <p class="step-note">Comece com uma regra simples: "qualquer pergunta que envolva mais de duas pessoas vai para o canal público." Não precisa ser perfeito no começo.</p>
+        <p class="step-note"><strong>Faça agora:</strong> Escreva uma mensagem no canal principal do time — "A partir de hoje, toda pergunta vai aqui, não no DM. Se alguém te mandar DM com pergunta técnica ou de projeto, responda pedindo para mover para o canal." Comece com uma regra simples: qualquer pergunta que envolva mais de duas pessoas vai para o canal. Não precisa ser perfeito no começo.</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
       <div class="step-body">
-        <h3>Ative a gravação de calls e conecte a um repositório</h3>
-        <p>Ferramentas como Fathom (gratuito para uso individual), Fireflies ou Otter gravam, transcrevem e podem exportar para Notion ou Google Drive automaticamente. A partir desta semana, toda reunião vira texto — e texto o agente consegue ler.</p>
+        <h3>Grave a próxima reunião — hoje ou amanhã</h3>
+        <p>Ferramentas como Fathom (gratuito para uso individual), Fireflies ou Otter gravam, transcrevem e exportam para Notion ou Google Drive automaticamente. A partir desta semana, toda reunião vira texto — e texto o agente consegue ler.</p>
         <span class="step-path">Call <span class="arrow">→</span> Gravação + Transcrição <span class="arrow">→</span> Notion / Drive <span class="arrow">→</span> Contexto do agente</span>
-        <p class="step-note">O acúmulo importa mais do que a qualidade inicial. Comece gravando tudo — refine o que fazer com as gravações depois. Em 90 dias, você terá um banco de contexto valioso.</p>
+        <p class="step-note"><strong>Faça agora:</strong> Abra o Fathom (fathom.video — gratuito), conecte ao Google Meet ou Zoom, e ative para a próxima reunião que você tem agendada. O acúmulo importa mais que a qualidade inicial. Comece gravando tudo — em 90 dias você terá um banco de contexto real.</p>
       </div>
     </li>
     <li class="step">
       <div class="step-left"><div class="step-num">3</div></div>
       <div class="step-body">
-        <h3>Construa o primeiro loop: tarefa recorrente → agente → resultado → feedback</h3>
-        <p>Escolha uma tarefa repetitiva: resumo de calls, resposta a um tipo de e-mail, atualização de CRM após reunião, relatório semanal. Use Claude, GPT, Gemini ou qualquer agente com acesso ao contexto certo. Crie um <code>instructions.md</code> com o que você quer. Quando errar, atualize o arquivo. Acompanhe por 2 semanas.</p>
+        <h3>Escolha uma tarefa repetitiva — e crie o <code>instructions.md</code> hoje</h3>
+        <p>Resumo de calls, resposta a um tipo de e-mail, atualização de CRM após reunião, relatório semanal. Use Claude (uso eu), GPT, Gemini ou qualquer agente com acesso ao contexto certo. Crie um arquivo de texto chamado <code>instructions.md</code> com 5 a 10 linhas descrevendo o que você quer. Cole em cada sessão. Quando o agente errar, atualize o arquivo. Acompanhe por 2 semanas.</p>
         <span class="step-path">Tarefa recorrente <span class="arrow">→</span> Agente com contexto <span class="arrow">→</span> Resultado <span class="arrow">→</span> Feedback <span class="arrow">→</span> Agente aprende</span>
-        <p class="step-note">O sinal de que está funcionando: o agente começa a surpreender você com conexões que você não faria sozinho. Esse é o ponto de inflexão.</p>
+        <p class="step-note"><strong>Faça agora:</strong> Abra um editor de texto. Escreva: "Sua tarefa é [X]. Sempre que fizer isso, siga esses passos: [1, 2, 3]. Quando não souber, pergunte antes de executar." Salve como <code>instructions.md</code>. Cole na próxima sessão com o agente. Esse arquivo é o embrião da sua Memória Comportamental — e qualquer pessoa do time pode editá-lo, sem código. O sinal de que está funcionando: o agente começa a trazer conexões que você não faria sozinho.</p>
       </div>
     </li>
   </ul>
@@ -1505,7 +1518,7 @@ Sem deploy. Sem engenheiro.</div>
 
 <!-- ── FOLLOW CTA ── -->
 <div class="follow-cta">
-  <p>Todo post que publico no Instagram tem um guia como esse por trás.<br><strong>Segue o @iacomrafael para receber o próximo na hora em que sair.</strong></p>
+  <p>Cada semana publico um caso real de IA aplicada em negócios — com framework, números e passos acionáveis, não teoria genérica. Todo post tem um guia como este por trás.<br><strong>Segue o @iacomrafael. O próximo guia já está sendo preparado.</strong></p>
   <div class="follow-btn-wrap">
     <a class="btn-cta" href="https://www.instagram.com/iacomrafael/" target="_blank">
       <div class="points-wrap">
